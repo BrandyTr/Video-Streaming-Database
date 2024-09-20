@@ -1,10 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from './components/navbar/navbar'
-import Footer from './components/footer/footer'
+import { Navbar, Footer} from './commonPaths'
+import Homepage from './pages/home/homepage';
 import Watching from './pages/watching/watching';
-import Homepage from './pages/home/homepage'
-import NotFound from './pages/notfound/notfound'; // Ensure this path is correct
+import Notfound from './pages/notfound/notfound';
 
 import './App.css'
 
@@ -17,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/watching" element={<Watching />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Notfound />} />
       </Routes>
       <Footer />
     </Router>

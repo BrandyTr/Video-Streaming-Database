@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
+import { Logos } from '../../commonPaths'
 import '../navbar/navbar.css'
 const Navbar = () => {
-  console.log("Navbar is rendering");
   return (
     <nav className="vertical-navbar">
-      <img src="https://via.placeholder.com/150" alt="logo" />
+      <img className='logo' src={Logos.netflix} alt="NexFlit" />
       <ul> 
         <li><Link to="/">Home</Link></li>
         <li><Link to="/">About</Link></li>

@@ -3,7 +3,7 @@ import './card.css';
 
 const Card = ({ title, description, thumbnail, onClick }) => (
   <div className="card" onClick={onClick}>
-    <img src={thumbnail} alt={title} />
+    <img className='thumbnail' src={thumbnail} alt={title} />
     <h2>{title}</h2>
     <p>{description}</p>
   </div>

@@ -1,7 +1,7 @@
 /* navbar.css */
 .vertical-navbar {
   width: 200px;                     /* Default width for larger screens */
-  height: 100vh;                    /* Full height */
+  height: 100vmax;                    /* Full height */
   background-color: #333;           /* Background color */
   position: absolute;                /* Positioning */
   left: 0;                           /* Stick it to the left */
