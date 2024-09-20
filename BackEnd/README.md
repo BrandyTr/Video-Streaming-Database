@@ -101,4 +101,42 @@ After setting up the `.env` file and ensuring your Docker containers are running
    ```bash
    npm start
 3. **The result should be:**
-![alt text](./assets/readme/image-1.png)
+   ![alt text](./assets/readme/image-1.png)
+# API Testing with Thunder Client
+
+## Prerequisites
+   - Run the following commands before getting started:
+   ```
+   cd BackEnd
+   docker-compose up
+   npm start
+   ```
+
+## Installing Thunder Client
+
+1. Open Visual Studio Code (VS Code).
+2. Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or by pressing `Ctrl+Shift+X`.
+3. In the search bar, type `Thunder Client` and press Enter.
+4. Locate the Thunder Client extension and click the **Install** button.
+
+## Testing the Sign-Up API
+
+1. After installing Thunder Client, open it from the sidebar.
+2. Click on the **New Request** button.
+3. Set the request method to **POST**.
+4. Enter the URL: `http://localhost:3000/api/auth/signup`.
+5. Go to the **Body** tab and select **JSON**.
+6. Enter the required JSON data for the sign-up. For example:
+   ```json
+   {
+     "username": "testuser",
+
+     "password": "yourpassword",
+     "email":"youremail",
+   }
+   ```
+   **Example**
+   ![alt text](./assets/readme/thunder-request.png)
+
+7. It should return the messages
+   ![alt text](./assets/readme/thunder-response.png)
