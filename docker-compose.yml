@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  # backend:
+  #   build: ./BackEnd
+  #   container_name: node-app
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     MONGO_URI: mongodb://mongo:27017/mydatabase
+  #   depends_on:
+  #     - mongo
+  #   volumes:
+  #     - ./BackEnd:/src   # Sync the local BackEnd directory to the /src directory inside the container
+  #     - /app/node_modules  # Prevent node_modules from being overwritten by the local directory
+  #   networks:
+  #     - node-network
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db  # Use the named volume defined below
+      # - C:\Users\My PC\workspaces\SE_Project\BackEnd\config\mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - node-network
+
+volumes:
+  mongo-data:  # Define the named volume here
+
+networks:
+  node-network:
+    driver: bridge
