@@ -101,6 +101,7 @@ After setting up the `.env` file and ensuring your Docker containers are running
    ```bash
    npm start
 3. **The result should be:**
+
    ![alt text](./assets/readme/image-1.png)
 # API Testing with Thunder Client
 
