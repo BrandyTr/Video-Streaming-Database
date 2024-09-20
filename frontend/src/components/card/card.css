@@ -1,0 +1,9 @@
+.card {
+    cursor: pointer; /* Changes the cursor to indicate clickability */
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+  
