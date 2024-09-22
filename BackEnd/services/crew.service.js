@@ -4,7 +4,6 @@ exports.createCrew=async(personId, job, department, movieId)=>{
     const crew= new Crew({
         person_id:personId,
         job,
-        department,
         movie_id:movieId
     })
     try{

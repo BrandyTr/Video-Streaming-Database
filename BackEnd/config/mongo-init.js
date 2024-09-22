@@ -23,7 +23,15 @@ db.productioncompanies.insertOne({
 const jonathanCherryId = ObjectId();
 const tyronLeitsoId = ObjectId();
 const uweBollId = ObjectId();
-
+const enukaOkumaId=ObjectId()
+const willSandersonId=ObjectId()
+const sonyaSalommaId=ObjectId()
+const michaelEklundId=ObjectId()
+const kiraClavellId=ObjectId()
+const davidPalffy=ObjectId()
+const ellieCornellId=ObjectId()
+const jurgenProChnow=ObjectId()
+const clintHoward=ObjectId()
 db.persons.insertMany([
     { _id: jonathanCherryId, name: 'Jonathan Cherry', biography: 'An actor...', birthday: new Date('1978-12-03'), place_of_birth: 'Montreal, Canada' },
     { _id: tyronLeitsoId, name: 'Tyron Leitso', biography: 'An actor...', birthday: new Date('1976-01-01'), place_of_birth: 'Vancouver, Canada' },
@@ -37,7 +45,7 @@ db.videos.insertOne({
     name: 'House of Dead Trailer',
     key: 'rGsXo6cjKyE',
     site: 'YouTube',
-    type: 'Trailer',
+    type: 'full-length',
     official: true,
     published_at: new Date('2003-09-15')
 });
@@ -58,7 +66,8 @@ db.movies.insertOne({
 // 6. Insert Cast & Crew Relationships
 db.casts.insertMany([
     { person_id: jonathanCherryId, character: 'Rudy', movie_id: movieId },
-    { person_id: tyronLeitsoId, character: 'Simon', movie_id: movieId }
+    { person_id: tyronLeitsoId, character: 'Simon', movie_id: movieId },
+
 ]);
 
 db.crews.insertOne({ person_id: uweBollId, job: 'Director', department: 'Directing', movie_id: movieId });
