@@ -1,0 +1,56 @@
+[{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d37"
+  },
+  "id": 1,
+  "name": "Action"
+},
+{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d38"
+  },
+  "id": 2,
+  "name": "Adventure"
+},
+{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d39"
+  },
+  "id": 3,
+  "name": "Animation"
+},
+{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d3a"
+  },
+  "id": 4,
+  "name": "Drama"
+},
+{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d3b"
+  },
+  "id": 5,
+  "name": "Horror"
+},
+{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d3c"
+  },
+  "id": 6,
+  "name": "Romance"
+},
+{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d3d"
+  },
+  "id": 7,
+  "name": "Science Fiction"
+},
+{
+  "_id": {
+    "$oid": "66efa515f62850542ad10d3e"
+  },
+  "id": 8,
+  "name": "Thriller"
+}]

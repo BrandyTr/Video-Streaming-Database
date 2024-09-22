@@ -1,7 +1,6 @@
 const ProductionCompany=require('../models/productionCompany')
-exports.createProductionCompany=async(id,name,logo_path,origin_country)=>{
+exports.createProductionCompany=async(name,logo_path,origin_country)=>{
     const company= new ProductionCompany({
-        id,
         name,
         logo_path,
         origin_country,

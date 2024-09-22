@@ -1,6 +1,5 @@
-exports.createPerson = async (id, name, biography, birthday, place_of_birth) => {
+exports.createPerson = async (name, biography, birthday, place_of_birth) => {
     const person = new Person({
-        id, 
         name,  
         biography,  
         birthday: new Date(birthday),  

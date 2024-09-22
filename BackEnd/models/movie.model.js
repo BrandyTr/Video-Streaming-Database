@@ -1,14 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const MovieSchema = new Schema({
-    id: { type: Number, required: true, unique: true },
     title: { type: String, required: true },
     overview: String,
     release_date: Date,
     runtime: Number,
     poster_path: String,
     backdrop_path: String,
-
     // Relationships
     genres: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Genre' }],  // Many-to-many
     production_companies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProductionCompany' }],  // Many-to-many

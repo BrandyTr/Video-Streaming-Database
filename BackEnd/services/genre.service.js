@@ -1,7 +1,6 @@
 const Genre= require('../models/genre.model')
-exports.createGenre=async(id,name)=>{
+exports.createGenre=async(name)=>{
     const genre=new Genre({
-        id,
         name,
     })
     try{
