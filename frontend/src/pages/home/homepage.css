@@ -1,41 +1,40 @@
 /* homepage.css */
 .content {
-    position: absolute;
-    width: 80%;
-    display: flex;                  /* Use Flexbox for layout */
-    flex-wrap: wrap;               /* Allow cards to wrap onto the next line */
-    justify-content: center;        /* Center the cards horizontally */
-    padding: 20px; 
-    right: 0;     
-    top: 0;           /* Padding around the content */
+  position: absolute;
+  width: 80%;
+  display: flex; /* Use Flexbox for layout */
+  flex-wrap: wrap; /* Allow cards to wrap onto the next line */
+  justify-content: center; /* Center the cards horizontally */
+  padding: 0;
+  right: 0;
+  top: 0; /* Padding around the content */
 }
 
 .card {
-    width: 250px;                  /* Fixed width for each card */
-    height: 300px;                 /* Fixed height for each card */
-    margin: 2.5%;                  /* 5% separation (2.5% margin on each side) */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: add shadow for depth */
-    border-radius: 8px;            /* Rounded corners */
-    overflow: hidden;              /* Ensure content doesn't overflow */
-    transition: transform 0.2s;    /* Transition effect on hover */
+  width: 250px; /* Fixed width for each card */
+  height: 300px; /* Fixed height for each card */
+  margin: 2.5%; /* 5% separation (2.5% margin on each side) */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: add shadow for depth */
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden; /* Ensure content doesn't overflow */
+  transition: transform 0.2s; /* Transition effect on hover */
 }
-
 .card:hover {
-    transform: scale(1.05);        /* Scale effect on hover */
+  transform: scale(1.05); /* Scale effect on hover */
 }
 
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
-    .card {
-        width: 100%;               /* Full width on smaller screens */
-        height: auto;              /* Auto height to maintain aspect ratio */
-        max-width: 250px;          /* Max width to avoid overflow */
-    }
+  .card {
+    width: 100%; /* Full width on smaller screens */
+    height: auto; /* Auto height to maintain aspect ratio */
+    max-width: 250px; /* Max width to avoid overflow */
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-    .card {
-        width: 45%;                /* Two cards per row on medium screens */
-        height: 300px;             /* Fixed height */
-    }
+  .card {
+    width: 45%; /* Two cards per row on medium screens */
+    height: 300px; /* Fixed height */
+  }
 }
