@@ -17,7 +17,7 @@ services:
   #     - node-network
 
   mongo:
-    image: mongo:5.0
+    image: mongo:latest
     container_name: mongo
     restart: unless-stopped
     ports:
