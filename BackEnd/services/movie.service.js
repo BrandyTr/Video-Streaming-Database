@@ -1,5 +1,7 @@
 const Movie = require("../models/movie.model");
-
+const mongoose=require('mongoose');
+const Video = require("../models/video.model");
+const Genre = require("../models/genre.model");
 exports.createMovie=async(title, overview, release_date, runtime, genres, production_companies, videos)=> {
     const movie = new Movie({
       title: title,  // Pass title as a parameter
@@ -14,5 +16,13 @@ exports.createMovie=async(title, overview, release_date, runtime, genres, produc
         await movie.save()
     }catch(err){
         console.log(err)
+    }
+}
+exports.getAllMovie=async(req,res)=>{
+    try{
+        const movies= await Movie.find().populate('videos').populate('genres')
+        res.json(movies)
+    }catch(err){
+        console.log(err.message)
     }
 }
