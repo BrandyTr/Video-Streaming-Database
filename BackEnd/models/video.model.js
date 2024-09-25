@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const VideoSchema = Schema({
-    id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
-    key: String,
-    site: String, 
-    published_at: Date,
+    key: { type: String, required: true },
+    site: { type: String, default:"Youtube" }, 
+    type:{type:String,default:"full-time"},
+    published_at: {type:Date,required:true},
 });
 
 const Video = mongoose.model('Video', VideoSchema);
