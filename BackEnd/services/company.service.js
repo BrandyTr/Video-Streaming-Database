@@ -7,6 +7,7 @@ exports.createProductionCompany=async(name,logo_path,origin_country)=>{
     })
     try{
         await company.save()
+        return company
     }catch(err){
         console.log(err)
     }

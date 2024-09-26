@@ -10,6 +10,7 @@ exports.createVideo=async(id, name, key, site, published_at)=>{
     })
     try{
         await video.save()
+        return video
     }catch(err){
         console.log(err)
     }
