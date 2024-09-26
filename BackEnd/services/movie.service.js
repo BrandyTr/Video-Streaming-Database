@@ -23,7 +23,7 @@ exports.createMovie=async(title, overview, release_date, runtime,poster_path,bac
 }
 exports.getAllMovie=async()=>{
     try{
-        const movies= await Movie.find().populate('videos').populate('genres').populate('credit')
+        const movies= await Movie.find()
         return movies
     }catch(err){
         console.log(err.message)
