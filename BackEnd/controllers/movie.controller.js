@@ -21,7 +21,7 @@ class MovieController {
       });
     }
     const isSave = await Movie.find({ title: movieName })
-    if (isSave.length!=0) {
+    if (isSave.length != 0) {
       return res.status(400).json({
         success: false,
         message: "The movie has already existed"
@@ -42,7 +42,23 @@ class MovieController {
       const movieDetail = await fetchFromTMDB(
         `https://api.themoviedb.org/3/movie/${movieData.id}?append_to_response=credits&language=en-US`
       );
-
+      const trailer = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`)
+      if(trailer.results.length==0){
+        return res.status(400).json({
+          success:false,
+          message:"Trailer is not found, you might have to insert trailer manually!"
+        })
+      }
+      const trailerData = trailer.results[0]
+      const trailerVideo = new Video({
+        name: movieDetail.title,
+        key: trailerData.key,
+        type: "Trailer",
+        site: trailerData.site,
+        published_at: trailerData.published_at,
+      }
+      )
+      await trailerVideo.save()
       const genreIds = await Promise.all(
         movieDetail.genres.map(async (genre) => {
           let existingGenre = await Genre.findOne({ name: genre.name });
@@ -68,28 +84,32 @@ class MovieController {
       await movie.save();
 
       const castIds = await Promise.all(
-        movieDetail.credits.cast.map(async (castMember) => {
-          const person = await createOrUpdatePerson(castMember);
-          const cast = new Cast({
-            person_id: person._id,
-            character: castMember.character,
-            movie_id: movie._id,
-          });
-          await cast.save();
-          return cast._id;
-        })
+        movieDetail.credits.cast
+          .filter(castMember => castMember.profile_path)
+          .map(async (castMember) => {
+            const person = await createOrUpdatePerson(castMember);
+            const cast = new Cast({
+              person_id: person._id,
+              character: castMember.character,
+              movie_id: movie._id,
+            });
+            await cast.save();
+            return cast._id;
+          })
       );
 
       const crewIds = await Promise.all(
-        movieDetail.credits.crew.map(async (crewMember) => {
-          const person = await createOrUpdatePerson(crewMember);
-          const crew = new Crew({
-            person_id: person._id,
-            movie_id: movie._id,
-          });
-          await crew.save();
-          return crew._id;
-        })
+        movieDetail.credits.crew
+          .filter(crewMember => crewMember.profile_path)
+          .map(async (crewMember) => {
+            const person = await createOrUpdatePerson(crewMember);
+            const crew = new Crew({
+              person_id: person._id,
+              movie_id: movie._id,
+            });
+            await crew.save();
+            return crew._id;
+          })
       );
 
       const credit = new Credit({
@@ -98,17 +118,7 @@ class MovieController {
       });
 
       await credit.save();
-      const trailer = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`)
-      const trailerData = trailer.results[0]
-      const trailerVideo = new Video({
-        name: movieDetail.title,
-        key: trailerData.key,
-        type: "Trailer",
-        site: trailerData.site,
-        published_at: trailerData.published_at,
-      }
-      )
-      await trailerVideo.save()
+
       const video = new Video({
         name: movieDetail.title,
         key: videoKey,
@@ -132,8 +142,8 @@ class MovieController {
       });
     }
   }
-  async deleteMovie(req,res) {
-    const movieId=req.params.id
+  async deleteMovie(req, res) {
+    const movieId = req.params.id
     try {
       const movie = await Movie.findById(movieId).populate('credit videos');
 
