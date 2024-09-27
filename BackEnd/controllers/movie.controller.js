@@ -5,6 +5,7 @@ const Genre = require("../models/genre.model");
 const Movie = require("../models/movie.model");
 const Video = require("../models/video.model");
 const { createCast } = require("../services/cast.service");
+const { createProductionCompany } = require("../services/company.service");
 const { createCredit } = require("../services/credit.service");
 const { createCrew } = require("../services/crew.service");
 const { createGenre } = require("../services/genre.service");
@@ -87,11 +88,23 @@ class MovieController {
           })
       );
 
+      const productionCompanyIds = await Promise.all(
+        movieDetail.production_companies
+          .filter(productionCompany => productionCompany.logo_path)
+          .map(async productionCompanyItem => {
+            const productionCompany = await createProductionCompany(
+              productionCompanyItem.name,
+              productionCompanyItem.logo_path,
+              productionCompanyItem.origin_country
+            )
+            return productionCompany._id
+          })
+      )
       const credit = await createCredit(
         castIds,
         crewIds,
+        productionCompanyIds,
       );
-
 
       const video = createVideo(
         movieDetail.title,
