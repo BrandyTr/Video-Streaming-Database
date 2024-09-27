@@ -1,15 +1,10 @@
 const Credit = require("../models/credit.model")
 
-exports.createCredit=async(casts,crews,production_companies)=>{
+exports.createCredit = async (castIds, crewIds) => {
     const credit = new Credit({
-        casts,
-        crews,
-        production_companies,
-    })
-    try{
-        credit.save()
-        return credit
-    }catch(err){
-        console.log(err.message)
-    }
-}
+      casts: castIds,
+      crews: crewIds,
+    });
+    await credit.save();
+    return credit._id;
+  };
