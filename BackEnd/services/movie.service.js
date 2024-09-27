@@ -1,5 +1,5 @@
 const Movie = require("../models/movie.model");
-exports.createMovie = async (movieDetail, genreIds, creditId, videoId) => {
+exports.createMovie = async (movieDetail, genreIds, creditId, videoIds) => {
     const movie = new Movie({
       title: movieDetail.title,
       overview: movieDetail.overview,
@@ -9,7 +9,7 @@ exports.createMovie = async (movieDetail, genreIds, creditId, videoId) => {
       backdrop_path: movieDetail.backdrop_path,
       genres: genreIds,
       credit: creditId,
-      videos: [videoId],
+      videos: videoIds ? videoIds : [],
     });
     await movie.save();
     return movie;

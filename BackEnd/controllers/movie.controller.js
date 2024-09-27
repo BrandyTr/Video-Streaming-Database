@@ -4,9 +4,14 @@ const Crew = require("../models/crew.model");
 const Genre = require("../models/genre.model");
 const Movie = require("../models/movie.model");
 const Video = require("../models/video.model");
+const { createCast } = require("../services/cast.service");
+const { createCredit } = require("../services/credit.service");
+const { createCrew } = require("../services/crew.service");
+const { createGenre } = require("../services/genre.service");
 const { getAllMovie, createMovie } = require("../services/movie.service");
 const { createOrUpdatePerson } = require("../services/person.service");
-const { fetchFromTMDB } = require("../services/tmdb.service")
+const { fetchFromTMDB } = require("../services/tmdb.service");
+const { createVideo } = require("../services/video.service");
 class MovieController {
   async getAll(req, res) {
     const movies = await getAllMovie()
@@ -43,57 +48,32 @@ class MovieController {
         `https://api.themoviedb.org/3/movie/${movieData.id}?append_to_response=credits&language=en-US`
       );
       const trailer = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`)
-      if(trailer.results.length==0){
+      if (trailer.results.length == 0) {
         return res.status(400).json({
-          success:false,
-          message:"Trailer is not found, you might have to insert trailer manually!"
+          success: false,
+          message: "Trailer is not found, you might have to insert trailer manually!"
         })
       }
       const trailerData = trailer.results[0]
-      const trailerVideo = new Video({
-        name: movieDetail.title,
-        key: trailerData.key,
-        type: "Trailer",
-        site: trailerData.site,
-        published_at: trailerData.published_at,
-      }
+      const trailerVideo = await createVideo(
+        movieDetail.title,
+        trailerData.key,
+        trailerData.site,
+        "Trailer",
+        trailerData.published_at,
       )
-      await trailerVideo.save()
       const genreIds = await Promise.all(
         movieDetail.genres.map(async (genre) => {
-          let existingGenre = await Genre.findOne({ name: genre.name });
-          if (!existingGenre) {
-            existingGenre = new Genre({ name: genre.name });
-            await existingGenre.save();
-          }
+          let existingGenre = await createGenre(genre.name)
           return existingGenre._id;
         })
       );
-
-      const movie = new Movie({
-        title: movieDetail.title,
-        overview: movieDetail.overview,
-        credit: null,
-        release_date: movieDetail.release_date,
-        runtime: movieDetail.runtime,
-        poster_path: movieDetail.poster_path,
-        backdrop_path: movieDetail.backdrop_path,
-        genres: genreIds,
-        videos: [],
-      });
-      await movie.save();
-
+      const movie = await createMovie(movieDetail, genreIds, null);
       const castIds = await Promise.all(
         movieDetail.credits.cast
           .filter(castMember => castMember.profile_path)
           .map(async (castMember) => {
-            const person = await createOrUpdatePerson(castMember);
-            const cast = new Cast({
-              person_id: person._id,
-              character: castMember.character,
-              movie_id: movie._id,
-            });
-            await cast.save();
+            const cast = await createCast(castMember, movie._id)
             return cast._id;
           })
       );
@@ -102,30 +82,24 @@ class MovieController {
         movieDetail.credits.crew
           .filter(crewMember => crewMember.profile_path)
           .map(async (crewMember) => {
-            const person = await createOrUpdatePerson(crewMember);
-            const crew = new Crew({
-              person_id: person._id,
-              movie_id: movie._id,
-            });
-            await crew.save();
+            const crew = await createCrew(crewMember, movie._id)
             return crew._id;
           })
       );
 
-      const credit = new Credit({
-        casts: castIds,
-        crews: crewIds,
-      });
+      const credit = await createCredit(
+        castIds,
+        crewIds,
+      );
 
-      await credit.save();
 
-      const video = new Video({
-        name: movieDetail.title,
-        key: videoKey,
-        site: "YouTube",
-        published_at: trailerData.published_at,
-      });
-      await video.save();
+      const video = createVideo(
+        movieDetail.title,
+        videoKey,
+        "YouTube",
+        "full-time",
+        trailerData.published_at,
+      );
 
       movie.credit = credit._id;
       movie.videos.push(trailerVideo._id, video._id);

@@ -1,9 +1,9 @@
 const Genre= require('../models/genre.model')
-exports.createGenre=async(name)=>{
+exports.createGenre=async(genreName)=>{
     let genre = await Genre.findOne({ name: genreName });
     if (!genre) {
       genre = new Genre({ name: genreName });
       await genre.save();
     }
-    return genre._id;
+    return genre;
 }

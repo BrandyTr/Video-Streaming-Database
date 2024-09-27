@@ -1,4 +1,5 @@
 const Cast=require('../models/cast.model')
+const { createOrUpdatePerson } = require("./person.service");
 exports.createCast=async(castMember, movieId)=>{
     const person = await createOrUpdatePerson(castMember); // Create or update person first
     const cast = new Cast({
@@ -7,5 +8,5 @@ exports.createCast=async(castMember, movieId)=>{
       movie_id: movieId,
     });
     await cast.save();
-    return cast._id;
+    return cast;
 }

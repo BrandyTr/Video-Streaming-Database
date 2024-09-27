@@ -6,5 +6,5 @@ exports.createCredit = async (castIds, crewIds) => {
       crews: crewIds,
     });
     await credit.save();
-    return credit._id;
+    return credit;
   };

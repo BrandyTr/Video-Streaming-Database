@@ -1,12 +1,13 @@
 const Video = require("../models/video.model")
 
-exports.createVideo=async (movieTitle, videoKey,published_at) => {
+exports.createVideo=async (movieTitle, videoKey,site,type,published_at) => {
     const video = new Video({
       name: movieTitle,
       key: videoKey,
-      site: "YouTube",
+      site,
+      type,
       published_at: new Date(published_at),
     });
     await video.save();
-    return video._id;
+    return video;
   };
