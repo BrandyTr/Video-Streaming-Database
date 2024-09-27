@@ -5,6 +5,7 @@ exports.createGenre=async(name)=>{
     })
     try{
         await genre.save()
+        return genre
     }catch(err){
         console.log(err)
     }

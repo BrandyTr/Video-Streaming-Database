@@ -2,26 +2,29 @@ const Movie = require("../models/movie.model");
 const mongoose=require('mongoose');
 const Video = require("../models/video.model");
 const Genre = require("../models/genre.model");
-exports.createMovie=async(title, overview, release_date, runtime, genres, production_companies, videos)=> {
+exports.createMovie=async(title, overview, release_date, runtime,poster_path,backdrop_path,credit, genres, videos)=> {
     const movie = new Movie({
-      title: title,  // Pass title as a parameter
-      overview: overview,  // Pass overview as a parameter
-      release_date: new Date(release_date),  // Convert release_date to Date
-      runtime: runtime,  // Pass runtime as a parameter
-      genres: genres,  // Pass genres as a parameter (array of Genre ObjectIds)
-      production_companies: production_companies,  // Pass production_companies as a parameter (array of ProductionCompany ObjectIds)
-      videos: videos,  // Pass videos as a parameter (array of Video ObjectIds)
+      title: title,  
+      overview: overview, 
+      release_date: new Date(release_date),  
+      runtime: runtime,  
+      poster_path,
+      backdrop_path,
+      credit,
+      genres: genres,  
+      videos: videos,  
     });
     try{
         await movie.save()
+        return movie
     }catch(err){
         console.log(err)
     }
 }
-exports.getAllMovie=async(req,res)=>{
+exports.getAllMovie=async()=>{
     try{
-        const movies= await Movie.find().populate('videos').populate('genres')
-        res.json(movies)
+        const movies= await Movie.find()
+        return movies
     }catch(err){
         console.log(err.message)
     }

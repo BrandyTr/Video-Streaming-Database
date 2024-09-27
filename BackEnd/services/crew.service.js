@@ -1,9 +1,8 @@
 const Crew = require("../models/crew.model")
 
-exports.createCrew=async(personId, job, department, movieId)=>{
+exports.createCrew=async(personId, movieId)=>{
     const crew= new Crew({
         person_id:personId,
-        job,
         movie_id:movieId
     })
     try{
