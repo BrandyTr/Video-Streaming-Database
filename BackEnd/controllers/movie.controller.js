@@ -1,7 +1,6 @@
 const Cast = require("../models/cast.model");
 const Credit = require("../models/credit.model");
 const Crew = require("../models/crew.model");
-const Genre = require("../models/genre.model");
 const Movie = require("../models/movie.model");
 const Video = require("../models/video.model");
 const { createCast } = require("../services/cast.service");
@@ -10,7 +9,6 @@ const { createCredit } = require("../services/credit.service");
 const { createCrew } = require("../services/crew.service");
 const { createGenre } = require("../services/genre.service");
 const { getAllMovie, createMovie } = require("../services/movie.service");
-const { createOrUpdatePerson } = require("../services/person.service");
 const { fetchFromTMDB } = require("../services/tmdb.service");
 const { createVideo } = require("../services/video.service");
 class MovieController {
@@ -106,7 +104,7 @@ class MovieController {
         productionCompanyIds,
       );
 
-      const video = createVideo(
+      const video = await createVideo(
         movieDetail.title,
         videoKey,
         "YouTube",
@@ -171,17 +169,14 @@ class MovieController {
       });
     }
   }
+  //todo
   async getTrendingMovie(req, res) {
   }
-  async getMovieTrailers(req, res) {
 
-  }
   async getMovieDetails(req, res) {
 
   }
-  async getSimilarMovies(req, res) {
 
-  }
   async getMoviesByCategory(req, res) {
 
   }
