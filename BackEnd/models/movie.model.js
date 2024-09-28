@@ -9,7 +9,7 @@ const MovieSchema = new Schema({
     backdrop_path: {type:String,required:true},
     credit:{type:Schema.Types.ObjectId,ref:'Credit'},
     genres: [{ type: Schema.Types.ObjectId, ref: 'Genre' }],  // Many-to-many
-    videos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],  // One-to-many
+    videos: [{ type: Schema.Types.ObjectId, ref: 'Video',default:[] }],  // One-to-many
 });
 
 const Movie = mongoose.model('Movie', MovieSchema);
