@@ -171,61 +171,29 @@ class MovieController {
   }
   //todo
   async getTrendingMovie(req, res) {
-    const { genreName } = req.query;
-  
-    if (!genreName) {
-      return res.status(400).json({
-        success: false,
-        message: "Genre name is required",
-      });
-    }
-  
     try {
-      // Fetch trending movies from TMDB (for the current week)
-      const trendingMovies = await fetchFromTMDB(
-        `https://api.themoviedb.org/3/trending/movie/week?language=en-US`
-      );
-  
-      if (trendingMovies.results.length === 0) {
+      // Lấy phim mới ra nha
+      const currentDate = new Date();
+      const last30Days = new Date();
+      last30Days.setDate(currentDate.getDate() - 30);
+
+      // Query
+      const TrendingMovies = await Movie.find({
+        release_date: {$gte: last30Days}
+      }).populate('genres').populate('videos');
+
+      // If no movie
+      if(TrendingMovies.length === 0) {
         return res.status(404).json({
-          success: false,
-          message: "No trending movies found",
+          success:false,
+          message: 'No trending movies found',
         });
       }
-  
-      // Find the genre in your local database
-      const genre = await Genre.findOne({ name: genreName });
-  
-      if (!genre) {
-        return res.status(404).json({
-          success: false,
-          message: "Genre not found in the database",
-        });
-      }
-  
-      // Filter trending movies by genre (TMDB genre IDs)
-      const filteredMovies = trendingMovies.results.filter((movie) =>
-        movie.genre_ids.includes(genre.tmdbId)
-      );
-  
-      if (filteredMovies.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: `No trending movies found for the genre: ${genreName}`,
-        });
-      }
-  
-      // Return filtered movies
-      res.status(200).json({
-        success: true,
-        message: "Trending movies fetched successfully",
-        data: filteredMovies,
-      });
     } catch (err) {
-      console.error("Error fetching trending movies:", err);
-      res.status(500).json({
+      console.error('Error fetching trending movies: ', err.message);
+      return res.status(500).json({
         success: false,
-        message: err.message,
+        message: 'Failed to fetch tredning movies'
       });
     }
   }
