@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useHistory
-import Card from '../../components/card/card';
+import { Images, Card } from '../../commonPaths';
 import './homepage.css';
 
 const Homepage = () => {
@@ -10,19 +10,19 @@ const Homepage = () => {
     {
       title: 'Jumanji',
       description: 'The next level',
-      image: 'https://via.placeholder.com/150',
+      image: Images.jumanji1,
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
     {
       title: 'Jumanji 2',
       description: 'The next level 2',
-      image: 'https://via.placeholder.com/150',
+      image: Images.jumanji2,
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
     {
       title: 'Avengers',
       description: 'Endgame',
-      image: 'https://via.placeholder.com/150',
+      image: Images.endgame,
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     }
   ];
