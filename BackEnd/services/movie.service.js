@@ -1,5 +1,8 @@
 const Movie = require("../models/movie.model");
+
+// Create a new movie in the database
 exports.createMovie = async (movieDetail, genreIds, creditId, videoIds) => {
+  try {
     const movie = new Movie({
       title: movieDetail.title,
       overview: movieDetail.overview,
@@ -13,12 +16,19 @@ exports.createMovie = async (movieDetail, genreIds, creditId, videoIds) => {
     });
     await movie.save();
     return movie;
-  };
-exports.getAllMovie=async()=>{
-    try{
-        const movies= await Movie.find()
-        return movies
-    }catch(err){
-        console.log(err.message)
-    }
-}
+  } catch (err) {
+    console.error("Error creating movie:", err.message);
+    throw new Error("Failed to create movie");
+  }
+};
+
+// Get all movies from the database
+exports.getAllMovie = async () => {
+  try {
+    const movies = await Movie.find();
+    return movies;
+  } catch (err) {
+    console.error("Error fetching movies:", err.message);
+    throw new Error("Failed to fetch movies");
+  }
+};
