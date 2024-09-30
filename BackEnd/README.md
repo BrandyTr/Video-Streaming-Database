@@ -86,6 +86,9 @@ To configure environment variables for the backend, follow these steps:
    ```plaintext
    MONGO_URI=mongodb://localhost:27018/netflix
    PORT=3000
+   JWT_SECRET=YOUR_SECRET_KEY(Can be anything)
+   MODE=development
+   TMDB_API_KEY== YOUR_API_KEY
 ## Step 6: Start the Backend Server
 
 After setting up the `.env` file and ensuring your Docker containers are running, you can start the backend server using npm. Follow these steps:
