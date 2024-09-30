@@ -88,7 +88,7 @@ To configure environment variables for the backend, follow these steps:
    PORT=3000
    JWT_SECRET=YOUR_SECRET_KEY(Can be anything)
    MODE=development
-   TMDB_API_KEY== YOUR_API_KEY
+   TMDB_API_KEY= YOUR_API_KEY
    ```
    [Create your API Key here](https://docs.google.com/document/d/1IZmmfqlSRUCd9nM815C4GmNrVdMSCzI4/edit?usp=sharing&ouid=114029001083127427651&rtpof=true&sd=true)
 ## Step 6: Start the Backend Server
