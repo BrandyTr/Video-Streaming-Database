@@ -4,9 +4,9 @@ const Person = require('../models/person.model')
 const Movie = require('../models/movie.model')
 class SearchController {
     async searchPerson(req, res) {
-        const name =req.params.query
+        const name =req.query.name
         if(!name){
-            res.status(400).json({success:false,message:"No name provided!"})
+            return res.status(400).json({success:false,message:"No name provided!"})
         }
         try {
             const persons = await Person.find({
@@ -18,7 +18,7 @@ class SearchController {
         }
     }
     async searchMovie(req, res) {
-        const title = req.params.query
+        const title = req.query.name
         if (!title) {
             return res.status(400).json({ success: false, message: "No title provided!" })
         }
