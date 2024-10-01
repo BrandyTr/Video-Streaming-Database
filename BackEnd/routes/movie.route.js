@@ -5,8 +5,6 @@ router.get("/trending",MovieController.getTrendingMovie)
 router.get("/all",MovieController.getAll)
 router.delete("/delete/:id",MovieController.deleteMovie)
 router.post("/create",MovieController.generateMovies)
-router.get("/:id/trailers",MovieController.getMovieTrailers)
 router.get("/:id/details",MovieController.getMovieDetails)
-router.get("/:id/similar",MovieController.getSimilarMovies)
 router.get("/:category",MovieController.getMoviesByCategory)
 module.exports=router
