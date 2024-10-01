@@ -1,7 +1,7 @@
 const express= require('express')
 const SearchController=require('../controllers/search.controller')
 const router=express.Router()
-router.get("/person/:query",SearchController.searchPerson)
+router.get("/person",SearchController.searchPerson)
 router.get("/movie/:query",SearchController.searchMovie)
 router.get("/tv/:query",SearchController.searchTv)
 router.get('/history',SearchController.getSearchHistory)

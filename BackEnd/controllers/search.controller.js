@@ -3,9 +3,9 @@ const { fetchFromTMDB } = require("../services/tmdb.service")
 const Person = require('../models/person.model')
 class SearchController {
     async searchPerson(req, res) {
-        const name =req.params.query
+        const name =req.query.name
         if(!name){
-            res.status(400).json({success:false,message:"No name provided!"})
+            return res.status(400).json({success:false,message:"No name provided!"})
         }
         try {
             const persons = await Person.find({
