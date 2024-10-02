@@ -171,7 +171,33 @@ class MovieController {
   }
   //todo
   async getTrendingMovie(req, res) {
+    try {
+      // Lấy phim mới ra nha
+      const currentDate = new Date();
+      const last30Days = new Date();
+      last30Days.setDate(currentDate.getDate() - 30);
+
+      // Query
+      const TrendingMovies = await Movie.find({
+        release_date: {$gte: last30Days}
+      }).populate('genres').populate('videos');
+
+      // If no movie
+      if(TrendingMovies.length === 0) {
+        return res.status(404).json({
+          success:false,
+          message: 'No trending movies found',
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching trending movies: ', err.message);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch tredning movies'
+      });
+    }
   }
+  
 
   async getMovieDetails(req, res) {
 
