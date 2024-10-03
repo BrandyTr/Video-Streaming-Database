@@ -1,10 +1,12 @@
 const express= require('express')
 const MovieController=require('../controllers/movie.controller')
+const { protectRoute } = require('../middleware/protectRoute')
 const router=express.Router()
 router.get("/trending",MovieController.getTrendingMovie)
 router.get("/all",MovieController.getAll)
 router.delete("/delete/:id",MovieController.deleteMovie)
 router.post("/create",MovieController.generateMovies)
+router.post("/favorite/:id",protectRoute,MovieController.loveMovie)
 router.get("/:id/details",MovieController.getMovieDetails)
 router.get("/:category",MovieController.getMoviesByCategory)
 module.exports=router

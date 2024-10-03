@@ -21,9 +21,26 @@ const userSchema=new Schema({
 		default: "",
 	},
     searchHistory:{
-        type:Array,
-        default:[]
-    }
+        type:[{
+            type:Schema.Types.ObjectId,
+            ref:'Movie',
+            default:[]
+        }]
+    },
+    favorieMovies:{
+        type:[{
+            type:Schema.Types.ObjectId,
+            ref:'Movie',
+            default:[]
+        }]
+    },
+    viewHistory:{
+        type:[{
+            type:Schema.Types.ObjectId,
+            ref:'Movie',
+            default:[]
+        }]
+    },
 })
 const User=mongoose.model('User',userSchema)
 module.exports=User

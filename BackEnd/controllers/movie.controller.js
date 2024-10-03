@@ -2,13 +2,14 @@ const Cast = require("../models/cast.model");
 const Credit = require("../models/credit.model");
 const Crew = require("../models/crew.model");
 const Movie = require("../models/movie.model");
+const User = require("../models/user.model");
 const Video = require("../models/video.model");
 const { createCast } = require("../services/cast.service");
 const { createProductionCompany } = require("../services/company.service");
 const { createCredit } = require("../services/credit.service");
 const { createCrew } = require("../services/crew.service");
 const { createGenre } = require("../services/genre.service");
-const { getAllMovie, createMovie } = require("../services/movie.service");
+const { getAllMovie, createMovie, findMovieDetail } = require("../services/movie.service");
 const { fetchFromTMDB } = require("../services/tmdb.service");
 const { createVideo } = require("../services/video.service");
 class MovieController {
@@ -179,13 +180,13 @@ class MovieController {
 
       // Query
       const TrendingMovies = await Movie.find({
-        release_date: {$gte: last30Days}
+        release_date: { $gte: last30Days }
       }).populate('genres').populate('videos');
 
       // If no movie
-      if(TrendingMovies.length === 0) {
+      if (TrendingMovies.length === 0) {
         return res.status(404).json({
-          success:false,
+          success: false,
           message: 'No trending movies found',
         });
       }
@@ -197,14 +198,72 @@ class MovieController {
       });
     }
   }
-  
+
 
   async getMovieDetails(req, res) {
-
+    const id = req.params.id
+    try {
+      const movie = await findMovieDetail(id)
+      res.json({
+        success: true,
+        content: movie
+      })
+    } catch (err) {
+      res.status(404).json({
+        success: false,
+        message: err.message
+      })
+    }
   }
 
   async getMoviesByCategory(req, res) {
 
+  }
+  async viewMovie(req, res) {
+    const id = req.params.id
+    try {
+      const movie = await Movie.findById(id)
+
+    } catch (err) {
+      res.status(400).json({
+        success: false,
+        message: err.message
+      })
+    }
+  }
+  async loveMovie(req, res) {
+    const id = req.params.id
+    let message 
+    try {
+      const movie = await Movie.findById(id)
+      if (!movie) {
+        return res.status(404).json({
+          success: false,
+          message: "Movie not found"
+        })
+      }
+      const user = await User.findById(req.user._id)
+      if (!user.favorieMovies.includes(movie._id)) {
+        message = `You love ${movie.title}`
+        user.favorieMovies.push(movie._id)
+      } else {
+        message = `You unlove ${movie.title}`
+        user.favorieMovies=user.favorieMovies.filter((movId) => movId.toString() !== movie._id.toString())
+      }
+      await user.save()
+    
+      const { password, ...rest } = user._doc
+      return res.status(200).json({
+        success: true,
+        content: rest,
+        message:message,
+      })
+    } catch (err) {
+      res.status(400).json({
+        success: false,
+        message: err.message
+      })
+    }
   }
 }
 module.exports = new MovieController()
