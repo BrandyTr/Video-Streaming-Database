@@ -22,8 +22,7 @@ const userSchema=new Schema({
 	},
     searchHistory:{
         type:[{
-            type:Schema.Types.ObjectId,
-            ref:'Movie',
+            type:Object,
             default:[]
         }]
     },

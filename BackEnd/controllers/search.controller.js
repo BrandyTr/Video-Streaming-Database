@@ -4,13 +4,20 @@ const Person = require('../models/person.model')
 const Movie = require('../models/movie.model')
 class SearchController {
     async searchPerson(req, res) {
-        const name =req.query.name
-        if(!name){
-            return res.status(400).json({success:false,message:"No name provided!"})
+        const name = req.query.name
+        if (!name) {
+            return res.status(400).json({ success: false, message: "No name provided!" })
         }
         try {
             const persons = await Person.find({
-                name:{$regex: name,$options:'i'}
+                name: { $regex: name, $options: 'i' }
+            })
+            await User.findByIdAndUpdate(req.user._id, {
+                searchHistory:{
+                    query: name,
+                    searchType: "person",
+                    createdAt: new Date()
+                } 
             })
             res.json({ success: true, content: persons })
         } catch (err) {
@@ -26,9 +33,19 @@ class SearchController {
             const movies = await Movie.find({
                 title: { $regex: title, $options: 'i' }
             })
-            res.json({ success: true, content: movies });
+            await User.findByIdAndUpdate(req.user._id, {
+                $push: {
+                    searchHistory:{
+                        query: title,
+                        searchType: "movie",
+                        createdAt: new Date()
+                    } 
+                }
+            })
+
+            return res.json({ success: true, content: movies });
         } catch (err) {
-            res.status(400).json({ success: false, message: err.message });
+            return res.status(400).json({ success: false, message: err });
         }
     }
     async searchTv(req, res) {
