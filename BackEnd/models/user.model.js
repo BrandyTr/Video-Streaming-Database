@@ -26,7 +26,7 @@ const userSchema=new Schema({
             default:[]
         }]
     },
-    favorieMovies:{
+    favoriteMovies:{
         type:[{
             type:Schema.Types.ObjectId,
             ref:'Movie',

@@ -204,12 +204,18 @@ class MovieController {
     const id = req.params.id
     try {
       const movie = await findMovieDetail(id)
+      if (!movie) {
+        return res.status(404).json({
+          success: false,
+          message: "Movie not found"
+        })
+      }
       res.json({
         success: true,
         content: movie
       })
     } catch (err) {
-      res.status(404).json({
+      res.status(500).json({
         success: false,
         message: err.message
       })
@@ -218,14 +224,73 @@ class MovieController {
 
   async getMoviesByCategory(req, res) {
 
+    //todo
   }
   async viewMovie(req, res) {
     const id = req.params.id
     try {
       const movie = await Movie.findById(id)
-
+      if (!movie) {
+        return res.status(404).json({
+          success: false,
+          message: "Movie not found"
+        })
+      }
+      movie.view += 1
+      await movie.save()
+      res.status(200).json({
+        success:true,
+        content:movie.view
+      })
     } catch (err) {
-      res.status(400).json({
+      res.status(500).json({
+        success: false,
+        message: err.message
+      })
+    }
+  }
+  async rateMovie(req, res) {
+    const id = req.params.id
+    const rating = req.body.rating
+    if (rating < 0 || rating > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Rating must be between 0 and 5"
+      })
+    }
+    
+    try {
+      const movie = await Movie.findById(id)
+      if (!movie) {
+        return res.status(404).json({
+          success: false,
+          message: "Movie not found"
+        })
+      }
+      const userId = req.user._id
+      const existingRatingIndex = movie.ratings.findIndex(
+        (rating) => rating.userId.toString() === userId.toString()
+      )
+      if(existingRatingIndex>=0){
+        const oldRate=movie.ratings[existingRatingIndex].rate
+        movie.ratingSum=movie.ratingSum-oldRate+rating
+        movie.ratings[existingRatingIndex].rate=rating
+      }else{
+        movie.ratings.push({userId,rate:rating})
+        movie.ratingSum+=rating
+        movie.ratingCount++
+      }
+      await movie.save()
+      res.status(200).json({
+        success: true,
+        content: {
+          "averageRating": movie.averageRating,
+          "ratingCount": movie.ratingCount
+        },
+        message: `Rating updated for movie: ${movie.title}`,
+    });
+    } catch (err) {
+      res.status(500).json({
         success: false,
         message: err.message
       })
@@ -233,7 +298,7 @@ class MovieController {
   }
   async loveMovie(req, res) {
     const id = req.params.id
-    let message 
+    let message
     try {
       const movie = await Movie.findById(id)
       if (!movie) {
@@ -243,23 +308,23 @@ class MovieController {
         })
       }
       const user = await User.findById(req.user._id)
-      if (!user.favorieMovies.includes(movie._id)) {
+      if (!user.favoriteMovies.includes(movie._id)) {
         message = `You love ${movie.title}`
-        user.favorieMovies.push(movie._id)
+        user.favoriteMovies.push(movie._id)
       } else {
         message = `You unlove ${movie.title}`
-        user.favorieMovies=user.favorieMovies.filter((movId) => movId.toString() !== movie._id.toString())
+        user.favoriteMovies = user.favoriteMovies.filter((movId) => movId.toString() !== movie._id.toString())
       }
       await user.save()
-    
+
       const { password, ...rest } = user._doc
       return res.status(200).json({
         success: true,
         content: rest,
-        message:message,
+        message: message,
       })
     } catch (err) {
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         message: err.message
       })
