@@ -20,6 +20,15 @@ const userSchema=new Schema({
 		type: String,
 		default: "",
 	},
+    ratings: {
+        type: [
+            {
+                movieId: { type: Schema.Types.ObjectId, ref: 'Movie' },
+                rate: { type: Number }
+            }
+        ],
+        default: []
+    },
     searchHistory:{
         type:[{
             type:Object,

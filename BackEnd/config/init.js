@@ -1,5 +1,6 @@
-const axios = require('axios');
+
 const Settings = require('../models/setting.model');
+const { generateMovieInfo } = require('../services/movie.service');
 const movieList = [
   { name: 'House of Dead', videoKey: 'rGsXo6cjKyE' },
   { name: 'The Child Remains', videoKey: 'ATi3GdospAo' },
@@ -44,8 +45,8 @@ const movieList = [
   { name: "Live Free or Die Hard", videoKey: "6hGOXipXh0Y" },
   { name: "Oldboy", videoKey: "Phb_gmWBD8g" },
   { name: "Killing Poe", videoKey: "J9vnfx1Lor8" },
-  { name:"Beauty And The Billionaire", videoKey:"qBczncM0ntk"},
-  { name:"Not Cinderella's Type", videoKey:"6jvqXxt3WNo"},
+  { name: "Beauty And The Billionaire", videoKey: "qBczncM0ntk" },
+  { name: "Not Cinderella's Type", videoKey: "6jvqXxt3WNo" },
 ];
 
 async function initMovies(movieList) {
@@ -54,24 +55,19 @@ async function initMovies(movieList) {
     console.log('Movies have already been initialized.');
     return;
   }
-  const url = 'http://localhost:3000/api/movie/create';
 
   for (const movie of movieList) {
     try {
-      const response = await axios.post(url, {
-        movieName: movie.name,
-        videoKey: movie.videoKey,
-      });
+      const result = await generateMovieInfo(movie.name, movie.videoKey);
 
-      console.log(`Movie "${movie.name}" initialized successfully:`, response.data.message);
-    } catch (error) {
-      if (error.response) {
-        console.error(`Failed to initialize movie "${movie.name}":`, error.response.data.message);
-      } else if (error.request) {
-        console.error(`No response for movie "${movie.name}":`, error.request);
+      if (result.success) {
+        console.log(`Movie "${movie.name}" initialized successfully:`, result.message);
       } else {
-        console.error(`Error in setting up request for movie "${movie.name}":`, error.message);
+        console.error(`Failed to initialize movie "${movie.name}":`, result.message);
       }
+    } catch (error) {
+      console.error(`Error initializing movie "${movie.name}":`, error.message);
+      return
     }
   }
   await Settings.updateOne({ key: 'moviesInitialized' }, { value: 'true' }, { upsert: true });
