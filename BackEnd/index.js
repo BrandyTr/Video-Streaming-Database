@@ -1,7 +1,7 @@
 const express= require('express')
 const Routes= require('./routes/routes')
 var cors = require('cors')
-const {initMovies,movieList}=require('./config/init')
+const {initMovies,movieList,loadOphimMovies}=require('./config/init')
 const ENV_VARS = require('./config/vars')
 const db=require('./config/db')
 const cookieParser = require('cookie-parser')
@@ -19,5 +19,5 @@ Routes(app)
 app.listen(port,()=>{
     console.log(`Server started at port ${port}`)
 })
-initMovies(movieList)
+loadOphimMovies(30)
 //czJMSeHQEl6MeBie
