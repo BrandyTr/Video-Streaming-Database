@@ -46,12 +46,12 @@ class MovieController {
     try {
       // Lấy phim mới ra nha
       const currentDate = new Date();
-      const last30Days = new Date();
-      last30Days.setDate(currentDate.getDate() - 30);
+      const last60Days = new Date();
+      last60Days.setDate(currentDate.getDate() - 60);
 
       // Query
       const TrendingMovies = await Movie.find({
-        release_date: { $gte: last30Days }
+        release_date: { $gte: last60Days }
       }).populate('genres').populate('videos');
 
       // If no movie
