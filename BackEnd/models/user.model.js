@@ -20,10 +20,35 @@ const userSchema=new Schema({
 		type: String,
 		default: "",
 	},
+    ratings: {
+        type: [
+            {
+                movieId: { type: Schema.Types.ObjectId, ref: 'Movie' },
+                rate: { type: Number }
+            }
+        ],
+        default: []
+    },
     searchHistory:{
-        type:Array,
-        default:[]
-    }
+        type:[{
+            type:Object,
+            default:[]
+        }]
+    },
+    favoriteMovies:{
+        type:[{
+            type:Schema.Types.ObjectId,
+            ref:'Movie',
+            default:[]
+        }]
+    },
+    viewHistory:{
+        type:[{
+            type:Schema.Types.ObjectId,
+            ref:'Movie',
+            default:[]
+        }]
+    },
 })
 const User=mongoose.model('User',userSchema)
 module.exports=User
