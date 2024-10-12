@@ -2,6 +2,7 @@ const { populate } = require("../models/cast.model");
 const Cast = require("../models/cast.model");
 const Credit = require("../models/credit.model");
 const Crew = require("../models/crew.model");
+const Genre = require("../models/genre.model");
 const Movie = require("../models/movie.model");
 const User = require("../models/user.model");
 const Video = require("../models/video.model");
@@ -35,11 +36,11 @@ exports.createMovie = async (movieDetail, genreIds, creditId, videoIds) => {
 };
 
 exports.generateMovieOphim = async (movieName, videoUrl) => {
-  if(!videoUrl){
-    return{
-      success:false,
-      status:404,
-      message:"No video link provided, try custom link"
+  if (!videoUrl) {
+    return {
+      success: false,
+      status: 404,
+      message: "No video link provided, try custom link"
     }
   }
   const isSave = await Movie.find({ title: movieName })
@@ -258,6 +259,38 @@ exports.generateMovieInfo = async (movieName, videoUrl) => {
     };
   }
 }
+exports.findMovieByGenre = async (genreName) => {
+  if (!genreName) {
+    return{
+      status:400,
+      success:false,
+      message:"No genre provided!"
+    }
+  }
+  const genre = await Genre.findOne({ name: { $regex: genreName, $options: 'i' } });
+  if (!genre) {
+    return{
+      status:404,
+      success:false,
+      message:"Genre not found!!"
+    }
+  }
+
+  const movies = await Movie.find({ genres: { $in: [genre._id] } }).populate('genres');
+  if (movies.length === 0) {
+    return{
+      status:404,
+      success:false,
+      message:"No movies founded for this genre!!"
+    }
+  }
+
+  return {
+    status:200,
+    success:true,
+    content:movies,
+  };
+};
 exports.deleteMovieById = async (movieId) => {
   try {
     const movie = await Movie.findById(movieId).populate('credit videos');
