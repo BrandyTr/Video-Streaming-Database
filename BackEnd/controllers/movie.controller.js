@@ -1,14 +1,8 @@
 
 const Movie = require("../models/movie.model");
-const Video = require("../models/video.model");
-const { createCast } = require("../services/cast.service");
-const { createProductionCompany } = require("../services/company.service");
-const { createCredit } = require("../services/credit.service");
-const { createCrew } = require("../services/crew.service");
-const { createGenre } = require("../services/genre.service");
-const { getAllMovie, createMovie } = require("../services/movie.service");
-const { fetchFromTMDB } = require("../services/tmdb.service");
-const { createVideo } = require("../services/video.service");
+const Genre = require('../models/genre.model');
+const { getAllMovie, findMovieDetail, fetchPopularMovies, generateMovieInfo, deleteMovieById, rateMovie, loveMovie, findMovieByGenre } = require("../services/movie.service");
+
 class MovieController {
   async getAll(req, res) {
     try {
@@ -52,12 +46,12 @@ class MovieController {
     try {
       // Lấy phim mới ra nha
       const currentDate = new Date();
-      const last30Days = new Date();
-      last30Days.setDate(currentDate.getDate() - 30);
+      const last60Days = new Date();
+      last60Days.setDate(currentDate.getDate() - 60);
 
       // Query
       const TrendingMovies = await Movie.find({
-        release_date: { $gte: last30Days }
+        release_date: { $gte: last60Days }
       }).populate('genres').populate('videos');
 
       // If no movie
@@ -118,8 +112,18 @@ class MovieController {
   }
 
   async getMoviesByCategory(req, res) {
+    const genreName = req.params.query;
+    const result = await findMovieByGenre(genreName)
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
 
-    //todo
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
   }
   async viewMovie(req, res) {
     const id = req.params.id
@@ -144,16 +148,37 @@ class MovieController {
       })
     }
   }
-  //todo
-  async getTrendingMovie(req, res) {
+  async HandleRateMovie(req, res) {
+    const id = req.params.id
+    const rating = req.body.rating
+    const user = req.user
+    const result = await rateMovie(id, rating, user._id)
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
+
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
+  }
+  async handleLoveMovie(req, res) {
+    const id = req.params.id
+    const result = await loveMovie(id, req.user._id)
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
+
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
+
   }
 
-  async getMovieDetails(req, res) {
-
-  }
-
-  async getMoviesByCategory(req, res) {
-
-  }
 }
 module.exports = new MovieController()

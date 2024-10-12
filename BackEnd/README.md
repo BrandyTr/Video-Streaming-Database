@@ -127,7 +127,7 @@ After setting up the `.env` file and ensuring your Docker containers are running
 
 ## Testing the Sign-Up API
 
-1. After installing Thunder Client, open it from the sidebar.
+1. After installing Thunder Client( or postman or anything), open it from the sidebar.
 2. Click on the **New Request** button.
 3. Set the request method to **POST**.
 4. Enter the URL: `http://localhost:3000/api/auth/signup`.
@@ -146,3 +146,4 @@ After setting up the `.env` file and ensuring your Docker containers are running
 
 7. It should return the messages
    ![alt text](./assets/readme/thunder-response.png)
+
