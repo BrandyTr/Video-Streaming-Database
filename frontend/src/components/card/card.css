@@ -33,7 +33,14 @@
 .card:hover .overlay {
   opacity: 50%;
 }
-
+.viewNrate {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
 .card .details {
   position: absolute;
   font-size: x-small;

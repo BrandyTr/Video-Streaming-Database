@@ -23,11 +23,6 @@ const Homepage = () => {
     fetchContent();
   }, []);
 
-  // const handleCardClick = (videoUrl) => {
-  //   // Navigate to the video page with the video URL
-  //   navigate(`/watching?url=${encodeURIComponent(videoUrl)}`);
-  // };
-
   return (
     <div className="content">
       {contents.map((movie, index) => (
@@ -35,7 +30,8 @@ const Homepage = () => {
           key={movie.index}
           id={movie.id}
           title={movie.title}
-          description={movie.overview}
+          rating={movie.ratingCount}
+          views={movie.view}
           thumbnail={POSTER_BASE_URL + movie.poster_path}
           //  onClick={() => handleCardClick(movie.videoUrl)}
         />
