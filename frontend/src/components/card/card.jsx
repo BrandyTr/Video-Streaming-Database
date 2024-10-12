@@ -22,8 +22,8 @@ const Card = ({ title, id, thumbnail, rating, views }) => {
     }
   }, [id]); // Add id as a dependency to useEffect
 
-  const genre1 = genres[0] ? genres[0].name : "N/A";
-  const genre2 = genres[1] ? genres[1].name : "N/A";
+  const genre1 = genres[0] ? genres[0].name : "";
+  const genre2 = genres[1] ? genres[1].name : "";
   const genre3 = genres[2] ? genres[2].name : "";
 
   // Dependency array ensures this runs only when the id changes

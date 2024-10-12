@@ -33,7 +33,6 @@ const Homepage = () => {
           rating={movie.ratingCount}
           views={movie.view}
           thumbnail={POSTER_BASE_URL + movie.poster_path}
-          //  onClick={() => handleCardClick(movie.videoUrl)}
         />
       ))}
     </div>
