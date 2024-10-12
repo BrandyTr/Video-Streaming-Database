@@ -3,6 +3,7 @@ const Credit = require("../models/credit.model");
 const Crew = require("../models/crew.model");
 const Movie = require("../models/movie.model");
 const Video = require("../models/video.model");
+const Genre = require('../models/genre.model');
 const { createCast } = require("../services/cast.service");
 const { createProductionCompany } = require("../services/company.service");
 const { createCredit } = require("../services/credit.service");
@@ -11,6 +12,7 @@ const { createGenre } = require("../services/genre.service");
 const { getAllMovie, createMovie } = require("../services/movie.service");
 const { fetchFromTMDB } = require("../services/tmdb.service");
 const { createVideo } = require("../services/video.service");
+
 class MovieController {
   async getAll(req, res) {
     const movies = await getAllMovie()
@@ -178,7 +180,36 @@ class MovieController {
   }
 
   async getMoviesByCategory(req, res) {
-
+    const genreName = req.params.query;  // Get the genre name from the URL (e.g., /api/movies/Action)
+  
+    if (!genreName) {
+      return res.status(400).json({ success: false, message: "No genre provided!" });
+    }
+  
+    try {
+      // Find the Genre by name (case-insensitive search using $regex)
+      const genre = await Genre.findOne({ name: { $regex: genreName, $options: 'i' } });
+  
+      if (!genre) {
+        return res.status(404).json({ success: false, message: "Genre not found!" });
+      }
+  
+      // Find movies where the genre's ObjectId is in the genres array of the Movie model
+      const movies = await Movie.find({ genres: { $in: [genre._id] } });
+  
+      if (movies.length === 0) {
+        return res.status(404).json({ success: false, message: "No movies found for the given genre!" });
+      }
+  
+      res.json({ success: true, content: movies });
+  
+    } catch (err) {
+      console.error("Error occurred: ", err);  // Log the error if one occurs
+      res.status(400).json({ success: false, message: err.message });
+    }
   }
+  
+
 }
+
 module.exports = new MovieController()
