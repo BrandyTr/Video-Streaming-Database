@@ -1,8 +1,7 @@
 
 const Movie = require("../models/movie.model");
-const Genre = require('../models/genre.model');
-const { getAllMovie, findMovieDetail, fetchPopularMovies, generateMovieInfo, deleteMovieById, rateMovie, loveMovie, findMovieByGenre } = require("../services/movie.service");
-
+const User = require("../models/user.model");
+const { getAllMovie, findMovieDetail, fetchPopularMovies, generateMovieInfo, deleteMovieById, rateMovie, loveMovie } = require("../services/movie.service");
 class MovieController {
   async getAll(req, res) {
     try {
@@ -112,18 +111,8 @@ class MovieController {
   }
 
   async getMoviesByCategory(req, res) {
-    const genreName = req.params.query;
-    const result = await findMovieByGenre(genreName)
-    const response = {
-      success: result.success,
-      message: result.message,
-    };
 
-    if (result.status === 200 && result.content) {
-      response.content = result.content;
-    }
-
-    return res.status(result.status).json(response);
+    //todo
   }
   async viewMovie(req, res) {
     const id = req.params.id
