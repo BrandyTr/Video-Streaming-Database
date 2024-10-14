@@ -1,6 +1,7 @@
 
 const Settings = require('../models/setting.model');
-const { generateMovieInfo } = require('../services/movie.service');
+const { generateMovieInfo, generateMovieOphim } = require('../services/movie.service');
+const axios = require('axios')
 const movieList = [
   { name: 'House of Dead', videoKey: 'rGsXo6cjKyE' },
   { name: 'The Child Remains', videoKey: 'ATi3GdospAo' },
@@ -93,7 +94,36 @@ async function initMovies(movieList) {
   await Settings.updateOne({ key: 'moviesInitialized' }, { value: 'true' }, { upsert: true });
 }
 
+async function loadOphimMovies(numberofPages) {
+  const initialized = await Settings.findOne({ key: 'moviesInitialized' });
+  if (initialized && initialized.value === 'true') {
+    console.log('Movies have already been initialized.');
+    return;
+  }
+  for (let page = 0; page < numberofPages; page++) {
+    const data = (await axios.get(`https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=${page}`)).data
+    const movies = data.items.filter(movie => movie.tmdb.type === "movie")
+    try {
+      for (let i = 0; i < movies.length; i++) {
+        let { origin_name, slug } = movies[i]
+        const movieDataDetail = (await axios.get(`https://ophim1.com/phim/${slug}`)).data
+        const videoUrl = movieDataDetail.episodes[0].server_data[0].link_embed
+        const result = await generateMovieOphim(origin_name, videoUrl)
+        if (result.success) {
+          console.log(`Movie "${origin_name}" initialized successfully:`, result.message);
+        } else {
+          console.error(`Failed to initialize movie "${origin_name}":`, result.message);
+        }
+      }
+    } catch (err) {
+      console.error(`Error initializing movie "${origin_name}":`, error.message);
+      return
+    }
+  }
+  console.log('All movies have been loaded!')
+  await Settings.updateOne({ key: 'moviesInitialized' }, { value: 'true' }, { upsert: true });
+}
 
 
-module.exports = { initMovies, movieList }
+module.exports = { initMovies, movieList, loadOphimMovies }
 
