@@ -1,0 +1,37 @@
+:root {
+    /* COLOR */
+    --color-primary-1-nearly-black: #21201E;
+    --color-secondary-1-1st-blue: #03ABE0;
+    --color-secondary-1-2nd-blue: #0498C6;
+    --color-accent-1-1st-white: #FFFFFF;
+    --color-accent-1-2nd-white: #E7E6E6;
+    --color-red: #BE0000;
+    --color-yellow: #FFA539;
+    --background-color-white-30: rgba(255, 255, 255, 0.3);
+    --background-color-black-50: rgba(0, 0, 0, 0.5);
+    --background-color-black-100: rgb(0, 0, 0);
+
+    /* EFFECT */
+    --effect-video-shadow: 0px 4px 17px rgba(0, 0, 0, 0.5);
+    --effect-blur-white: blur(20px);
+    --effect-video-poster-shadow: 0px 2px 13px 3px rgba(0, 0, 0, 0.5);
+
+    /* BORDER RADIUS */
+    --radius-20-video: 20px;
+    --radius-10: 10px;
+    --radius-8: 8px;
+    --radius-5: 5px;
+
+    /* SCREEN BREAKPOINTS */
+    --desktop-width-min-extralarge: 1701px;
+    --desktop-width-max-large: 1700px;
+    --desktop-width-min-large: 1024px;
+    --tablet-width-max: 1023px;
+    --tablet-width-min: 600px;
+    --mobile-width-max: 599px;
+    --mobile-width-max: 350px;
+
+    /* FONT */
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Poppins', sans-serif;
+}
