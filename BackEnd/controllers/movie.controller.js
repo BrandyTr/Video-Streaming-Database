@@ -1,7 +1,7 @@
 
 const Movie = require("../models/movie.model");
 const Genre = require('../models/genre.model');
-const { getAllMovie, findMovieDetail, fetchPopularMovies, generateMovieInfo, deleteMovieById, rateMovie, loveMovie, findMovieByGenre } = require("../services/movie.service");
+const { getAllMovie, findMovieDetail, fetchPopularMovies, generateMovieInfo, deleteMovieById, rateMovie, loveMovie, findMovieByGenre, fetchTopRatedMovies } = require("../services/movie.service");
 
 class MovieController {
   async getAll(req, res) {
@@ -93,7 +93,20 @@ class MovieController {
     }
   }
   async getTopRatedMovies(req, res) {
+    try {
+      const topRatedMovies = await fetchTopRatedMovies()
+      const limitedTopRatedMovies = topRatedMovies.slice(0, 10);
 
+      res.status(200).json({
+        success: true,
+        content: limitedTopRatedMovies
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      })
+    }
   }
 
   async getPopularMovies(req, res) {
