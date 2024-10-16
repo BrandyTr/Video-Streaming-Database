@@ -9,6 +9,7 @@ const {
 	rateMovie,
 	loveMovie,
 	findMovieByGenre,
+  fetchTopRatedMovies,
 } = require("../services/movie.service");
 CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000; // 60 days in milliseconds
 lastUpdatedTime = null;
@@ -123,7 +124,23 @@ class MovieController {
 			});
 		}
 	}
-	async getTopRatedMovies(req, res) {}
+	async getTopRatedMovies(req, res) {
+    try {
+      const topRatedMovies = await fetchTopRatedMovies()
+      const limitedTopRatedMovies = topRatedMovies.slice(0, 10);
+
+
+      res.status(200).json({
+        success: true,
+        content: limitedTopRatedMovies
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      })
+    }
+  }
 
 	async getPopularMovies(req, res) {
 		try {
