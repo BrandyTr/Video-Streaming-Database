@@ -440,6 +440,16 @@ exports.rateMovie = async (id, rating, userId) => {
     })
   }
 }
+exports.fetchTopRatedMovies = async () => {
+  try {
+    const topRatedMovies = await Movie.find()
+      .sort({ averageRating: -1 }) 
+      .limit(10); 
+    return topRatedMovies;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
 exports.loveMovie = async (movieId, userId) => {
   try {
     let message
