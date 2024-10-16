@@ -1,99 +1,22 @@
 .card {
-  position: relative;
-  margin: 0px;
-  padding: 0px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  cursor: pointer; /* Changes the cursor to indicate clickability */
-}
-.card:hover {
-  transform: scale(1.05); /* Slight zoom on hover */
-}
-.thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the image covers the entire space */
-}
-.overlay {
-  width: 250px; /* Fixed width for each card */
-  height: 300px; /* Fixed height for each card */
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  transition: 0.5s ease;
-  background-color: #000000;
-}
-.card:hover .overlay {
-  opacity: 50%;
-}
-.viewNrate {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-}
-.card .details {
-  position: absolute;
-  font-size: x-small;
-  top: 0;
-  right: 5.3%;
-  color: rgb(255, 255, 255);
-  width: 90%;
-  height: 100%;
-  opacity: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.details h1 {
-  text-align: left;
-  padding-left: 3%;
-  padding-top: 3%;
-  text-overflow: clip;
-}
-.details h2 {
-  position: absolute;
-  text-align: left;
-  font-size: small;
-  font-weight: 500;
-  padding-top: 25%;
-  padding-left: 3%;
-  text-overflow: ellipsis;
-}
-.card:hover .details {
-  opacity: 1;
-  transition: 0.5s ease;
-}
-
-.trailer-button {
-  position: absolute;
-  height: auto;
-  bottom: 10%;
-  align-self: center;
-  font-size: small;
-  border: 0;
-  border-radius: 0%;
-  background-color: #ff09099a;
-  color: #f0f0f0;
-  font-weight: 520;
-  font-family: "Roboto", sans-serif;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition-duration: 0.3s;
-  transition-property: box-shadow, transform;
-}
-.trailer-button:hover,
-.trailer-button:focus,
-.trailer-button:active {
-  box-shadow: 0 0 15px rgba(252, 252, 252, 0.545);
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
+    cursor: pointer; /* Changes the cursor to indicate clickability */
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+  .thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Ensures the image covers the entire space */
+  }
+  .card{
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
