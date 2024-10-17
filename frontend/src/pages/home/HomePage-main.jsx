@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { POSTER_BASE_URL } from "../../utils/constants";
 import Header from "../../components-main/header/Header";
 
-const Homepage = () => {
+const HomePage_Main = () => {
     const navigate = useNavigate(); // Initialize navigate
     const [contents, setContents] = useState([]); // Initialize state as an empty array
 
@@ -52,4 +52,4 @@ const Homepage = () => {
     );
 };
 
-export default Homepage;
+export default HomePage_Main;
