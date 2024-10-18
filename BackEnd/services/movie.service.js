@@ -1,4 +1,3 @@
-const { populate } = require("../models/cast.model");
 const Cast = require("../models/cast.model");
 const Credit = require("../models/credit.model");
 const Crew = require("../models/crew.model");
@@ -6,6 +5,7 @@ const Genre = require("../models/genre.model");
 const Movie = require("../models/movie.model");
 const User = require("../models/user.model");
 const Video = require("../models/video.model");
+const overViewProjection = require("../utils/projection");
 const { createCast } = require("./cast.service");
 const { createProductionCompany } = require("./company.service");
 const { createCredit } = require("./credit.service");
@@ -40,15 +40,15 @@ exports.generateMovieOphim = async (movieName, videoUrl) => {
     return {
       success: false,
       status: 404,
-      message: "No video link provided, try custom link"
-    }
+      message: "No video link provided, try custom link",
+    };
   }
-  const isSave = await Movie.find({ title: movieName })
+  const isSave = await Movie.find({ title: movieName });
   if (isSave.length != 0) {
     return {
       success: false,
       status: 400,
-      message: "The movie has already existed"
+      message: "The movie has already existed",
     };
   }
   try {
@@ -60,77 +60,75 @@ exports.generateMovieOphim = async (movieName, videoUrl) => {
         success: false,
         status: 404,
         message: "Not found",
-      }
+      };
     }
 
     const movieData = data.results[0];
     const movieDetail = await fetchFromTMDB(
       `https://api.themoviedb.org/3/movie/${movieData.id}?append_to_response=credits&language=en-US`
     );
-    const trailer = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`)
+    const trailer = await fetchFromTMDB(
+      `https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`
+    );
     if (trailer.results.length == 0) {
       return {
         success: false,
         status: 400,
-        message: "Trailer is not found, you might have to insert trailer manually!"
-      }
+        message:
+          "Trailer is not found, you might have to insert trailer manually!",
+      };
     }
-    const trailerData = trailer.results[0]
+    const trailerData = trailer.results[0];
     const trailerVideo = await createVideo(
       movieDetail.title,
       trailerData.key,
       trailerData.site,
       "Trailer",
-      trailerData.published_at,
-    )
+      trailerData.published_at
+    );
     const genreIds = await Promise.all(
       movieDetail.genres.map(async (genre) => {
-        let existingGenre = await createGenre(genre.name)
+        let existingGenre = await createGenre(genre.name);
         return existingGenre._id;
       })
     );
     const movie = await exports.createMovie(movieDetail, genreIds, null);
     const castIds = await Promise.all(
       movieDetail.credits.cast
-        .filter(castMember => castMember.profile_path)
+        .filter((castMember) => castMember.profile_path)
         .map(async (castMember) => {
-          const cast = await createCast(castMember, movie._id)
+          const cast = await createCast(castMember, movie._id);
           return cast._id;
         })
     );
 
     const crewIds = await Promise.all(
-      movieDetail.credits.crew
-        .map(async (crewMember) => {
-          const crew = await createCrew(crewMember, movie._id)
-          return crew._id;
-        })
+      movieDetail.credits.crew.map(async (crewMember) => {
+        const crew = await createCrew(crewMember, movie._id);
+        return crew._id;
+      })
     );
 
     const productionCompanyIds = await Promise.all(
       movieDetail.production_companies
-        .filter(productionCompany => productionCompany.logo_path)
-        .map(async productionCompanyItem => {
+        .filter((productionCompany) => productionCompany.logo_path)
+        .map(async (productionCompanyItem) => {
           const productionCompany = await createProductionCompany(
             productionCompanyItem.name,
             productionCompanyItem.logo_path,
             productionCompanyItem.origin_country
-          )
-          return productionCompany._id
+          );
+          return productionCompany._id;
         })
-    )
-    const credit = await createCredit(
-      castIds,
-      crewIds,
-      productionCompanyIds,
     );
+    const credit = await createCredit(castIds, crewIds, productionCompanyIds);
 
     const video = await createVideo(
       movieDetail.title,
       videoUrl,
       "Ophim17",
       "full-time",
-      trailerData.published_at,
+      trailerData.published_at
     );
 
     movie.credit = credit._id;
@@ -149,15 +147,15 @@ exports.generateMovieOphim = async (movieName, videoUrl) => {
       message: err.message,
     };
   }
-}
+};
 
 exports.generateMovieInfo = async (movieName, videoUrl) => {
-  const isSave = await Movie.find({ title: movieName })
+  const isSave = await Movie.find({ title: movieName });
   if (isSave.length != 0) {
     return {
       success: false,
       status: 400,
-      message: "The movie has already existed"
+      message: "The movie has already existed",
     };
   }
   try {
@@ -169,77 +167,75 @@ exports.generateMovieInfo = async (movieName, videoUrl) => {
         success: false,
         status: 404,
         message: "Not found",
-      }
+      };
     }
 
     const movieData = data.results[0];
     const movieDetail = await fetchFromTMDB(
       `https://api.themoviedb.org/3/movie/${movieData.id}?append_to_response=credits&language=en-US`
     );
-    const trailer = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`)
+    const trailer = await fetchFromTMDB(
+      `https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`
+    );
     if (trailer.results.length == 0) {
       return {
         success: false,
         status: 400,
-        message: "Trailer is not found, you might have to insert trailer manually!"
-      }
+        message:
+          "Trailer is not found, you might have to insert trailer manually!",
+      };
     }
-    const trailerData = trailer.results[0]
+    const trailerData = trailer.results[0];
     const trailerVideo = await createVideo(
       movieDetail.title,
       trailerData.key,
       trailerData.site,
       "Trailer",
-      trailerData.published_at,
-    )
+      trailerData.published_at
+    );
     const genreIds = await Promise.all(
       movieDetail.genres.map(async (genre) => {
-        let existingGenre = await createGenre(genre.name)
+        let existingGenre = await createGenre(genre.name);
         return existingGenre._id;
       })
     );
     const movie = await exports.createMovie(movieDetail, genreIds, null);
     const castIds = await Promise.all(
       movieDetail.credits.cast
-        .filter(castMember => castMember.profile_path)
+        .filter((castMember) => castMember.profile_path)
         .map(async (castMember) => {
-          const cast = await createCast(castMember, movie._id)
+          const cast = await createCast(castMember, movie._id);
           return cast._id;
         })
     );
 
     const crewIds = await Promise.all(
-      movieDetail.credits.crew
-        .map(async (crewMember) => {
-          const crew = await createCrew(crewMember, movie._id)
-          return crew._id;
-        })
+      movieDetail.credits.crew.map(async (crewMember) => {
+        const crew = await createCrew(crewMember, movie._id);
+        return crew._id;
+      })
     );
 
     const productionCompanyIds = await Promise.all(
       movieDetail.production_companies
-        .filter(productionCompany => productionCompany.logo_path)
-        .map(async productionCompanyItem => {
+        .filter((productionCompany) => productionCompany.logo_path)
+        .map(async (productionCompanyItem) => {
           const productionCompany = await createProductionCompany(
             productionCompanyItem.name,
             productionCompanyItem.logo_path,
             productionCompanyItem.origin_country
-          )
-          return productionCompany._id
+          );
+          return productionCompany._id;
         })
-    )
-    const credit = await createCredit(
-      castIds,
-      crewIds,
-      productionCompanyIds,
     );
+    const credit = await createCredit(castIds, crewIds, productionCompanyIds);
 
     const video = await createVideo(
       movieDetail.title,
       videoKey,
       "YouTube",
       "full-time",
-      trailerData.published_at,
+      trailerData.published_at
     );
 
     movie.credit = credit._id;
@@ -258,53 +254,57 @@ exports.generateMovieInfo = async (movieName, videoUrl) => {
       message: err.message,
     };
   }
-}
+};
 exports.findMovieByGenre = async (genreName) => {
   if (!genreName) {
-    return{
-      status:400,
-      success:false,
-      message:"No genre provided!"
-    }
+    return {
+      status: 400,
+      success: false,
+      message: "No genre provided!",
+    };
   }
-  const genre = await Genre.findOne({ name: { $regex: genreName, $options: 'i' } });
+  const genre = await Genre.findOne({
+    name: { $regex: genreName, $options: "i" },
+  });
   if (!genre) {
-    return{
-      status:404,
-      success:false,
-      message:"Genre not found!!"
-    }
+    return {
+      status: 404,
+      success: false,
+      message: "Genre not found!!",
+    };
   }
 
-  const movies = await Movie.find({ genres: { $in: [genre._id] } }).populate('genres');
+  const movies = await Movie.find({ genres: { $in: [genre._id] } });
   if (movies.length === 0) {
-    return{
-      status:404,
-      success:false,
-      message:"No movies founded for this genre!!"
-    }
+    return {
+      status: 404,
+      success: false,
+      message: "No movies founded for this genre!!",
+    };
   }
 
   return {
-    status:200,
-    success:true,
-    content:movies,
+    status: 200,
+    success: true,
+    content: movies,
   };
 };
 exports.deleteMovieById = async (movieId) => {
   try {
-    const movie = await Movie.findById(movieId).populate('credit videos');
+    const movie = await Movie.findById(movieId).populate("credit videos");
 
     if (!movie) {
       return {
         success: false,
         status: 400,
-        message: 'Movie not found'
+        message: "Movie not found",
       };
     }
 
     if (movie.credit) {
-      const credit = await Credit.findById(movie.credit._id).populate('casts crews');
+      const credit = await Credit.findById(movie.credit._id).populate(
+        "casts crews"
+      );
 
       if (credit) {
         await Cast.deleteMany({ _id: { $in: credit.casts } });
@@ -323,11 +323,10 @@ exports.deleteMovieById = async (movieId) => {
     return {
       success: true,
       status: 200,
-      message: 'Movie and associated data deleted successfully'
+      message: "Movie and associated data deleted successfully",
     };
-
   } catch (err) {
-    console.error('Error deleting movie:', err);
+    console.error("Error deleting movie:", err);
     return {
       success: false,
       status: 500,
@@ -338,7 +337,7 @@ exports.deleteMovieById = async (movieId) => {
 // Get all movies from the database
 exports.getAllMovie = async () => {
   try {
-    const movies = await Movie.find();
+    const movies = await Movie.find({}, overViewProjection);
     return movies;
   } catch (err) {
     console.error("Error fetching movies:", err.message);
@@ -347,27 +346,38 @@ exports.getAllMovie = async () => {
 };
 exports.fetchPopularMovies = async () => {
   try {
-    const popularMovies = await Movie.find().sort({ popularity: -1 }).limit(10)
-    return popularMovies
+    const popularMovies = await Movie.find({}, overViewProjection)
+      .sort({ popularity: -1 })
+      .limit(15);
+    return popularMovies;
   } catch (err) {
     console.error("Error fetching movies:", err.message);
     throw new Error("Failed to fetch popular movies");
   }
-
-}
+};
 
 exports.findMovieDetail = async (id) => {
   try {
-    let movie = await Movie.findById(id).populate({
-      path: 'credit', select: '-_id -__v',
-      populate: [
-        { path: 'casts', select: '-_id -__v', populate: { path: 'person_id', select: '-_id -_v' } },
-        { path: 'crews', select: '-_id -__v', populate: { path: 'person_id', select: '-_id -_v' } },
-        { path: 'production_companies', select: '-_id -__v' }
-      ]
-    })
-      .populate('genres', '-_id -__v')
-      .populate('videos', '-_id -__v')
+    let movie = await Movie.findById(id)
+      .populate({
+        path: "credit",
+        select: "-_id -__v",
+        populate: [
+          {
+            path: "casts",
+            select: "-_id -__v",
+            populate: { path: "person_id", select: "-_id -_v" },
+          },
+          {
+            path: "crews",
+            select: "-_id -__v",
+            populate: { path: "person_id", select: "-_id -_v" },
+          },
+          { path: "production_companies", select: "-_id -__v" },
+        ],
+      })
+      .populate("genres", "-_id -__v")
+      .populate("videos", "-_id -__v");
     if (movie) {
       movie.credit.casts = movie.credit.casts.map((cast) => {
         const { person_id, ...rest } = cast;
@@ -375,107 +385,126 @@ exports.findMovieDetail = async (id) => {
           ...rest,
           ...person_id,
         };
-      })
+      });
       movie.credit.crews = movie.credit.crews.map((crew) => {
         const { person_id, ...rest } = crew;
         return {
           ...rest,
           ...person_id,
         };
-      })
+      });
     }
-    return movie
+    return movie;
   } catch (err) {
     console.error("Error fetching movies:", err.message);
     throw new Error("Failed to fetch popular movies");
   }
-}
+};
 exports.rateMovie = async (id, rating, userId) => {
   if (rating < 0 || rating > 5) {
-    return ({
+    return {
       status: 400,
       success: false,
-      message: "Rating must be between 0 and 5"
-    })
+      message: "Rating must be between 0 and 5",
+    };
   }
 
   try {
-    const movie = await Movie.findById(id)
+    const movie = await Movie.findById(id);
     if (!movie) {
-      return ({
+      return {
         status: 404,
         success: false,
-        message: "Movie not found"
-      })
+        message: "Movie not found",
+      };
     }
-    const user = await User.findById(userId)
+    const user = await User.findById(userId);
     const existingRatingIndex = user.ratings.findIndex(
       (ratingEntry) => ratingEntry.movieId.toString() === id
     );
     if (existingRatingIndex >= 0) {
-      const oldRate = user.ratings[existingRatingIndex].rate
-      movie.ratingSum = movie.ratingSum - oldRate + rating
+      const oldRate = user.ratings[existingRatingIndex].rate;
+      movie.ratingSum = movie.ratingSum - oldRate + rating;
       user.ratings[existingRatingIndex].rate = rating;
     } else {
-      user.ratings.push({ movieId: movie._id, rate: rating })
-      movie.ratingSum += rating
-      movie.ratingCount++
+      user.ratings.push({ movieId: movie._id, rate: rating });
+      movie.ratingSum += rating;
+      movie.ratingCount++;
     }
-    await movie.save()
-    await user.save()
-    return ({
+    await movie.save();
+    await user.save();
+    return {
       success: true,
       status: 200,
       content: {
-        "averageRating": movie.averageRating,
-        "ratingCount": movie.ratingCount
+        averageRating: movie.averageRating,
+        ratingCount: movie.ratingCount,
       },
       message: `Rating updated for movie: ${movie.title}`,
-    });
+    };
   } catch (err) {
-    return ({
+    return {
       status: 500,
       success: false,
-      message: err.message
-    })
+      message: err.message,
+    };
   }
-}
+};
+exports.fetchTrendingMovie = async () => {
+  const currentTime = new Date().getTime();
+  const movies = await Movie.find({},overViewProjection).sort({ release_date: -1 }).limit(15);
+  lastUpdatedTime = currentTime;
+  return movies;
+
+};
+exports.fetchTopRatedMovies = async () => {
+  try {
+    const topRatedMovies = await Movie.find({}, overViewProjection)
+      .sort({ averageRating: -1 })
+      .limit(15);
+    return topRatedMovies;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
 exports.loveMovie = async (movieId, userId) => {
   try {
-    let message
-    const movie = await Movie.findById(movieId)
+    let message;
+    const movie = await Movie.findById(movieId);
     if (!movie) {
-      return ({
+      return {
         status: 404,
         success: false,
-        message: "Movie not found"
-      })
+        message: "Movie not found",
+      };
     }
-    const user = await User.findById(userId)
+    const user = await User.findById(userId);
     if (!user.favoriteMovies.includes(movie._id)) {
-      message = `You love ${movie.title}`
-      user.favoriteMovies.push(movie._id)
-      movie.favoriteCount++
+      message = `You love ${movie.title}`;
+      user.favoriteMovies.push(movie._id);
+      movie.favoriteCount++;
     } else {
-      message = `You unlove ${movie.title}`
-      user.favoriteMovies = user.favoriteMovies.filter((movId) => movId.toString() !== movie._id.toString())
-      movie.favoriteCount--
+      message = `You unlove ${movie.title}`;
+      user.favoriteMovies = user.favoriteMovies.filter(
+        (movId) => movId.toString() !== movie._id.toString()
+      );
+      movie.favoriteCount--;
     }
-    await movie.save()
-    await user.save()
+    await movie.save();
+    await user.save();
 
-    const { password, ...rest } = user._doc
-    return ({
+    const { password, ...rest } = user._doc;
+    return {
       status: 200,
       success: true,
       content: rest,
       message: message,
-    })
+    };
   } catch (err) {
-    return ({
+    return {
       status: 500,
       success: false,
-      message: err.message
-    })
+      message: err.message,
+    };
   }
-}
+};

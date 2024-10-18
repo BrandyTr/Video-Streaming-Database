@@ -2,26 +2,35 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useHistory
 import { Images, Card } from "../../commonPaths";
 import "./homepage.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { POSTER_BASE_URL } from "../../utils/constants";
 
 const Homepage = () => {
-  const navigate = useNavigate(); // Initialize navigate
-  const [contents, setContents] = useState([]); // Initialize state as an empty array
+  const navigate = useNavigate(); // Get the navigate function
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const response = await axios.get("/api/movie/popular");
-        setContents(response.data.content); // Update state with fetched data
-        console.log("Fetched data:", response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchContent();
-  }, []);
+  const content = [
+    {
+      title: "Jumanji",
+      description: "The next level",
+      image: Images.jumanji1,
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    },
+    {
+      title: "Jumanji 2",
+      description: "The next level 2",
+      image: Images.jumanji2,
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    },
+    {
+      title: "Avengers",
+      description: "Endgame",
+      image: Images.endgame,
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    },
+  ];
+
+  const handleCardClick = (videoUrl) => {
+    // Navigate to the video page with the video URL
+    navigate(`/watching?url=${encodeURIComponent(videoUrl)}`);
+  };
 
   return (
     <div className="content">
@@ -38,4 +47,5 @@ const Homepage = () => {
     </div>
   );
 };
+
 export default Homepage;

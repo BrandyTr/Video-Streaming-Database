@@ -12,4 +12,5 @@ router.post("/create",MovieController.generateMovies)
 router.post("/:id/favorite",protectRoute,MovieController.handleLoveMovie)
 router.get("/:id/details",MovieController.getMovieDetails)
 router.get("/:query/category", MovieController.getMoviesByCategory);
+router.get("/top-rated", MovieController.getTopRatedMovies)
 module.exports=router
