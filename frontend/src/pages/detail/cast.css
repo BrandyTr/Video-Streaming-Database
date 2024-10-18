@@ -1,0 +1,12 @@
+.frame {
+  width: 1440px;
+  height: 480px;
+  top: 544px;
+  gap: 0px;
+  opacity: 0px;
+}
+.Casts {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}

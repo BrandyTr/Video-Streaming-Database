@@ -1,8 +1,50 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Running the Application
 
-Currently, two official plugins are available:
+To run the application, you need to start both the frontend and backend servers. Follow the steps below:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Backend
+
+1. Open a terminal and navigate to the `BackEnd` directory:
+
+   ```sh
+   cd BackEnd
+   ```
+
+2. Install the dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Start the backend server:
+   ```sh
+   npm run start
+   ```
+
+### Frontend
+
+1. Open another terminal and navigate to the `frontend` directory:
+
+   ```sh
+   cd frontend
+   ```
+
+2. Install the dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Start the frontend development server:
+   ```sh
+   npm run dev
+   ```
+
+### Accessing the Application
+
+- The backend server will typically run on `http://localhost:3000` (or another port if configured differently).
+- The frontend development server will run on `http://localhost:5173` (or another port if configured differently).
+
+Make sure both servers are running simultaneously to ensure the application works correctly.

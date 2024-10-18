@@ -1,0 +1,84 @@
+.Container {
+  width: 1440px;
+  height: 636px;
+  gap: 0px;
+  opacity: 0px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  margin: 0 10px;
+  padding: 50px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+.poster {
+  width: 250px;
+  height: 350px;
+  top: 204px;
+  left: 100px;
+  border-radius: 20px;
+}
+.Info {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+.Buttons {
+  display: flex;
+  flex-direction: row;
+  top: 237px;
+  left: 500px;
+  gap: 10px;
+  opacity: 0px;
+}
+.score {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.box-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #ffaa00f7;
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  cursor: default; /* Prevents the cursor from changing to a pointer */
+}
+.rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 558px;
+  height: 39px;
+  text-align: center;
+}
+.genres {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+  text-align: center;
+}
+.genre {
+  background-color: #f0f0f0; /* Light grey background */
+  border-radius: 5px; /* Rounded corners */
+  padding: 20px; /* Padding inside the genre box */
+  font-size: 14px; /* Font size */
+  color: #333; /* Text color */
+  text-align: center;
+}
+.description {
+  width: 924px;
+  height: 60px;
+
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  text-align: left;
+}

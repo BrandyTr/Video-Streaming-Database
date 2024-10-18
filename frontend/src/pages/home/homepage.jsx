@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useHistory
-import { Images, Card } from "../../commonPaths";
+import { Card } from "../../commonPaths";
 import "./homepage.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { POSTER_BASE_URL } from "../../utils/constants";
+import { POSTER_BASE_URL } from "../../commonPaths";
 
 const Homepage = () => {
   const navigate = useNavigate(); // Initialize navigate

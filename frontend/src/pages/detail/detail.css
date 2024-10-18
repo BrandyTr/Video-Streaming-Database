@@ -1,0 +1,15 @@
+.container {
+  position: relative;
+  display: flex; /* Use Flexbox for layout */
+  flex-direction: column;
+  flex-wrap: wrap; /* Allow cards to wrap onto the next line */
+  justify-content: center; /* Center the cards horizontally */
+  padding: 20px;
+  top: 0; /* Padding around the content */
+}
+.h1 {
+  font-size: x-large;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}

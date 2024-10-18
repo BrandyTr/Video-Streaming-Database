@@ -29,7 +29,7 @@ const Card = ({ title, id, thumbnail, rating, views }) => {
   // Dependency array ensures this runs only when the id changes
   return (
     <div className="card">
-      <Link to={`/watching/${id}`}>
+      <Link to={`/detail/${id}`}>
         <img className="thumbnail" src={thumbnail} />
         <div className="overlay"></div>
         <div className="details">
