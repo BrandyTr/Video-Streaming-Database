@@ -18,7 +18,7 @@ const MovieSchema = new Schema({
 },opts);
 MovieSchema.virtual('averageRating').get(function () {
     if (this.ratingCount === 0) return 0;
-    return (this.ratingSum / this.ratingCount).toFixed(1);
+    return parseFloat((this.ratingSum / this.ratingCount).toFixed(1));
 });
 MovieSchema.virtual('popularity').get(function(){
     return 0.5 * this.view + 0.4 * parseFloat(this.averageRating) + 0.1 * this.favoriteCount;
