@@ -450,12 +450,51 @@ exports.rateMovie = async (id, rating, userId) => {
     };
   }
 };
+exports.testRateMovie = async (id, rating) => {
+  if (rating < 0 || rating > 5) {
+    return {
+      status: 400,
+      success: false,
+      message: "Rating must be between 0 and 5",
+    };
+  }
+
+  try {
+    const movie = await Movie.findById(id);
+    if (!movie) {
+      return {
+        status: 404,
+        success: false,
+        message: "Movie not found",
+      };
+    }
+    movie.ratingSum += rating;
+    movie.ratingCount++;
+    await movie.save();
+    return {
+      success: true,
+      status: 200,
+      content: {
+        averageRating: movie.averageRating,
+        ratingCount: movie.ratingCount,
+      },
+      message: `Rating updated for movie: ${movie.title}`,
+    };
+  } catch (err) {
+    return {
+      status: 500,
+      success: false,
+      message: err.message,
+    };
+  }
+};
 exports.fetchTrendingMovie = async () => {
   const currentTime = new Date().getTime();
-  const movies = await Movie.find({},overViewProjection).sort({ release_date: -1 }).limit(15);
+  const movies = await Movie.find({}, overViewProjection)
+    .sort({ release_date: -1 })
+    .limit(15);
   lastUpdatedTime = currentTime;
   return movies;
-
 };
 exports.fetchTopRatedMovies = async () => {
   try {
