@@ -14,7 +14,7 @@ const {
   testRateMovie,
 } = require("../services/movie.service");
 
-CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000; 
+CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
 
 
 class MovieController {
@@ -182,8 +182,8 @@ class MovieController {
 
     return res.status(result.status).json(response);
   }
-  async HandleTestRateMovie(req,res){
-    const id= req.params.id
+  async HandleTestRateMovie(req, res) {
+    const id = req.params.id
     const rating = req.body.rating;
     const result = await testRateMovie(id, rating);
     const response = {

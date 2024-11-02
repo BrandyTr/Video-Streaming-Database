@@ -401,11 +401,11 @@ exports.findMovieDetail = async (id) => {
   }
 };
 exports.rateMovie = async (id, rating, userId) => {
-  if (rating < 0 || rating > 5) {
+  if (rating < 0 || rating > 10) {
     return {
       status: 400,
       success: false,
-      message: "Rating must be between 0 and 5",
+      message: "Rating must be between 0 and 10",
     };
   }
 
@@ -451,11 +451,11 @@ exports.rateMovie = async (id, rating, userId) => {
   }
 };
 exports.testRateMovie = async (id, rating) => {
-  if (rating < 0 || rating > 5) {
+  if (rating < 0 || rating > 10) {
     return {
       status: 400,
       success: false,
-      message: "Rating must be between 0 and 5",
+      message: "Rating must be between 0 and 10",
     };
   }
 

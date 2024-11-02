@@ -8,7 +8,7 @@ const Watching = () => {
   const { id } = useParams(); //watching/:id
   const [testLink, setTestlink] = useState([]);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const getLink = async () => {
       try {
@@ -34,7 +34,7 @@ const Watching = () => {
     // Set a timer to count one view after 1 minutes
     const timer = setTimeout(() => {
       increaseViewCount(); // Increment the view count after 1 minutes
-    }, 1 * 60 * 1000); 
+    }, 1 * 60 * 1000);
 
     return () => clearTimeout(timer); // Clear the timer if people watch movie before 1 minutes
   }, []);
@@ -49,6 +49,10 @@ const Watching = () => {
     }
   };
 
+  // link to rate video page
+  const clickRateButton = () => {
+    navigate(`/movie/${id}/rate`);
+  };
 
   return (
     <div>
@@ -59,6 +63,7 @@ const Watching = () => {
       ) : (
         <p>No video available. Please select a video to watch.</p>
       )}
+      <button onClick={clickRateButton}>Rate this Movie</button>
     </div>
   );
 };

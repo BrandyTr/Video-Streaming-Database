@@ -4,6 +4,8 @@ import { Navbar, Footer } from "./commonPaths";
 import Homepage from "./pages/home/homepage";
 import Watching from "./pages/watching/watching";
 import Notfound from "./pages/notfound/notfound";
+import Rating from"./pages/detail/rateMovieFunct";
+
 
 // New
 import Header from "./components-main/header/Header";
@@ -27,6 +29,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/watching/:id" element={<Watching />} />
         <Route path="*" element={<Notfound />} />
+        <Route path="/movie/:id/rate" element={<Rating/>} />
       </Routes>
       <Footer />
     </Router>
