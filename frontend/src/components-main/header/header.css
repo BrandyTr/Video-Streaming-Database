@@ -71,6 +71,20 @@
     width: 100%;
 }
 
+/* Desktop screen */
+@media screen and (min-width: 1024px) and (max-width: 1700px) { 
+    .header_nav li {
+        font-size: 1.3rem;
+    }
+}
+
+/* Tablet screen */
+@media screen and (min-width: 600px) and (max-width: 1023px) { 
+    .header_nav li {
+        font-size: 1.2rem;
+    }
+}
+
 /* Mobile screen */
 @media screen and (min-width: 350px) and (max-width: 599px) { 
     .logo img {
@@ -87,5 +101,9 @@
 
     .header_nav > * ~ * {
         margin-left: 1.5rem;
+    }
+
+    .header_nav li {
+        font-size: 1rem;
     }
 }

@@ -1,20 +1,35 @@
-
 const Movie = require("../models/movie.model");
-const User = require("../models/user.model");
-const { getAllMovie, findMovieDetail, fetchPopularMovies, generateMovieInfo, deleteMovieById, rateMovie, loveMovie } = require("../services/movie.service");
+const Genre = require("../models/genre.model");
+const {
+  getAllMovie,
+  findMovieDetail,
+  fetchPopularMovies,
+  generateMovieInfo,
+  deleteMovieById,
+  rateMovie,
+  loveMovie,
+  findMovieByGenre,
+  fetchTopRatedMovies,
+  fetchTrendingMovie,
+  testRateMovie,
+} = require("../services/movie.service");
+
+CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
+
+
 class MovieController {
   async getAll(req, res) {
     try {
-      const movies = await getAllMovie()
+      const movies = await getAllMovie();
       res.json({
         success: true,
-        content: movies
-      })
+        content: movies,
+      });
     } catch (err) {
       res.json({
         success: false,
-        message: err.message
-      })
+        message: err.message,
+      });
     }
   }
   async generateMovies(req, res) {
@@ -28,11 +43,11 @@ class MovieController {
     const result = await generateMovieInfo(movieName, videoKey);
     res.status(result.status).json({
       success: result.success,
-      message: result.message
-    })
+      message: result.message,
+    });
   }
   async deleteMovie(req, res) {
-    const movieId = req.params.id
+    const movieId = req.params.id;
     const result = await deleteMovieById(movieId);
 
     return res.status(result.status).json({
@@ -40,113 +55,141 @@ class MovieController {
       message: result.message,
     });
   }
-  //todo
+
   async getTrendingMovie(req, res) {
     try {
-      // Lấy phim mới ra nha
-      const currentDate = new Date();
-      const last30Days = new Date();
-      last30Days.setDate(currentDate.getDate() - 30);
-
-      // Query
-      const TrendingMovies = await Movie.find({
-        release_date: { $gte: last30Days }
-      }).populate('genres').populate('videos');
-
-      // If no movie
-      if (TrendingMovies.length === 0) {
+      const trendingMovies = await fetchTrendingMovie();
+      if (trendingMovies.length === 0) {
         return res.status(404).json({
           success: false,
-          message: 'No trending movies found',
+          message: "No trending movies found",
         });
       }
+
+      return res.status(200).json({
+        success: true,
+        content: trendingMovies,
+      });
     } catch (err) {
-      console.error('Error fetching trending movies: ', err.message);
       return res.status(500).json({
         success: false,
-        message: 'Failed to fetch tredning movies'
+        message: err.message,
       });
     }
   }
 
-
   async getMovieDetails(req, res) {
-    const id = req.params.id
+    const id = req.params.id;
     try {
-      const movie = await findMovieDetail(id)
+      const movie = await findMovieDetail(id);
       if (!movie) {
         return res.status(404).json({
           success: false,
-          message: "Movie not found"
-        })
+          message: "Movie not found",
+        });
       }
       res.json({
         success: true,
-        content: movie
-      })
+        content: movie,
+      });
     } catch (err) {
       res.status(500).json({
         success: false,
-        message: err.message
-      })
+        message: err.message,
+      });
     }
   }
   async getTopRatedMovies(req, res) {
-
+    try {
+      const topRatedMovies = await fetchTopRatedMovies();
+      res.status(200).json({
+        success: true,
+        content: topRatedMovies,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
   }
 
   async getPopularMovies(req, res) {
     try {
-      const popularMovies = await fetchPopularMovies()
+      const popularMovies = await fetchPopularMovies();
       res.status(200).json({
         success: true,
-        content: popularMovies
-      })
+        content: popularMovies,
+      });
     } catch (err) {
       res.status(500).json({
         success: false,
-        message: err.message
-      })
+        message: err.message,
+      });
     }
   }
 
   async getMoviesByCategory(req, res) {
-
-    //todo
-  }
-  async viewMovie(req, res) {
-    const id = req.params.id
-    try {
-      const movie = await Movie.findById(id)
-      if (!movie) {
-        return res.status(404).json({
-          success: false,
-          message: "Movie not found"
-        })
-      }
-      movie.view += 1
-      await movie.save()
-      res.status(200).json({
-        success: true,
-        content: movie.view
-      })
-    } catch (err) {
-      res.status(500).json({
-        success: false,
-        message: err.message
-      })
-    }
-  }
-  async HandleRateMovie(req, res) {
-    const id = req.params.id
-    const rating = req.body.rating
-    const user = req.user
-    const result = await rateMovie(id, rating, user._id)
+    const genreName = req.params.query;
+    const result = await findMovieByGenre(genreName);
     const response = {
       success: result.success,
       message: result.message,
     };
 
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
+  }
+  async viewMovie(req, res) {
+    const id = req.params.id;
+    try {
+      const movie = await Movie.findById(id);
+      if (!movie) {
+        return res.status(404).json({
+          success: false,
+          message: "Movie not found",
+        });
+      }
+      movie.view += 1;
+      await movie.save();
+      res.status(200).json({
+        success: true,
+        content: movie.view,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+  async HandleRateMovie(req, res) {
+    const id = req.params.id;
+    const rating = req.body.rating;
+    const user = req.user;
+    const result = await rateMovie(id, rating, user._id);
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
+
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
+  }
+  async HandleTestRateMovie(req, res) {
+    const id = req.params.id
+    const rating = req.body.rating;
+    const result = await testRateMovie(id, rating);
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
     if (result.status === 200 && result.content) {
       response.content = result.content;
     }
@@ -154,8 +197,8 @@ class MovieController {
     return res.status(result.status).json(response);
   }
   async handleLoveMovie(req, res) {
-    const id = req.params.id
-    const result = await loveMovie(id, req.user._id)
+    const id = req.params.id;
+    const result = await loveMovie(id, req.user._id);
     const response = {
       success: result.success,
       message: result.message,
@@ -166,8 +209,6 @@ class MovieController {
     }
 
     return res.status(result.status).json(response);
-
   }
-
 }
-module.exports = new MovieController()
+module.exports = new MovieController();
