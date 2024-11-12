@@ -13,10 +13,10 @@ const Card = ({ title, id, thumbnail, rating, views }) => {
         const response = await axios.get(`/api/movie/${id}/details`);
         const fetchedGenres = response.data.content.genres; // Ensure this is the correct path
         setGenres(fetchedGenres); // Update state with fetched data
-        console.log("Fetched data:", response.data.content);
+        // console.log("Fetched data:", response.data.content);
         setAverageRating(response.data.content.averageRating); // Update with fetched averageRating
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       }
     };
 

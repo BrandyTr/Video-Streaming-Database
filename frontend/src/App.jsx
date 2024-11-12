@@ -9,6 +9,7 @@ import Rating from"./pages/detail/rateMovieFunct";
 
 // New
 import Header from "./components-main/header/Header";
+import HomePage_Main from "./pages/home/HomePage-main";
 
 // icon
 import ReactDOM from 'react-dom'
@@ -23,10 +24,10 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <Header></Header>
       {/* <Navbar /> */}
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        {/* <Route path="/" element={<Homepage />} /> */}
+        <Route path="/" element={<HomePage_Main />} />
         <Route path="/watching/:id" element={<Watching />} />
         <Route path="*" element={<Notfound />} />
         <Route path="/movie/:id/rate" element={<Rating/>} />

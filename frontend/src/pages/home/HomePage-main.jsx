@@ -1,10 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useHistory
 import { Card, POSTER_BASE_URL } from "../../commonPaths";
-import "./homepage.css";
+// import "./homepage.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Header from "../../components-main/header/Header";
+import HeroSlide from "../../components-main/hero-slide/HeroSlide";
 
 const HomePage_Main = () => {
   const navigate = useNavigate(); // Initialize navigate
@@ -15,9 +16,9 @@ const HomePage_Main = () => {
       try {
         const response = await axios.get("/api/movie/popular");
         setContents(response.data.content); // Update state with fetched data
-        console.log("Fetched data:", response.data);
+        // console.log("Fetched data:", response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       }
     };
     fetchContent();
@@ -30,8 +31,8 @@ const HomePage_Main = () => {
         <Header />
       </div>
       {/* Hero-slide */}
-
-      <div className="container">
+      <HeroSlide></HeroSlide>
+      {/* <div className="container">
         <div className="section mb-3"></div>
         <div className="content">
           {contents.map((movie, index) => (
@@ -45,7 +46,7 @@ const HomePage_Main = () => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

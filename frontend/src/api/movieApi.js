@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export const movieType = {
     trending: 'trending',
     popular: 'popular',
@@ -7,9 +8,9 @@ export const movieType = {
 
 const movieApi = {
 
-    getMoviesList: (type) => {
+    getMoviesList: (type, params) => {
         const url = `/api/movie/${movieType[type]}`;
-        return axios.get(url);
+        return axios.get(url, { params: params });
     },
 
 
@@ -19,7 +20,7 @@ const movieApi = {
     },
     getMoviesByCategory: (cate) => {
         const url =  `/api/movie/${cate}/details`;
-        return axios.get(url);
+        return axios.get(url, { params: params });
     },
 
     searchMovie: ( movieName) => {
