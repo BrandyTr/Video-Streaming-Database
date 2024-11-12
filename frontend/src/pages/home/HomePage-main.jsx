@@ -4,8 +4,13 @@ import { Card, POSTER_BASE_URL } from "../../commonPaths";
 // import "./homepage.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+
+
 import Header from "../../components-main/header/Header";
 import HeroSlide from "../../components-main/hero-slide/HeroSlide";
+import MovieCard from "../../components-main/movie-card/MovieCard";
+import MovieList from "../../components-main/movie-list/MovieList";
+import { movieType } from "../../api/movieApi";
 
 const HomePage_Main = () => {
   const navigate = useNavigate(); // Initialize navigate
@@ -16,9 +21,9 @@ const HomePage_Main = () => {
       try {
         const response = await axios.get("/api/movie/popular");
         setContents(response.data.content); // Update state with fetched data
-        // console.log("Fetched data:", response.data);
+        console.log("HIIIIIIIIII");
       } catch (error) {
-        // console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchContent();
@@ -32,21 +37,13 @@ const HomePage_Main = () => {
       </div>
       {/* Hero-slide */}
       <HeroSlide></HeroSlide>
-      {/* <div className="container">
+      <div className="container">
         <div className="section mb-3"></div>
-        <div className="content">
-          {contents.map((movie, index) => (
-            <Card
-              key={movie.index}
-              id={movie.id}
-              title={movie.title}
-              rating={movie.ratingCount}
-              views={movie.view}
-              thumbnail={POSTER_BASE_URL + movie.poster_path}
-            />
-          ))}
-        </div>
-      </div> */}
+          <div className="section_header mb-2">
+            <h2>Trending Movies</h2>
+          </div>
+        <MovieList type={movieType.trending}></MovieList>
+      </div>
     </div>
   );
 };

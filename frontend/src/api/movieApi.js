@@ -18,6 +18,7 @@ const movieApi = {
         const url =  `/api/movie/${id}/details`;
         return axios.get(url);
     },
+    
     getMoviesByCategory: (cate) => {
         const url =  `/api/movie/${cate}/details`;
         return axios.get(url, { params: params });

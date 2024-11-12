@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 // Swiper: create carousel (slide show images or content)
 import SwiperCore from 'swiper';
+import 'swiper/css'
 
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -12,7 +13,7 @@ import './hero-slide.css';
 
 import movieApi, {movieType} from '../../api/movieApi';
 import axios from 'axios';
-import { image_API } from "../../commonPaths";
+import { image_API } from "../../api/apiConfig";
 import Button, {OutlineButton} from "../button/Button";
 
 const HeroSlide = () => {
@@ -39,12 +40,12 @@ const HeroSlide = () => {
 
                 // Đảm bảo rằng `movieItems` chỉ được gán khi có dữ liệu
                 if (response && response.data.content) {
-                    console.log("hi")
+                    // console.log("hi")
                     setMovieItems(shuffleArrayMovie(response.data.content).slice(0, 8));
-                    console.log(response);
-                    console.log("movieItems are: ")
-                    console.log(movieItems)
-                    console.log("END")
+                    // console.log(response);
+                    // console.log("movieItems are: ")
+                    // console.log(movieItems)
+                    // console.log("END")
 
                 } else {
                     console.log("No movies found in the response.")
@@ -74,9 +75,9 @@ const HeroSlide = () => {
             >
                 {
                 movieItems.map((movie, index) => {
-                    console.log("movie is: ")
-                    console.log(movie.title)
-                    console.log(image_API.originalImage(movie.backdrop_path))
+                    // console.log("movie is: ")
+                    // console.log(movie.title)
+                    // console.log(image_API.originalImage(movie.backdrop_path))
 
                     return (
                         <SwiperSlide key={index}>
@@ -113,12 +114,12 @@ const HeroSlideItem = props => {
                     <h2 className="title">{item.title}</h2>
                     <p className="overview">{item.overview}</p>
                     <div className="btns">
-                        {/* <Button onClick={() => navigate('/movie/' + item.id)}>
+                        <Button onClick={() => navigate('/movie/' + item.id)}>
                             Watch Now
                         </Button>
                         <OutlineButton onClick={() => console.log('Trailer')}>
                             Trailer
-                        </OutlineButton> */}
+                        </OutlineButton>
                     </div>
                 </div>
                 {/* POSTER */}
