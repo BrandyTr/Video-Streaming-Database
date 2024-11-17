@@ -1,7 +1,6 @@
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./header.css";
 
 const headerNav = [
@@ -9,59 +8,109 @@ const headerNav = [
         display: "Movies",
         path: "/",
     },
-    {
-        display: <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />,
-        path: "/movie",
-    },
-]
+];
 
 const Header = () => {
-    // save the current location
     const { pathname } = useLocation();
-    const headerRef = useRef(null); // save in ref HTML element
+    const headerRef = useRef(null);
 
-    const active = headerNav.findIndex( e => e.path === pathname);
+    const [showSearch, setShowSearch] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [movies, setMovies] = useState([]);
 
-    useEffect(()=> {
-        // shrink: thu nhỏ header khi cuộn chuột
-        // scroll: cuộn trang
-        const shinkHeader = () => {
-            // document.documentElement: chỉ đến thẻ html
-            if(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    const active = headerNav.findIndex(e => e.path === pathname);
+
+    useEffect(() => {
+        const shrinkHeader = () => {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
                 headerRef.current.classList.add("shrink");
             } else {
                 headerRef.current.classList.remove("shrink");
             }
-        }
-        window.addEventListener("scroll", shinkHeader);
+        };
+        window.addEventListener("scroll", shrinkHeader);
         return () => {
-            window.removeEventListener("scroll", shinkHeader);
+            window.removeEventListener("scroll", shrinkHeader);
+        };
+    }, []);
+
+    const handleSearch = async () => {
+        try {
+            const response = await fetch(`https://api.example.com/movies?query=${searchTerm}`);
+            const data = await response.json();
+            setMovies(data.results);
+        } catch (error) {
+            console.error('Error fetching movies:', error);
         }
-    }, []) // run when component did mount
+    };
+
 
 
     return (
         <div ref={headerRef} className="header">
             <div className="header_wrap container">
-                {/* LOGO */}
+                {/* Logo */}
                 <div className="logo">
-                    {/* Link: CSR: không cần làm mới lại trang khi render */}
-                    <Link to="/">tMovies</Link> 
+                    <Link to="/">tMovies</Link>
                 </div>
 
-                {/* NAVIGATION */}
+                {/* Navigation and Search */}
                 <ul className="header_nav">
-                    {
-                        headerNav.map((item, index) => (
-                            <li key={index} className={`${index === active ? 'active' : ''}`}>
-                                <Link to={item.path}>{item.display}</Link>
-                            </li>
-                        ))
-                    }
+                    {headerNav.map((item, index) => (
+                        <li key={index} className={`${index === active ? 'active' : ''}`}>
+                            <Link to={item.path}>{item.display}</Link>
+                        </li>
+                    ))}
+
+                    {/* Search Icon or Search Bar */}
+                    <li>
+                        <FontAwesomeIcon
+                            icon="fa-solid fa-magnifying-glass"
+                            className="search-icon"
+                            onClick={() => setShowSearch(true)}
+                        />
+                    </li>
                 </ul>
             </div>
+
+            {/* Modal Search Overlay */}
+            {showSearch && (
+                <div className="search-modal">
+                    <div className="search-modal-overlay" onClick={() => setShowSearch(false)}></div>
+                    <div className="search-modal-content">
+                        <div className="header_wrap container">
+                            {/* Logo */}
+                            <div className="logo">
+                                <Link to="/">tMovies</Link>
+                            </div>
+
+                            <div className="search-container">
+                                <input
+                                    type="text"
+                                    placeholder="Search Movie"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="search-input"
+                                />
+                                <button onClick={handleSearch} className="search-btn">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Movie Results */}
+            <div className="movie-results">
+                {movies.map((movie) => (
+                    <div key={movie.id} className="movie-item">
+                        <h3>{movie.title}</h3>
+                        <p>{movie.overview}</p>
+                    </div>
+                ))}
+            </div>
         </div>
-    )
-}
+    );
+};
 
 export default Header;

@@ -10,6 +10,8 @@
     --background-color-white-30: rgba(255, 255, 255, 0.3);
     --background-color-black-50: rgba(0, 0, 0, 0.5);
     --background-color-black-100: rgb(0, 0, 0);
+    --background-color--nearly-black-60: rgba(33, 32, 30, 0.6);
+
 
     /* EFFECT */
     --effect-video-shadow: 0px 4px 17px rgba(0, 0, 0, 0.5);
