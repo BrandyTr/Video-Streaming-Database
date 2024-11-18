@@ -56,22 +56,16 @@ const Watching = () => {
 
   return (
     <div>
-      <h1>Video Player</h1>
-      {videoUrl ? (
+      {testLink ? (
         <div className="video-container">
-          <iframe
-            src={videoUrl.replace("watch?v=", "embed/")}
-            title="Video Player"
-            allowFullScreen
-          />
+          <iframe src={testLink} title="Video Player" allowFullScreen />
         </div>
-      
       ) : (
         <p>No video available. Please select a video to watch.</p>
       )}
       <button onClick={clickRateButton}>Rate this Movie</button>
     </div>
   );
-}
+};
 
 export default Watching;
