@@ -411,13 +411,18 @@ exports.rateMovie = async (id, rating, userId) => {
 
   try {
     const movie = await Movie.findById(id);
+    const movie = await Movie.findById(id);
     if (!movie) {
+      return {
       return {
         status: 404,
         success: false,
         message: "Movie not found",
       };
+        message: "Movie not found",
+      };
     }
+    const user = await User.findById(userId);
     const user = await User.findById(userId);
     const existingRatingIndex = user.ratings.findIndex(
       (ratingEntry) => ratingEntry.movieId.toString() === id
@@ -425,8 +430,13 @@ exports.rateMovie = async (id, rating, userId) => {
     if (existingRatingIndex >= 0) {
       const oldRate = user.ratings[existingRatingIndex].rate;
       movie.ratingSum = movie.ratingSum - oldRate + rating;
+      const oldRate = user.ratings[existingRatingIndex].rate;
+      movie.ratingSum = movie.ratingSum - oldRate + rating;
       user.ratings[existingRatingIndex].rate = rating;
     } else {
+      user.ratings.push({ movieId: movie._id, rate: rating });
+      movie.ratingSum += rating;
+      movie.ratingCount++;
       user.ratings.push({ movieId: movie._id, rate: rating });
       movie.ratingSum += rating;
       movie.ratingCount++;

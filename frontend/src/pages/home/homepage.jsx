@@ -1,7 +1,9 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useHistory
-import { Images, Card } from '../../commonPaths';
-import './homepage.css';
+import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useHistory
+import { Card, POSTER_BASE_URL } from "../../commonPaths";
+import "./homepage.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Homepage = () => {
   const navigate = useNavigate(); // Get the navigate function
@@ -33,18 +35,19 @@ const Homepage = () => {
   };
 
   return (
-    <div className='content'>
-      {content.map((item, index) => (
-        <Card 
-          key={index}
-          title={item.title} 
-          description={item.description} 
-          thumbnail={item.image} 
-          onClick={() => handleCardClick(item.videoUrl)} // Handle card click
+    <div className="content">
+      {contents.map((movie, index) => (
+        <Card
+          key={movie.index}
+          id={movie.id}
+          title={movie.title}
+          rating={movie.ratingCount}
+          views={movie.view}
+          thumbnail={POSTER_BASE_URL + movie.poster_path}
         />
       ))}
     </div>
   );
-}
+};
 
 export default Homepage;
