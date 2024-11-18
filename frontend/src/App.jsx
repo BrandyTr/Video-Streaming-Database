@@ -8,6 +8,7 @@ import { Navigate } from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab  } from '@fortawesome/free-brands-svg-icons'
+import Watching from "./pages/watching/watching";
 
 library.add(fas, fab);
 
@@ -39,8 +40,8 @@ function App() {
         {/* <Route path="/" element={<Homepage />} /> */}
         <Route path="/" element={<HomeScreenCheck />} />
         <Route path='/login' element={ !user ? <LoginPage /> : <Navigate to={"/"} />}></Route>
-        <Route path='/signup' element={<SignUpPage/>}></Route>
-        <Route path="/watching/:id" element={!user ? <SignUpPage /> : <Navigate to={"/"} />} />
+        <Route path='/signup' element={!user ? <SignUpPage /> : <Navigate to={"/"} />}></Route>
+        <Route path="/watching/:id" element={<Watching/>} />
         <Route path="*" element={<Notfound />} />
         <Route path="/movie/:id/rate" element={<Rating/>} />
       </Routes>
