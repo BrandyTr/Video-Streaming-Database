@@ -25,10 +25,15 @@
 .Buttons {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: 19px;
+
+  left: 414px;
   top: 237px;
-  left: 500px;
-  gap: 10px;
-  opacity: 0px;
+}
+.heart {
+  background-color: aqua;
+  color: white;
 }
 .score {
   display: flex;

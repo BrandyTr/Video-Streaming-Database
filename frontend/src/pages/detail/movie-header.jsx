@@ -2,7 +2,7 @@ import React from "react";
 import "./movie-header.css";
 import { Link, useParams } from "react-router-dom";
 import { POSTER_BASE_URL } from "../../commonPaths";
-
+import { FaHeart } from "react-icons/fa";
 const DetailHeader = ({ movie, credit }) => {
   const id = movie.id;
   const genres = movie.genres ? movie.genres.map((genre) => genre.name) : [];
@@ -22,7 +22,9 @@ const DetailHeader = ({ movie, credit }) => {
             <button>Watch Now</button>
           </Link>
           <button>Trailer</button>
-          <button>Love</button>
+          <button className="heart">
+            <FaHeart />
+          </button>
         </div>
         <div className="score">
           <div className="box-button">
