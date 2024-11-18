@@ -2,7 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./header.css";
-
+import { LogOut } from "lucide-react";
+import { useAuth } from "../../Context/authContext";
 const headerNav = [
     {
         display: "Movies",
@@ -43,6 +44,7 @@ const Header = () => {
             console.error('Error fetching movies:', error);
         }
     };
+    const {logout}=useAuth()
 
 
 
@@ -53,9 +55,9 @@ const Header = () => {
                 <div className="logo">
                     <Link to="/">tMovies</Link>
                 </div>
-
                 {/* Navigation and Search */}
                 <ul className="header_nav">
+                    <LogOut className="cursor-pointer" onClick={logout}/>
                     {headerNav.map((item, index) => (
                         <li key={index} className={`${index === active ? 'active' : ''}`}>
                             <Link to={item.path}>{item.display}</Link>
