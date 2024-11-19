@@ -1,4 +1,7 @@
 @import url('./css/index.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
   margin: 0;
@@ -60,4 +63,21 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.hero-bg{
+  background-image:linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.1)),url("hero.png") !important;
+}
+@keyframes shimmer {
+  0%{
+    background-position: -1000px 0;
+  }
+  100%{
+    background-position: 1000px 0;
+  }
+}
+.shimmer{
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #2c2c2c 4%, #333 25%, #2c2c2c 36%);
+  background-size: 1000px 100%
 }
