@@ -14,8 +14,7 @@ library.add(fas, fab);
 
 import "./App.css";
 import HomeScreenCheck from "./pages/home/HomeScreenCheck";
-import LoginPage from "./pages/auth/login/login";
-import SignUpPage from "./pages/auth/signup/signup";
+import Logitech from "./pages/auth/login/logitech";
 import { Loader } from "lucide-react"
 import { useAuth } from "./Context/authContext";
 function App() {
@@ -39,8 +38,7 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<Homepage />} /> */}
         <Route path="/" element={<HomeScreenCheck />} />
-        <Route path='/login' element={ !user ? <LoginPage /> : <Navigate to={"/"} />}></Route>
-        <Route path='/signup' element={!user ? <SignUpPage /> : <Navigate to={"/"} />}></Route>
+        <Route path='/login' element={ !user ? <Logitech /> : <Navigate to={"/"} />}></Route>
         <Route path="/watching/:id" element={<Watching/>} />
         <Route path="*" element={<Notfound />} />
         <Route path="/movie/:id/rate" element={<Rating/>} />
