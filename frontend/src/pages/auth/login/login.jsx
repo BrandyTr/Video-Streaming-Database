@@ -68,7 +68,9 @@ const LoginPage = () => {
           >
             Sign in with Google
           </button> */}
-            <div className="flex justify-center">
+            <div className="flex flex-col items-center justify-center">
+            {/* <button className='w-full py-2 bg-white text-first-blue font-light rounded-md 
+                        hover:bg-second-blue hover:text-white'>Sign in with Google</button> */}
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
                   const decoded= jwtDecode(credentialResponse.credential)
