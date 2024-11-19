@@ -1,21 +1,18 @@
-import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useHistory
-import { Card, POSTER_BASE_URL } from "../../commonPaths";
+
 // import "./homepage.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
 import Header from "../../components-main/header/Header";
 import HeroSlide from "../../components-main/hero-slide/HeroSlide";
-import MovieCard from "../../components-main/movie-card/MovieCard";
 import MovieList from "../../components-main/movie-list/MovieList";
 import { movieType } from "../../api/movieApi";
+import { useAuth } from "../../Context/authContext";
 
 const HomePage_Main = () => {
   const navigate = useNavigate(); // Initialize navigate
   const [contents, setContents] = useState([]); // Initialize state as an empty array
-
   useEffect(() => {
     const fetchContent = async () => {
       try {
@@ -28,7 +25,15 @@ const HomePage_Main = () => {
     };
     fetchContent();
   }, []);
-
+  if (!contents)
+    return (
+      <div className="h-screen text-white relatvie">
+        <div className="container">
+          <Header />
+        </div>
+        <div className="absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer"></div>
+      </div>
+    );
   return (
     <div>
       {/* Header */}
@@ -39,9 +44,9 @@ const HomePage_Main = () => {
       <HeroSlide></HeroSlide>
       <div className="container">
         <div className="section mb-3"></div>
-          <div className="section_header mb-2">
-            <h2>Trending Movies</h2>
-          </div>
+        <div className="section_header mb-2">
+          <h2>Trending Movies</h2>
+        </div>
         <MovieList type={movieType.trending}></MovieList>
       </div>
     </div>

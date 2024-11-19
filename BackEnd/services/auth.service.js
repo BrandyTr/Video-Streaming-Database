@@ -1,7 +1,7 @@
 const bcryptjs = require("bcryptjs");
-const User = require('../models/user.model');
+const User = require("../models/user.model");
 
-exports.signup = async ( email, password, username ) => {
+exports.signup = async (email, password, username) => {
   if (!email || !password || !username) {
     throw new Error("All fields are required!");
   }
@@ -43,23 +43,41 @@ exports.signup = async ( email, password, username ) => {
   return newUser;
 };
 
-exports.login = async ( email, password ) => {
-  if (!email || !password) {
-    throw new Error("All fields are required!");
+exports.login = async (email, password, username, image, isGoogleLogin) => {
+  if (isGoogleLogin) {
+    // Google login flow
+    if (!email || !username) {
+      throw new Error("Invalid Google login data");
+    }
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        email,
+        username,
+        image,
+        isGoogleAccount: true,
+      });
+    }
+
+    return user;
+  } else {
+    if (!email || !password) {
+      throw new Error("All fields are required!");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("Invalid credentials");
+    }
+
+    const isCorrect = await bcryptjs.compare(password, user.password);
+    if (!isCorrect) {
+      throw new Error("Invalid credentials");
+    }
+
+    return user;
   }
-
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw new Error("Invalid credentials");
-  }
-
-  const isCorrect = await bcryptjs.compare(password, user.password);
-  if (!isCorrect) {
-    throw new Error("Invalid credentials");
-  }
-
-
-  return user;
 };
 
 exports.logout = (res) => {
