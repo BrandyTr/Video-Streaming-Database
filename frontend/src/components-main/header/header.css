@@ -126,10 +126,17 @@
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 4px;
+    height: 40px;
 }
 
 .search-btn:hover {
     background-color: #e4b507;
+}
+
+.search-container {
+    display: flex;
+    align-items: center; 
+    gap: 10px; /* Add spacing between elements */
 }
 
 /* Movie Results */
@@ -180,4 +187,18 @@
     .header_nav li {
         font-size: 1rem;
     }
+}
+
+.filter-btn {
+    background-color: #fff;
+    color: #007bff;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
