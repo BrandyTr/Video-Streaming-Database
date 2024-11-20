@@ -6,13 +6,13 @@ const AuthScreen = () => {
   const navigate=useNavigate()
   const handleFormSubmit=(e)=>{
     e.preventDefault()
-    navigate("/signup?email="+email)
+    navigate("/login?email="+email)
   }
   return (
     <div className='hero-bg relative'>
       <header className='max-w-6xl mx-auto flex items-center justify-between p-5 pb-10'>
         {/* <img className='w-32 md:w-52' src="/netflix-logo.png" alt="Netflix logo" /> */}
-        <div className="tMovie text-2xl">tMovie</div>
+        <div className="tMovie text-2xl">cineStream</div>
         <Link to={"/login"} className='text-white bg-first-blue py-1 px-2 rounded 
         hover:text-first-blue hover:bg-white'>
           Sign in
