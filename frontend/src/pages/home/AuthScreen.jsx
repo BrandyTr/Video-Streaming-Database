@@ -13,7 +13,8 @@ const AuthScreen = () => {
       <header className='max-w-6xl mx-auto flex items-center justify-between p-5 pb-10'>
         {/* <img className='w-32 md:w-52' src="/netflix-logo.png" alt="Netflix logo" /> */}
         <div className="tMovie text-2xl">tMovie</div>
-        <Link to={"/login"} className='text-white bg-first-blue py-1 px-2 rounded'>
+        <Link to={"/login"} className='text-white bg-first-blue py-1 px-2 rounded 
+        hover:text-first-blue hover:bg-white'>
           Sign in
         </Link>
       </header>
