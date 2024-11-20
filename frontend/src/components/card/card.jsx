@@ -14,7 +14,8 @@ const Card = ({ title, id, thumbnail, rating, views }) => {
         const fetchedGenres = response.data.content.genres; // Ensure this is the correct path
         setGenres(fetchedGenres); // Update state with fetched data
         // console.log("Fetched data:", response.data.content);
-        setAverageRating(response.data.content.averageRating); // Update with fetched averageRating
+        setAverageRating(response.data.content); // Update with fetched averageRating
+        console.log(averageRating);
       } catch (error) {
         // console.error("Error fetching data:", error);
       }
@@ -38,10 +39,7 @@ const Card = ({ title, id, thumbnail, rating, views }) => {
         <div className="details">
           <h1>{title}</h1>
           <div className="rate">
-            <h2>
-              Ratings:{" "}
-              {averageRating !== null ? averageRating.toFixed(1) : "N/A"}
-            </h2>
+            <h2>Ratings: </h2>
           </div>
           <div className="view">
             <h2>Views: {views}</h2>

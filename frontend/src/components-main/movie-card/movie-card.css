@@ -1,92 +1,152 @@
-@import url('../../css/index.css');
+@import url("../../css/index.css");
 
 .movie-card {
-    position: relative;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: var(--radius-20-video);
-    box-shadow: var(--effect-video-poster-shadow);
-    /* padding-top: 50%; */
-    width: 100%;
-    height: calc(80px + 4vw);
-    overflow: hidden;
-    transition: all 0.3s ease-in-out; /* Thêm transition để thay đổi khi hover */
+  position: relative;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: var(--radius-20-video);
+  box-shadow: var(--effect-video-poster-shadow);
+  /* padding-top: 50%; */
+  width: 100%;
+  height: calc(80px + 4vw);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  transition: all 0.3s ease-in-out; /* Thêm transition để thay đổi khi hover */
 }
 
 .movie-card:hover {
-    transform: scale(1.1);
-    height: calc(100px + 4.5vw);
-    border-radius: var(--radius-20-video);
-    z-index: 1;
+  transform: scale(1.1);
+  height: calc(100px + 4.5vw);
+  border-radius: var(--radius-20-video);
+  z-index: 1;
 }
 
 .movie-card .btn {
-    position: absolute;
-    padding: 5px 10px;
-    border-radius: var(--radius-8);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: absolute;
+  padding: 5px 10px;
+  border-radius: var(--radius-8);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .title-box-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: var(--background-color-white-30);
-    backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    /* align-items: center; */
-    justify-content: center;
-    flex-wrap: wrap;
-    height: calc(25px + 0.5vw);
-    transition: all 0.3s ease;
-    margin: 0;
-    padding: 0;
+  order: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--background-color-white-30);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+
+  height: calc(25px + 0.5vw);
+  transition: all 0.3s ease;
+  margin: 0;
+  padding: 0;
 }
 
 .movie-card:hover .title-box-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: calc(50px + 0.5vw);
-    background-color: var(--background-color-black-100);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0px;
+  height: calc(50px + 0.5vw);
+  background-color: var(--background-color-black-100);
 }
-
 
 .title-box-wrapper h3 {
-    padding-left: 15px;
-    font-size: calc(10px + 0.2vw);
-    /* line-height: calc(10px + 0.4vw); */
-    font-weight: 600;
-    margin: 0;
-    color: var(--color-accent-1-1st-white);
+  padding-left: 15px;
+  font-size: calc(10px + 0.2vw);
+  /* line-height: calc(10px + 0.4vw); */
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-accent-1-1st-white);
 }
 
-.movie-card:hover .title-box-wrapper h3, 
+.movie-card:hover .title-box-wrapper h3,
 .movie-card:hover .title-box-wrapper p {
-    color: var(--color-accent-1-1st-white);
+  color: var(--color-accent-1-1st-white);
 }
 .movie-info-hover {
-    display: none;
-    opacity: 0;
-    font-size: calc(8px + 0.2vw);
-    /* text-align: center; */
-    text-align: left;
-    padding-left: 15px;
-    font-weight: 300;
+  display: none;
+  opacity: 0;
+  font-size: calc(8px + 0.2vw);
+  /* text-align: center; */
+  text-align: left;
+  padding-left: 15px;
+  font-weight: 300;
+  gap: 20px;
 }
 
 .movie-card:hover .movie-info-hover {
-    opacity: 1;
-    display: flex;
+  opacity: 1;
+  display: flex;
 }
 
 .movie-card:hover .btn {
-    transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+}
+.movie-rating {
+  order: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.movie-rating-box {
+  /* Text color  */
+  color: #000000;
+  font-size: 9px;
+  /* Auto layout */
+  justify-content: center;
+  padding: 0px 10px;
+  gap: 10px;
+
+  position: absolute;
+  width: 32px;
+  height: 17px;
+  bottom: calc(10px + 2.5vh);
+  right: 5px;
+  background: #ffa539;
+  border-radius: 5px;
+  z-index: 10;
+}
+.movie-card:hover .movie-rating-box {
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+.rating-box-hover {
+  /* Frame 222 */
+
+  /* Frame 224 */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0px 10px;
+  gap: 10px;
+
+  width: 59px;
+  height: 19px;
+  background: #ffa539;
+  border-radius: 5px;
+  top: 0px;
+
+  /* Inside auto layout */
+}
+.rating-box-hover p {
+  /* Text color  */
+  color: black !important;
+  font-size: 9px;
+  font-weight: 300;
 }
