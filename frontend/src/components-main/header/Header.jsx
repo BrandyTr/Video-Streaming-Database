@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
+import Dropdown from "../search/DropDown.jsx";
+
 import { LogOut } from "lucide-react";
 import { useAuth } from "../../Context/authContext";
 import movieApi from "../../api/movieApi";
@@ -13,10 +15,13 @@ const headerNav = [
 ];
 
 const Header = () => {
-  let movies = [];
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const headerRef = useRef(null);
+
+  const [movies, setMovies] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedGenres, setSelectedGenres] = useState([]);
 
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,22 +44,48 @@ const Header = () => {
     };
   }, []);
 
-  // const handleSearch = () => {
-  //   try {
-  //     const response = movieApi
-  //       .searchMovie(searchTerm)
-  //       .then((response) => response.data.content);
-  //     //to be updated if the response include movie filter
-  //     if (response) {
-  //       movies = response;
-  //       // console.log(response);
-  //       console.log(movies);
-  //       navigate(`/search/${movies}`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching movies:", error);
-  //   }
-  // };
+  {
+    /* đoạn này đang sai*/
+  }
+  const genres = [
+    "Action",
+    "Adventure",
+    "Animation",
+    "Comedy",
+    "Crime",
+    "Documentary",
+    "Drama",
+    "Fantasy",
+    "History",
+    "Horror",
+    "Musical",
+    "Mystery",
+    "Romance",
+    "Science Fiction",
+    "Thriller",
+    "War",
+    "Western",
+  ];
+
+  const handleGenreSelect = (genre) => {
+    if (selectedGenres.includes(genre)) {
+      setSelectedGenres(selectedGenres.filter((g) => g !== genre));
+    } else if (selectedGenres.length < 3) {
+      setSelectedGenres([...selectedGenres, genre]);
+    } else {
+      console.log("Cannot select more than 3 genres!");
+    }
+  };
+
+  const handleFilter = async () => {
+    try {
+      const response = movieApi.getMoviesByCategory(selectedGenres.join(","));
+      console.log(response);
+      //   setMovies(response.data.content);
+    } catch (error) {
+      console.error("Error fetching movies by genre:", error);
+    }
+  };
   const { logout } = useAuth();
 
   return (
@@ -106,6 +137,16 @@ const Header = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input"
                 />
+
+                {/* filter button */}
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="filter-btn"
+                >
+                  <FontAwesomeIcon icon="fa-solid fa-filter" />
+                </button>
+
+                {/* search button */}
                 <button
                   onClick={() => navigate(`/search/${searchTerm}`)}
                   className="search-btn"
@@ -113,19 +154,29 @@ const Header = () => {
                   Search
                 </button>
               </div>
+
+              {/* click to filter button get drop down*/}
+              {showDropdown && (
+                <Dropdown
+                  genres={genres}
+                  selectedGenres={selectedGenres}
+                  handleGenreSelect={handleGenreSelect}
+                  handleApplyFilter={handleFilter}
+                />
+              )}
             </div>
           </div>
         </div>
       )}
       {/* Movie Results */}
-      {/* <div className="movie-results">
+      <div className="movie-results">
         {movies.map((movie) => (
           <div key={movie.id} className="movie-item">
             <h3>{movie.title}</h3>
             <p>{movie.overview}</p>
           </div>
         ))}
-      </div>*/}
+      </div>
     </div>
   );
 };
