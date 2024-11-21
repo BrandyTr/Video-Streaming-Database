@@ -1,23 +1,40 @@
 .Container {
+  position: absolute;
   width: 1440px;
   height: 636px;
-  gap: 0px;
-  opacity: 0px;
-  display: flex;
-  flex-direction: row;
-  /* justify-content: space-between; */
-  margin: 0 10px;
-  padding: 50px 0;
-  border-bottom: 1px solid #e0e0e0;
+  left: 0px;
+  top: 0px;
 }
 .poster {
-  width: 250px;
-  height: 350px;
-  top: 204px;
+  /* Frame 8 */
+
+  position: absolute;
+  width: 269px;
+  height: 359px;
   left: 100px;
+  top: 204px;
+
+  /* video poster - shadow */
+  box-shadow: 0px 2px 13px 3px rgba(0, 0, 0, 0.5);
   border-radius: 20px;
 }
-.Info {
+.title {
+  /* Avengers: Infinity War */
+
+  position: absolute;
+  width: 924px;
+  height: 85px;
+  left: 380px;
+  top: 136px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 70px;
+  line-height: 85px;
+
+  color: #ffffff;
+}
+.frame {
   display: flex;
   flex-direction: column;
   padding-left: 10px;
@@ -25,15 +42,103 @@
 .Buttons {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: 19px;
-
-  left: 414px;
   top: 237px;
+  left: 500px;
+  gap: 10px;
+  opacity: 0px;
+  border-radius: 10px;
 }
-.heart {
-  background-color: aqua;
-  color: white;
+.Heart {
+  display: flex;
+  justify-content: center; /* CÄƒn giá»¯a theo chiá»u ngang */
+  align-items: center; /* CÄƒn giá»¯a theo chiá»u dá»c */
+  padding: 0;
+  gap: 0; /* Äáº£m báº£o khĂ´ng cĂ³ khoáº£ng cĂ¡ch thá»«a */
+  width: 50px;
+  height: 50px;
+
+  background: #03abe0;
+  border-radius: 10px;
+
+  /* Flex khĂ´ng lĂ m thay Ä‘á»•i vá»‹ trĂ­ */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+
+  position: relative; /* Äáº£m báº£o khĂ´ng áº£nh hÆ°á»Ÿng bá»Ÿi position absolute tá»« cĂ¡c pháº§n tá»­ khĂ¡c */
+}
+
+.Heart svg {
+  width: 15px; /* Äáº£m báº£o kĂ­ch thÆ°á»›c cá»§a icon */
+  height: 15px;
+  margin: 0;
+}
+
+.Watchnow {
+  /* Button / Watch */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 21px;
+  gap: 11px;
+
+  width: 182px;
+  height: 50px;
+
+  background: #03abe0;
+  border-radius: 10px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+.Playbutton {
+  padding-top: 3.5px;
+}
+.Trailer {
+  /* Frame 11 */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 22px 10px 20px;
+  gap: 7px;
+
+  width: 137px;
+  height: 50px;
+
+  /* white - 0.3 */
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 10px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.Details {
+  /* Frame 760 */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 9px;
+
+  position: absolute;
+  width: 924px;
+  height: 348px;
+  left: 416px;
+  top: 313px;
 }
 .score {
   display: flex;
@@ -42,7 +147,7 @@
   justify-content: flex-start;
 }
 
-.box-button {
+.rate-button {
   display: inline-block;
   padding: 10px 20px;
   margin: 5px;
@@ -53,6 +158,17 @@
   font-size: 16px;
   cursor: default; /* Prevents the cursor from changing to a pointer */
 }
+.view-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: transparent;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  cursor: default;
+}
 .rating {
   display: flex;
   flex-direction: row;
@@ -61,29 +177,77 @@
   width: 558px;
   height: 39px;
   text-align: center;
+  gap: 40px;
 }
+.stars {
+  display: flex;
+  margin-right: 10px; /* Táº¡o khoáº£ng cĂ¡ch giá»¯a sao vĂ  pháº§n text */
+  gap: 30px;
+}
+
 .genres {
+  /* Frame 759 */
+  /* Auto layout */
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  justify-content: flex-start;
-  text-align: center;
+  align-items: center;
+  padding: 0px;
+  gap: 20px;
+
+  width: 549.07px;
+  height: 39px;
+
+  /* Inside auto layout */
+  flex: none;
+  flex-grow: 0;
 }
 .genre {
-  background-color: #f0f0f0; /* Light grey background */
-  border-radius: 5px; /* Rounded corners */
-  padding: 20px; /* Padding inside the genre box */
-  font-size: 14px; /* Font size */
-  color: #333; /* Text color */
-  text-align: center;
+  /* Frame 227 */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 9.45079px;
+  gap: 9px;
+
+  width: 85.9px;
+  height: 32.13px;
+
+  background: #464646;
+  border-radius: 5.67048px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 }
 .description {
+  position: relative;
   width: 924px;
   height: 60px;
 
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins";
+  font-style: normal;
   font-size: 20px;
   font-weight: 700;
   line-height: 30px;
   text-align: left;
+}
+.Director {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.Producer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.Writer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }

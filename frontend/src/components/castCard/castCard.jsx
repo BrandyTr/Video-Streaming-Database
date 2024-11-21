@@ -1,13 +1,14 @@
 import React from "react";
-import { POSTER_BASE_URL } from "../../commonPaths"; // Adjust the import path as needed
+import { image_API } from "../../api/apiConfig";
 import "./castCard.css";
+
 const CastCard = ({ name, profile_path }) => {
   return (
     <div className="cast-card">
-      <img src={POSTER_BASE_URL + profile_path} alt={`${name} backdrop`} />
+      <img src={image_API.w500Image(profile_path)} alt={`${name} backdrop`} />
       <p>{name}</p>
     </div>
   );
 };
 
-export default CastCard;
+export default CastCard; // Ensure the correct export

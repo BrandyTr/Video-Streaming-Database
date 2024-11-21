@@ -5,15 +5,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 const Card = ({ title, id, thumbnail, rating, views }) => {
   const [genres, setGenres] = useState([]);
+  const [averageRating, setAverageRating] = useState(null);
+
   useEffect(() => {
     const fetchGenres = async () => {
       try {
         const response = await axios.get(`/api/movie/${id}/details`);
         const fetchedGenres = response.data.content.genres; // Ensure this is the correct path
         setGenres(fetchedGenres); // Update state with fetched data
-        console.log("Fetched data:", response.data.content);
+        // console.log("Fetched data:", response.data.content);
+        setAverageRating(response.data.content.averageRating); // Update with fetched averageRating
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       }
     };
 
@@ -34,9 +37,11 @@ const Card = ({ title, id, thumbnail, rating, views }) => {
         <div className="overlay"></div>
         <div className="details">
           <h1>{title}</h1>
-          <div className="viewNrate">
-            <h2>{rating}</h2>
-            <h2>{views}</h2>
+          <div className="rate">
+            <h2>Ratings: {averageRating !== null ? averageRating.toFixed(1) : "N/A"}</h2>
+          </div>
+          <div className="view">
+            <h2>Views: {views}</h2>
           </div>
           <div className="genre">
             <h3>{genre1}</h3>

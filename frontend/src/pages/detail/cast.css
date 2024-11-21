@@ -1,12 +1,39 @@
 .frame {
+  /* Frame 220 */
+
+  position: absolute;
   width: 1440px;
   height: 480px;
-  top: 544px;
-  gap: 0px;
-  opacity: 0px;
+  left: 0px;
+  top: 700px;
+
+  background: linear-gradient(180deg, rgba(33, 32, 30, 0) 0%, #21201e 19.39%);
 }
+h1 {
+  text-align: left;
+  margin-left: 37px; /* Điều chỉnh vị trí để căn thẳng hàng */
+  width: 58px;
+  height: 39px;
+  left: 100px;
+  top: 703px;
+
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 38px;
+  /* identical to box height, or 159% */
+
+  color: #ffffff;
+}
+
 .Casts {
+  bottom: 0;
   display: flex;
   flex-direction: row;
   margin: 10px;
+}
+.swiper-slide {
+  width: 135px;
+  height: 187px;
 }

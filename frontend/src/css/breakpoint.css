@@ -1,0 +1,29 @@
+@import url('./variable.css');
+
+/* Extra desktop screen */
+@media screen and (min-width: 1701px) { 
+    html {
+        font-size: 145%;
+    } 
+}
+
+/* Desktop screen */
+@media screen and (min-width: 1024px) and (max-width: 1700px) { 
+    html {
+        font-size: 100%;
+    }
+}
+
+/* Tablet screen */
+@media screen and (min-width: 600px) and (max-width: 1023px) { 
+    html {
+        font-size: 90%;
+    }
+}
+
+/* Mobile screen */
+@media screen and (min-width: 350px) and (max-width: 599px) { 
+    html {
+        font-size: 70%;
+    }
+}

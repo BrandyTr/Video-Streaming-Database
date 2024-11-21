@@ -1,10 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useHistory
-import { Card } from "../../commonPaths";
+import { Card, POSTER_BASE_URL } from "../../commonPaths";
 import "./homepage.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { POSTER_BASE_URL } from "../../commonPaths";
 
 const Homepage = () => {
   const navigate = useNavigate(); // Initialize navigate
@@ -38,4 +37,5 @@ const Homepage = () => {
     </div>
   );
 };
+
 export default Homepage;

@@ -1,15 +1,50 @@
 .container {
+  /* Detail */
+
   position: relative;
-  display: flex; /* Use Flexbox for layout */
-  flex-direction: column;
-  flex-wrap: wrap; /* Allow cards to wrap onto the next line */
-  justify-content: center; /* Center the cards horizontally */
-  padding: 20px;
-  top: 0; /* Padding around the content */
+  width: 1440px;
+  height: 1024px;
+
+  background: #21201e;
 }
 .h1 {
   font-size: x-large;
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
+}
+.movie-crew {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f4f4f4; /* MĂ u ná»n sĂ¡ng */
+  border-radius: 10px; /* Bo gĂ³c nháº¹ */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Äá»• bĂ³ng nháº¹ Ä‘á»ƒ táº¡o chiá»u sĂ¢u */
+}
+
+.movie-crew h2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333; /* MĂ u chá»¯ Ä‘áº­m */
+  margin-bottom: 10px;
+}
+
+.movie-crew h2 span {
+  font-weight: normal;
+  color: #555; /* MĂ u chá»¯ phá»¥ */
+}
+
+.movie-crew h2::before {
+  content: "â€¢ "; /* ThĂªm biá»ƒu tÆ°á»£ng cháº¥m trĂ²n trÆ°á»›c tĂªn */
+  color: #ffaa00; /* MĂ u cháº¥m trĂ²n */
+  font-size: 20px;
+}
+
+.movie-crew h2:not(:last-child) {
+  border-bottom: 1px solid #ccc; /* ÄÆ°á»ng viá»n dÆ°á»›i cĂ¡c má»¥c */
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.movie-crew h2:last-child {
+  margin-bottom: 0;
 }
