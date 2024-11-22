@@ -1,11 +1,52 @@
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+ /* Tablet screen */
+ @media screen and (min-width: 600px) and (max-width: 1023px) { 
+    .movieCard {
+      width: 30%;    }
 }
+/* Mobile screen */
+@media screen and (max-width: 599px) { 
+    .movieCard {
+        width: 45%;
+    }
+}
+.movieCard{
+  flex: 1 1 30%; /* Allow the card to grow and shrink, with a base width of 30% */
+  max-width: 400px; /* Set a minimum width to prevent cards from becoming too small */
+  min-width: 1 vw;
+}
+.search-movie-list {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap:wrap;
+  gap: 30px; /* Adjust the gap between cards as needed */
+  justify-content: flex-start;
+  margin-top: 6rem; /* Add padding to the top to position it under the header */
+  min-height: 60vh;
 
-.card {
-  flex: 1 1 calc(33.333% - 20px); /* Adjust the percentage to control the number of cards per row */
-  margin: 10px;
-  box-sizing: border-box;
+}
+.searchresult{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-around;
+  padding: 30px 0;
+  max-width: 1660px;
+  min-height: 100vh;
+  margin: auto;
+}
+ 
+@media screen and (min-width: 1701px) {
+  .searchresult {
+    max-width: 4000px;
+    margin: auto;
+  }  
+}
+.query-value{
+  position: relative;
+  top: 5rem;
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-decoration: inherit;
 }

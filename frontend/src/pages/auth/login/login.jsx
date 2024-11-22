@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../Context/authContext";
 import { GoogleLogin } from "@react-oauth/google";
-import {jwtDecode} from "jwt-decode"
+import { jwtDecode } from "jwt-decode"
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,42 +53,38 @@ const LoginPage = () => {
               }}
             />
           </div>
-          <button
-            className="w-full py-2 bg-first-blue text-white font-normal rounded-md 
-                        hover:bg-white hover:text-second-blue"
-          >
-            Login
-          </button>
-          <label className="flex justify-center items-center text-sm font-medium text-gray-300 mb-1">
-            or
-          </label>
-            {/* <button
-            className="w-full py-2 bg-white text-first-blue font-normal rounded-md 
-                        hover:bg-second-blue hover:text-white"
-          >
-            Sign in with Google
-          </button> */}
-            <div className="flex flex-col items-center justify-center">
+
+          <div className="flex flex-col items-center justify-center">
             {/* <button className='w-full py-2 bg-white text-first-blue font-light rounded-md 
                         hover:bg-second-blue hover:text-white'>Sign in with Google</button> */}
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  const decoded= jwtDecode(credentialResponse.credential)
-                  console.log(decoded)
-                  const {name,email,picture}=decoded
-                  login({
-                    email,
-                    username:name,
-                    image:picture,
-                    isGoogleLogin:true,
-                  })
-                  
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-              />
-            </div>
+            <button
+              className="w-[212px] h-[38.5px] py-2 bg-first-blue text-white font-normal rounded-md 
+                        hover:bg-white hover:text-second-blue"
+            >
+              Login
+            </button>
+            <label className="flex justify-center items-center text-sm font-medium text-gray-300 mb-1">
+              or
+            </label>
+            <GoogleLogin
+              className="w-full py-2 bg-white text-first-blue font-light rounded-md"
+              onSuccess={(credentialResponse) => {
+                const decoded = jwtDecode(credentialResponse.credential)
+                console.log(decoded)
+                const { name, email, picture } = decoded
+                login({
+                  email,
+                  username: name,
+                  image: picture,
+                  isGoogleLogin: true,
+                })
+
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          </div>
         </form>
       </div>
     </div>

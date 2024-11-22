@@ -5,14 +5,14 @@ const ButtonAuth = ({ isLogin, handleClickLogin, handleClickSignUp }) => {
     return (
         <div className="my-auto flex items-center justify-center mx-auto">
             <div
-                className={`relative w-1/8 h-[59px] rounded-[28px] p-[3px] flex items-center justify-between ${
+                className={`relative w-1/8 h-14 rounded-[28px] p-[3px] flex items-center justify-between ${
                     isLogin ? 'transition-colors bg-[#03abe0]' : 'transition-colors bg-white'
                 }`}
             >
                 {/* Animated Slider */}
                 <div
-                    className={`absolute w-[85px] h-[53px]  rounded-[28px] shadow-md transition-transform duration-300 ${
-                        isLogin ? 'translate-x-[1px] bg-white' : 'translate-x-[98px] bg-[#03abe0]'
+                    className={`absolute w-1/2 h-12  rounded-[28px] shadow-md transition-transform duration-300 ${
+                        isLogin ? 'translate-x-[1px] bg-white' : 'translate-x-[92px] bg-[#03abe0]'
                     }`}
                 ></div>
 

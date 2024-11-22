@@ -84,7 +84,7 @@ const Header = () => {
   };
   const handleSearch = () => {
     if (searchTerm) {
-      navigate(`/search/${searchTerm}`);
+      navigate(`/search?movieName=${searchTerm}`);
     }
   };
   const { logout } = useAuth();
@@ -148,7 +148,8 @@ const Header = () => {
                 </button>
 
                 {/* search button */}
-                <button onClick={handleSearch} className="search-btn">
+                <button onClick={() => {handleSearch()}}
+    className="search-btn">
                   Search
                 </button>
               </div>
