@@ -77,13 +77,14 @@ const Header = () => {
     }
   };
 
-  const handleFilter = async () => {
-    try {
-      const response = movieApi.getMoviesByCategory(selectedGenres.join(","));
-      console.log(response);
-      //   setMovies(response.data.content);
-    } catch (error) {
-      console.error("Error fetching movies by genre:", error);
+  const handleFilter = () => {
+    if (selectedGenres.length > 0) {
+      navigate(`/search?genres=${selectedGenres.join("-")}`);
+    }
+  };
+  const handleSearch = () => {
+    if (searchTerm) {
+      navigate(`/search/${searchTerm}`);
     }
   };
   const { logout } = useAuth();
@@ -147,10 +148,7 @@ const Header = () => {
                 </button>
 
                 {/* search button */}
-                <button
-                  onClick={() => navigate(`/search/${searchTerm}`)}
-                  className="search-btn"
-                >
+                <button onClick={handleSearch} className="search-btn">
                   Search
                 </button>
               </div>

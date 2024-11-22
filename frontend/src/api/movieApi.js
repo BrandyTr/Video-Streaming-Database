@@ -5,6 +5,25 @@ export const movieType = {
   popular: "popular",
   top_rated: "top_rated",
 };
+export const genres = [
+  "Action",
+  "Adventure",
+  "Animation",
+  "Comedy",
+  "Crime",
+  "Documentary",
+  "Drama",
+  "Fantasy",
+  "History",
+  "Horror",
+  "Musical",
+  "Mystery",
+  "Romance",
+  "Science Fiction",
+  "Thriller",
+  "War",
+  "Western",
+];
 
 const movieApi = {
   getMoviesList: (type, params) => {

@@ -1,0 +1,11 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card {
+  flex: 1 1 calc(33.333% - 20px); /* Adjust the percentage to control the number of cards per row */
+  margin: 10px;
+  box-sizing: border-box;
+}
