@@ -23,6 +23,8 @@ exports.createMovie = async (movieDetail, genreIds, creditId, videoIds) => {
       runtime: movieDetail.runtime,
       poster_path: movieDetail.poster_path,
       backdrop_path: movieDetail.backdrop_path,
+      ratingCount: movieDetail.vote_count,
+      ratingSum: movieDetail.vote_count * movieDetail.vote_average,
       genres: genreIds,
       credit: creditId,
       videos: videoIds ? videoIds : [],
@@ -35,7 +37,7 @@ exports.createMovie = async (movieDetail, genreIds, creditId, videoIds) => {
   }
 };
 
-exports.generateMovieOphim = async (movieName, videoUrl) => {
+exports.generateMovieOphim = async (movieName, videoUrl, OphimYear) => {
   if (!videoUrl) {
     return {
       success: false,
@@ -43,13 +45,23 @@ exports.generateMovieOphim = async (movieName, videoUrl) => {
       message: "No video link provided, try custom link",
     };
   }
-  const isSave = await Movie.find({ title: movieName });
-  if (isSave.length != 0) {
-    return {
-      success: false,
-      status: 400,
-      message: "The movie has already existed",
-    };
+  const mongoMovies = await Movie.find({ title: movieName });
+  let movieExists = false;
+  if (mongoMovies.length != 0) {
+    console.log(`${movieName} is checked for duplicating`);
+    for (let i = 0; i < mongoMovies.length; i++) {
+      if (mongoMovies[i].release_date.getFullYear().toString() == OphimYear) {
+        movieExists = true;
+        break;
+      }
+    }
+    if (movieExists) {
+      return {
+        success: false,
+        status: 400,
+        message: "The movie has already existed",
+      };
+    }
   }
   try {
     const data = await fetchFromTMDB(
@@ -62,84 +74,97 @@ exports.generateMovieOphim = async (movieName, videoUrl) => {
         message: "Not found",
       };
     }
-
-    const movieData = data.results[0];
-    const movieDetail = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${movieData.id}?append_to_response=credits&language=en-US`
-    );
-    const trailer = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`
-    );
-    if (trailer.results.length == 0) {
-      return {
-        success: false,
-        status: 400,
-        message:
-          "Trailer is not found, you might have to insert trailer manually!",
-      };
+    const tmdbMovies = data.results;
+    let movieData = null;
+    for (let i = 0; i < tmdbMovies.length; i++) {
+      if (tmdbMovies[i].release_date.split("-")[0] == OphimYear) {
+        movieData = data.results[i];
+        break;
+      }
     }
-    const trailerData = trailer.results[0];
-    const trailerVideo = await createVideo(
-      movieDetail.title,
-      trailerData.key,
-      trailerData.site,
-      "Trailer",
-      trailerData.published_at
-    );
-    const genreIds = await Promise.all(
-      movieDetail.genres.map(async (genre) => {
-        let existingGenre = await createGenre(genre.name);
-        return existingGenre._id;
-      })
-    );
-    const movie = await exports.createMovie(movieDetail, genreIds, null);
-    const castIds = await Promise.all(
-      movieDetail.credits.cast
-        .filter((castMember) => castMember.profile_path)
-        .map(async (castMember) => {
-          const cast = await createCast(castMember, movie._id);
-          return cast._id;
+    if (movieData) {
+      const movieDetail = await fetchFromTMDB(
+        `https://api.themoviedb.org/3/movie/${movieData.id}?append_to_response=credits&language=en-US`
+      );
+      const trailer = await fetchFromTMDB(
+        `https://api.themoviedb.org/3/movie/${movieData.id}/videos?language=en-US`
+      );
+      if (trailer.results.length == 0) {
+        return {
+          success: false,
+          status: 400,
+          message:
+            "Trailer is not found, you might have to insert trailer manually!",
+        };
+      }
+      const trailerData = trailer.results[0];
+      const trailerVideo = await createVideo(
+        movieDetail.title,
+        trailerData.key,
+        trailerData.site,
+        "Trailer",
+        trailerData.published_at
+      );
+      const genreIds = await Promise.all(
+        movieDetail.genres.map(async (genre) => {
+          let existingGenre = await createGenre(genre.name);
+          return existingGenre._id;
         })
-    );
+      );
+      const movie = await exports.createMovie(movieDetail, genreIds, null);
+      const castIds = await Promise.all(
+        movieDetail.credits.cast
+          .filter((castMember) => castMember.profile_path)
+          .map(async (castMember) => {
+            const cast = await createCast(castMember, movie._id);
+            return cast._id;
+          })
+      );
 
-    const crewIds = await Promise.all(
-      movieDetail.credits.crew.map(async (crewMember) => {
-        const crew = await createCrew(crewMember, movie._id);
-        return crew._id;
-      })
-    );
-
-    const productionCompanyIds = await Promise.all(
-      movieDetail.production_companies
-        .filter((productionCompany) => productionCompany.logo_path)
-        .map(async (productionCompanyItem) => {
-          const productionCompany = await createProductionCompany(
-            productionCompanyItem.name,
-            productionCompanyItem.logo_path,
-            productionCompanyItem.origin_country
-          );
-          return productionCompany._id;
+      const crewIds = await Promise.all(
+        movieDetail.credits.crew.map(async (crewMember) => {
+          const crew = await createCrew(crewMember, movie._id);
+          return crew._id;
         })
-    );
-    const credit = await createCredit(castIds, crewIds, productionCompanyIds);
+      );
 
-    const video = await createVideo(
-      movieDetail.title,
-      videoUrl,
-      "Ophim17",
-      "full-time",
-      trailerData.published_at
-    );
+      const productionCompanyIds = await Promise.all(
+        movieDetail.production_companies
+          .filter((productionCompany) => productionCompany.logo_path)
+          .map(async (productionCompanyItem) => {
+            const productionCompany = await createProductionCompany(
+              productionCompanyItem.name,
+              productionCompanyItem.logo_path,
+              productionCompanyItem.origin_country
+            );
+            return productionCompany._id;
+          })
+      );
+      const credit = await createCredit(castIds, crewIds, productionCompanyIds);
 
-    movie.credit = credit._id;
-    movie.videos.push(trailerVideo._id, video._id);
-    await movie.save();
+      const video = await createVideo(
+        movieDetail.title,
+        videoUrl,
+        "Ophim17",
+        "full-time",
+        trailerData.published_at
+      );
+      movie.credit = credit._id;
+      movie.videos.push(trailerVideo._id, video._id);
+      await movie.save();
 
-    return {
-      success: true,
-      status: 200,
-      message: "Movie, credits, and video generated successfully",
-    };
+      return {
+        success: true,
+        status: 200,
+        message: "Movie, credits, and video generated successfully",
+      };
+    }else{
+      return {
+        success:false,
+        status:404,
+        message: "Can not find Ophim Info in tmdb!"
+      }
+    }
   } catch (err) {
     return {
       success: false,
@@ -150,8 +175,8 @@ exports.generateMovieOphim = async (movieName, videoUrl) => {
 };
 
 exports.generateMovieInfo = async (movieName, videoUrl) => {
-  const isSave = await Movie.find({ title: movieName });
-  if (isSave.length != 0) {
+  const mongoMovies = await Movie.find({ title: movieName });
+  if (mongoMovies.length != 0) {
     return {
       success: false,
       status: 400,
