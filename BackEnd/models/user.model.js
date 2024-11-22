@@ -13,13 +13,19 @@ const userSchema=new Schema({
     },
     password:{
         type:String,
-        default:"",
-        required:true,
+        required:function() {
+            // Only require a password if it's not a Google account
+            return !this.isGoogleAccount;
+        },
     },
     image: {
 		type: String,
 		default: "",
 	},
+    isGoogleAccount:{
+        type:Boolean,
+        default:false,
+    },
     ratings: {
         type: [
             {

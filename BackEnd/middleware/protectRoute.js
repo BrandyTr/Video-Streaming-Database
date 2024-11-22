@@ -3,10 +3,6 @@ const User=require('../models/user.model')
 const vars=require('../config/vars')
 exports.protectRoute= async(req,res,next)=>{
     try{
-
-        if (req.method === 'PATCH' && req.path.includes('/view')) {
-            return next();
-        }
       
         const token=req.cookies.jwt
         if(!token){
