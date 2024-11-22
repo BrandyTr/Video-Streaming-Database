@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../../Context/authContext';
+import React, { useState } from 'react';
 import SignUpPage from '../signup/signup';
 import LoginPage from './login';
 import ButtonAuth from '../../../components/transition/buttonAuth';
-
+import spiderman from '../../../assets/images/spiderman.jpg';
+import minions from '../../../assets/images/minions.jpg';
 const Logitech = () => {
     const [isLogin, setIsLogin] = useState(true);
 
@@ -17,7 +16,23 @@ const Logitech = () => {
     };
 
     return (
-        <div className="h-screen w-full hero-bg flex-row overflow-hidden py-12 px-8">
+        <div className="relative h-screen w-full  py-12 px-8"
+        >
+
+            {/* Background Layers */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+                {/* Background for Minions */}
+                <div
+                    className={`absolute top-0 left-0 h-full w-full bg-cover bg-center transition-transform duration-700 ${isLogin ? 'translate-x-0' : '-translate-x-full'}`}
+                    style={{ backgroundImage: `url(${spiderman})` }}
+                ></div>
+                {/* Background for Spiderman */}
+                <div
+                    className={`absolute top-0 left-0 h-full w-full bg-cover bg-center transition-transform duration-700 ${isLogin ? 'translate-x-full' : 'translate-x-0'}`}
+                    style={{ backgroundImage: `url(${minions})` }}
+                ></div>
+            </div>
+
             <div
                 className={`absolute h-screen flex flex-col items-center text-center justify-center transition-transform duration-700 ${isLogin ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'
                     }`}
