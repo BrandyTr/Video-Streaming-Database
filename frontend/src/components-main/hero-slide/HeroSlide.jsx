@@ -14,12 +14,15 @@ import movieApi, { movieType } from "../../api/movieApi";
 import axios from "axios";
 import { image_API } from "../../api/apiConfig";
 import Button, { OutlineButton } from "../button/Button";
+import { FaUser } from "react-icons/fa";
 
 const HeroSlide = () => {
   SwiperCore.use([Autoplay]);
 
   // set empty array for movie items
   const [movieItems, setMovieItems] = useState([]);
+  const [averageRating, setAverageRating] = useState(null);
+  const [ratingCount, setRatingCount] = useState(0);
 
   // get random movie img
   const shuffleArrayMovie = (array) => {
@@ -44,6 +47,10 @@ const HeroSlide = () => {
         if (response && response.data.content) {
           // console.log("hi")
           setMovieItems(shuffleArrayMovie(response.data.content).slice(0, 8));
+          const fetchRating = response.data.content.averageRating;
+          const fetchNumOfRating = response.data.ratingCount;
+          setAverageRating(fetchRating);
+          setRatingCount(fetchNumOfRating);
           // console.log(response);
           // console.log("movieItems are: ")
           // console.log(movieItems)
@@ -68,10 +75,10 @@ const HeroSlide = () => {
         slidesPerView={1} // number of slides per view (slides visible)
         direction="horizontal" // slide direction
         loop={true} // loop slides
-        // autoplay={{
-        //     delay: 2000, // delay between slides
-        //     disableOnInteraction: false // stop autoplay on user interaction
-        // }}
+      // autoplay={{
+      //     delay: 2000, // delay between slides
+      //     disableOnInteraction: false // stop autoplay on user interaction
+      // }}
       >
         {movieItems.map((movie, index) => {
           // console.log("movie is: ")
@@ -115,6 +122,12 @@ const HeroSlideItem = (props) => {
       <div className="hero-slide_item_content container">
         <div className="hero-slide_item_content_info">
           <h2 className="title">{item.title}</h2>
+          <div className="rate and views">
+            <p className="rating">{item.averageRating} ({item.ratingCount})</p>
+            <p className="divider"> | </p>
+            <p className="views"> {item.view} </p>
+            <FaUser></FaUser>
+          </div>
           <p className="overview">{item.overview}</p>
           <div className="btns">
             <Button onClick={() => navigate("/movie/" + item.id)}>

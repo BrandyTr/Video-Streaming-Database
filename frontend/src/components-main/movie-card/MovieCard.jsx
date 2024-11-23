@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "../button/Button";
 import movieApi from "../../api/movieApi";
 import { image_API } from "../../api/apiConfig";
-
+import { FaUser } from "react-icons/fa";
 import "./movie-card.css";
 
 const MovieCard = (props) => {
@@ -46,9 +46,23 @@ const MovieCard = (props) => {
         {/* <Button>
                     <i className="">hi</i>
                 </Button> */}
+
+        <div className="movie-rating-box">
+          <p>{item.averageRating}</p>
+        </div>
         <div className="title-box-wrapper">
           <h3>{item.title || item.name}</h3>
           <div className="movie-info-hover">
+            <div className="card-scores">
+              <div className="rating-box-hover">
+                <p>({item.averageRating})</p>
+              </div>
+              <p>|</p>
+              <div className="card-views">
+                <p>{item.ratingCount}</p>
+                <FaUser></FaUser>
+              </div>
+            </div>
             <p>{genreNames}</p>
             {/* <p>{genres.map(genre => genre.name).join(' • ')}</p> */}
           </div>
