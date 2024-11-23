@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Navbar, Footer } from "./commonPaths";
 import Notfound from "./pages/notfound/notfound";
 import Rating from"./pages/detail/rateMovieFunct";
 import { Toaster } from "react-hot-toast"
@@ -39,10 +40,11 @@ function App() {
         <Route path="/" element={<HomeScreenCheck />} />
         <Route path='/login' element={ !user ? <Logitech /> : <Navigate to={"/"} />}></Route>
         <Route path="/watching/:id" element={<Watching/>} />
+        <Route path="/movie/:id/rate" element={<Rating/>} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="*" element={<Notfound />} />
-        <Route path="/movie/:id/rate" element={<Rating />} />
       </Routes>
+      <Footer />
     </Router>
     <Toaster/>
     </>
