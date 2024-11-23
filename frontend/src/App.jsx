@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar, Footer } from "./commonPaths";
 import Notfound from "./pages/notfound/notfound";
 import Rating from"./pages/detail/rateMovieFunct";
 import { Toaster } from "react-hot-toast"
@@ -10,8 +9,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab  } from '@fortawesome/free-brands-svg-icons'
 import Watching from "./pages/watching/watching";
 import Detail from "./pages/detail/detail";
-// New
-import Header from "./components-main/header/Header";
 library.add(fas, fab);
 
 import "./App.css";
@@ -37,7 +34,6 @@ function App() {
     <>
     <Router>
       {/* <Navbar /> */}
-      <Header></Header>
       <Routes>
         {/* <Route path="/" element={<Homepage />} /> */}
         <Route path="/" element={<HomeScreenCheck />} />
