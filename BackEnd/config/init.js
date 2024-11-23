@@ -100,7 +100,7 @@ async function loadOphimMovies(numberofPages) {
     console.log('Movies have already been initialized.');
     return;
   }
-  for (let page = 0; page < numberofPages; page++) {
+  for (let page = 1; page < numberofPages; page++) {
     const data = (await axios.get(`https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=${page}`)).data
     const movies = data.items.filter(movie => movie.tmdb.type === "movie")
     try {
@@ -108,15 +108,16 @@ async function loadOphimMovies(numberofPages) {
         let { origin_name, slug } = movies[i]
         const movieDataDetail = (await axios.get(`https://ophim1.com/phim/${slug}`)).data
         const videoUrl = movieDataDetail.episodes[0].server_data[0].link_embed
-        const result = await generateMovieOphim(origin_name, videoUrl)
+        const year=movieDataDetail.movie.year
+        const result = await generateMovieOphim(origin_name, videoUrl,year)
         if (result.success) {
           console.log(`Movie "${origin_name}" initialized successfully:`, result.message);
         } else {
-          console.error(`Failed to initialize movie "${origin_name}":`, result.message);
+          console.error(`Failed to initialize movie "${origin_name}, page ${page}":`, result.message);
         }
       }
     } catch (err) {
-      console.error(`Error initializing movie "${origin_name}":`, error.message);
+      console.error(`Error initializing movie :`, err);
       return
     }
   }
