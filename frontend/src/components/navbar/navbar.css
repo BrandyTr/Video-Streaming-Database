@@ -1,21 +1,23 @@
 /* navbar.css */
 .vertical-navbar {
-  width: 200px;                     /* Default width for larger screens */
-  height: 100vmax;                    /* Full height */
-  background-color: #333;           /* Background color */
-  position: absolute;                /* Positioning */
-  left: 0;                           /* Stick it to the left */
-  top: 0;                            /* Start at the top */
+  width: 95vmax; /* Default width for larger screens */
+  height: 100px; /* Full height */
+  background-color: transparent; /* Background color */
+  position: absolute; /* Positioning */
+  top: 0; /* Start at the top */
+  left: 0; /* Start at the left */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 20px;
-  z-index: 10;                      /* Ensure it's on top of other elements */
-  transition: width 0.3s ease;      /* Smooth transition for width changes */
+  z-index: 10; /* Ensure it's on top of other elements */
+  transition: width 0.3s ease; /* Smooth transition for width changes */
 }
 
 .vertical-navbar ul {
+  display: flex;
+  flex-direction: row;
   list-style-type: none;
-  padding: 40% 10%;
+  padding: 0% 10%;
 }
 
 .vertical-navbar li {
@@ -23,7 +25,7 @@
 }
 
 .vertical-navbar a {
-  color: white;
+  color: black;
   text-decoration: none;
   padding: 10px;
   display: block;
@@ -37,24 +39,24 @@
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
   .vertical-navbar {
-    width: 100px;                  /* Reduced width for smaller screens */
+    width: 100px; /* Reduced width for smaller screens */
   }
 
   .vertical-navbar ul {
-    padding: 20% 5%;               /* Adjust padding for smaller screens */
+    padding: 20% 5%; /* Adjust padding for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
   .vertical-navbar {
-    width: 70px;                   /* Further reduced width for very small screens */
+    width: 70px; /* Further reduced width for very small screens */
   }
 
   .vertical-navbar ul {
-    padding: 10% 0;                /* Further adjust padding */
+    padding: 10% 0; /* Further adjust padding */
   }
 
   .vertical-navbar a {
-    padding: 8px;                  /* Smaller padding for links */
+    padding: 8px; /* Smaller padding for links */
   }
 }
