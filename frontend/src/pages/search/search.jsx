@@ -71,6 +71,7 @@ const Search = () => {
             const requests = genres.map((genre) =>
               movieApi.getMoviesByCategory(genre)
             );
+
             const responses = await Promise.all(requests);
             allMovies = responses.flatMap((response) => response.data.content);
           }
@@ -112,15 +113,31 @@ const Search = () => {
             <div className="query-value">
               {searchMode === "name" && (
                 <h2>
-                  {""}
-                  {movies.length} Results for "{query}":
+                  {movies.length} results with{" "}
+                  {(() => {
+                    const queryParams = new URLSearchParams(query);
+                    const movieName = queryParams.get("movieName");
+                    return movieName ? `"${movieName}"` : "";
+                  })()}
                 </h2>
               )}
               {searchMode === "filter" && (
                 <h2>
-                  {" "}
-                  {movies.length} results with genres:{" "}
-                  {query.split("-").join(" & ")}
+                  {movies.length} results with{" "}
+                  {(() => {
+                    const queryParams = new URLSearchParams(query);
+                    const genreQueryParam = queryParams.get("genres");
+                    const ratingQueryParam = queryParams.get("ratings");
+                    const genres = genreQueryParam
+                      ? genreQueryParam.split("-").join(" & ")
+                      : "";
+                    const ratings = ratingQueryParam
+                      ? ratingQueryParam.split("-").join(" & ")
+                      : "";
+                    return `${genres ? `genres: ${genres}` : ""}${
+                      genres && ratings ? " and " : ""
+                    }${ratings ? `ratings: ${ratings}` : ""}`;
+                  })()}
                 </h2>
               )}
             </div>
