@@ -7,7 +7,7 @@
   background: linear-gradient(180deg, rgba(33, 32, 30, 0) 0%, #21201e 19.39%);
 }
 
-h1 {
+.cast-container h1 {
   text-align: left;
   margin-left: 37px; /* Điều chỉnh vị trí để căn thẳng hàng */
   width: 58px;
@@ -34,7 +34,6 @@ h1 {
   flex-direction: row;
   justify-content: space-evenly;
   margin: 0px;
-
 }
 .cast-container.swiper-slide {
   width: 135px;
