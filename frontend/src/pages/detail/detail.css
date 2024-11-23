@@ -1,13 +1,18 @@
-.container {
-  /* Detail */
+@import url("../../css/index.css");
 
-  position: relative;
-  width: 1440px;
-  height: 1024px;
+.detail0 {
+  /* position: relative; */
+  width: screen;
+  height: screen;
+  display: flex;
+  flex-direction: row;
 
-  background: #21201e;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-.h1 {
+
+.hhh {
   font-size: x-large;
   font-weight: bold;
   color: #333;
@@ -21,19 +26,19 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Äá»• bĂ³ng nháº¹ Ä‘á»ƒ táº¡o chiá»u sĂ¢u */
 }
 
-.movie-crew h2 {
+.movie-crew .h2 {
   font-size: 18px;
   font-weight: 500;
   color: #333; /* MĂ u chá»¯ Ä‘áº­m */
   margin-bottom: 10px;
 }
 
-.movie-crew h2 span {
+.movie-crew .h2 span {
   font-weight: normal;
   color: #555; /* MĂ u chá»¯ phá»¥ */
 }
 
-.movie-crew h2::before {
+.movie-crew .h2::before {
   content: "â€¢ "; /* ThĂªm biá»ƒu tÆ°á»£ng cháº¥m trĂ²n trÆ°á»›c tĂªn */
   color: #ffaa00; /* MĂ u cháº¥m trĂ²n */
   font-size: 20px;
@@ -47,4 +52,17 @@
 
 .movie-crew h2:last-child {
   margin-bottom: 0;
+}
+
+/* Extra desktop screen */
+
+/* Desktop screen */
+
+/* Tablet screen */
+
+/* Mobile screen */
+@media screen and (min-width: 350px) and (max-width: 599px) {
+  html {
+    font-size: 70%;
+  }
 }

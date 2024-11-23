@@ -24,6 +24,7 @@ function App() {
   return (
     <Router>
       {/* <Navbar /> */}
+      <Header></Header>
       <Routes>
         {/* <Route path="/" element={<Homepage />} /> */}
         <Route path="/" element={<HomePage_Main />} />
@@ -32,7 +33,6 @@ function App() {
         <Route path="*" element={<Notfound />} />
         <Route path="/movie/:id/rate" element={<Rating />} />
       </Routes>
-      <Footer />
     </Router>
   );
 }

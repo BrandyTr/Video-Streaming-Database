@@ -5,7 +5,6 @@ import { Card, POSTER_BASE_URL } from "../../commonPaths";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
 import Header from "../../components-main/header/Header";
 import HeroSlide from "../../components-main/hero-slide/HeroSlide";
 import MovieCard from "../../components-main/movie-card/MovieCard";
@@ -39,10 +38,10 @@ const HomePage_Main = () => {
       <HeroSlide></HeroSlide>
       <div className="container">
         <div className="section mb-3"></div>
-          <div className="section_header mb-2">
-            <h2>Trending Movies</h2>
-          </div>
-        <MovieList type={movieType.trending}></MovieList>
+        <div className="section_header mb-2">
+          <h2>Trending Movies</h2>
+        </div>
+        <MovieList type={movieType.popular}></MovieList>
       </div>
     </div>
   );

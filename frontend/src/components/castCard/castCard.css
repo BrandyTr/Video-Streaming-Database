@@ -1,7 +1,6 @@
 .cast-card {
-  position: relative;
   width: 250px;
-  height: 350px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

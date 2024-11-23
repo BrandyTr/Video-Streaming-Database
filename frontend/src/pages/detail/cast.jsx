@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import CastCard from "../../components/castCard/castCard"; // Corrected import path
+import CastCard from "../../components/castCard/castCard";
 import "./cast.css";
 import "swiper/css";
-import { Navigation, Virtual } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react"; // Import đúng các component của swiper
 
 const Cast = ({ credit }) => {
   const [cast, setCast] = useState([]);
@@ -14,29 +13,28 @@ const Cast = ({ credit }) => {
     }
   }, [credit]);
 
-  console.log("Cast:", cast);
-
   return (
-    <div className="frame">
+    <div className="cast-container">
       <h1>Casts</h1>
       <div className="Casts">
         <Swiper
-          spaceBetween={20}
-          slidesPerView={8}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
-          virtual
-          modules={[Virtual]}
+          spaceBetween={0} // Khoảng cách giữa các thẻ card
+          slidesPerView={10} // Hiển thị nhiều thẻ cùng lúc (4 thẻ)
+          grabCursor={true} // Cho phép kéo thẻ
+          loop={false} // Cho phép vòng lặp
         >
-          {cast.map((member, index) => (
-            <SwiperSlide key={index}>
-              <CastCard
-                key={index}
-                name={member.name}
-                profile_path={member.profile_path}
-              />
-            </SwiperSlide>
-          ))}
+          {cast.length > 0 ? (
+            cast.map((member, index) => (
+              <SwiperSlide key={index}>
+                <CastCard
+                  name={member.name}
+                  profile_path={member.profile_path}
+                />
+              </SwiperSlide>
+            ))
+          ) : (
+            <p>No cast available</p>
+          )}
         </Swiper>
       </div>
     </div>

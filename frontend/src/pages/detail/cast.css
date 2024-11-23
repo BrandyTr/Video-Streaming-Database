@@ -1,26 +1,24 @@
-.frame {
+.cast-container {
   /* Frame 220 */
 
   position: absolute;
-  width: 1440px;
-  height: 480px;
-  left: 0px;
-  top: 700px;
-
+  height: fit-content;
+  bottom: 0;
   background: linear-gradient(180deg, rgba(33, 32, 30, 0) 0%, #21201e 19.39%);
 }
+
 h1 {
   text-align: left;
   margin-left: 37px; /* Điều chỉnh vị trí để căn thẳng hàng */
   width: 58px;
-  height: 39px;
+  height: 32px;
   left: 100px;
   top: 703px;
 
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 38px;
   /* identical to box height, or 159% */
 
@@ -28,12 +26,47 @@ h1 {
 }
 
 .Casts {
+  position: relative;
+  width: 100%;
+  left: 0px;
   bottom: 0;
   display: flex;
   flex-direction: row;
-  margin: 10px;
+  justify-content: space-evenly;
+  margin: 0px;
+
 }
-.swiper-slide {
+.cast-container.swiper-slide {
   width: 135px;
   height: 187px;
+}
+
+/* Extra desktop screen */
+@media screen and (min-width: 1701px) {
+  .cast-container {
+    width: 100%;
+    font-size: 145%;
+  }
+}
+
+/* Desktop screen */
+@media screen and (min-width: 1024px) and (max-width: 1700px) {
+  .cast-container {
+    width: 100%;
+    font-size: 100%;
+  }
+}
+
+/* Tablet screen */
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  html {
+    font-size: 90%;
+  }
+}
+
+/* Mobile screen */
+@media screen and (min-width: 350px) and (max-width: 599px) {
+  html {
+    font-size: 70%;
+  }
 }

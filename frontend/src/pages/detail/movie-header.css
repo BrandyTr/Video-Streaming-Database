@@ -1,44 +1,100 @@
-.Container {
+@import url("../../css/index.css");
+.detail-header-item {
   position: absolute;
-  width: 1440px;
-  height: 636px;
+  width: 100%;
+  height: 70%;
   left: 0px;
-  top: 0px;
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
 }
-.poster {
-  /* Frame 8 */
-
+.detail-header-item::before {
+  content: "";
   position: absolute;
-  width: 269px;
-  height: 359px;
-  left: 100px;
-  top: 204px;
+  top: 0;
+  left: 0;
+  /* right: 0;
+    bottom: 0; */
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color-black-50);
+  backdrop-filter: blur(0.7px);
+}
 
+.detail-header-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background-image: linear-gradient(
+    to top,
+    var(--color-primary-1-nearly-black),
+    rgba(135, 135, 135, 0)
+  );
+}
+
+.detail-backdrop {
+  /* Frame 8 */
+  width: 11%;
+  height: auto;
+  position: absolute;
+  min-width: 200px;
+  left: 10rem;
+  top: 7vw;
+  z-index: 10;
   /* video poster - shadow */
   box-shadow: 0px 2px 13px 3px rgba(0, 0, 0, 0.5);
   border-radius: 20px;
+  
 }
-.title {
-  /* Avengers: Infinity War */
+@media screen and (min-width: 1024px) and (max-width: 1700px) {
+  .detail-header-item {
+    width: 100%;
+  }
+}
 
+/* Tablet screen */
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+}
+
+/* Mobile screen */
+@media screen and (min-width: 350px) and (max-width: 599px) {
+  .detail-header-item {
+    width: 100%;
+  }
+}
+
+.frame1 .title {
   position: absolute;
   width: 924px;
   height: 85px;
   left: 380px;
-  top: 136px;
+  top: 3vw;
+  left: 30%;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 70px;
+  font-size: 50px;
   line-height: 85px;
 
   color: #ffffff;
 }
-.frame {
+.frame1 {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 95%;
+  align-items: center;
+  justify-content: center;
   display: flex;
-  flex-direction: column;
   padding-left: 10px;
+  right: 5%;
+  top: 6%;
 }
+
 .Buttons {
   display: flex;
   flex-direction: row;
@@ -47,6 +103,9 @@
   gap: 10px;
   opacity: 0px;
   border-radius: 10px;
+  margin-top: 70px;
+  
+  
 }
 .Heart {
   display: flex;
@@ -54,11 +113,15 @@
   align-items: center; /* CÄƒn giá»¯a theo chiá»u dá»c */
   padding: 0;
   gap: 0; /* Äáº£m báº£o khĂ´ng cĂ³ khoáº£ng cĂ¡ch thá»«a */
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+   
 
   background: #03abe0;
   border-radius: 10px;
+
+  border: none;
+  box-shadow: none;
 
   /* Flex khĂ´ng lĂ m thay Ä‘á»•i vá»‹ trĂ­ */
   flex: none;
@@ -66,6 +129,7 @@
   flex-grow: 0;
 
   position: relative; /* Äáº£m báº£o khĂ´ng áº£nh hÆ°á»Ÿng bá»Ÿi position absolute tá»« cĂ¡c pháº§n tá»­ khĂ¡c */
+  color: #ffffff;
 }
 
 .Heart svg {
@@ -84,17 +148,23 @@
   align-items: center;
   padding: 10px 21px;
   gap: 11px;
+ 
 
-  width: 182px;
-  height: 50px;
+  width: 150px;
+  height: 40px;
 
   background: #03abe0;
   border-radius: 10px;
+
+  border: none;
+  box-shadow: none;
 
   /* Inside auto layout */
   flex: none;
   order: 0;
   flex-grow: 0;
+
+  color: #ffffff;
 }
 .Playbutton {
   padding-top: 3.5px;
@@ -109,9 +179,10 @@
   align-items: center;
   padding: 10px 22px 10px 20px;
   gap: 7px;
+  
 
-  width: 137px;
-  height: 50px;
+  width: 110px;
+  height: 40px;
 
   /* white - 0.3 */
   background: rgba(255, 255, 255, 0.3);
@@ -119,13 +190,19 @@
   /* Note: backdrop-filter has minimal browser support */
   border-radius: 10px;
 
+  border: none;
+  box-shadow: none;
+
   /* Inside auto layout */
   flex: none;
   order: 1;
   flex-grow: 0;
+
+  color: #ffffff;
 }
-.Details {
+.movie-info {
   /* Frame 760 */
+  /* Avengers: Infinity War */
 
   /* Auto layout */
   display: flex;
@@ -135,10 +212,13 @@
   gap: 9px;
 
   position: absolute;
-  width: 924px;
+  width: 70%;
   height: 348px;
-  left: 416px;
-  top: 313px;
+  right: 0;
+  bottom: calc(2.5vw + 30px);
+  z-index: 10;
+  transform: translateY(0);
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 .score {
   display: flex;
@@ -149,23 +229,27 @@
 
 .rate-button {
   display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
+  width: 80px; /* Chiều rộng cố định */
+  height: 30px;
+  margin: 1px;
   background-color: #ffaa00f7;
   color: rgb(0, 0, 0);
   border-radius: 5px;
   text-align: center;
+  line-height: 30px;
   font-size: 16px;
   cursor: default; /* Prevents the cursor from changing to a pointer */
 }
 .view-button {
   display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
+  width: 80px; /* Chiều rộng cố định */
+  height: 30px;
+  margin: 1px;
   background-color: transparent;
   color: white;
   border-radius: 5px;
   text-align: center;
+  line-height: 30px;
   font-size: 16px;
   cursor: default;
 }
@@ -181,8 +265,8 @@
 }
 .stars {
   display: flex;
-  margin-right: 10px; /* Táº¡o khoáº£ng cĂ¡ch giá»¯a sao vĂ  pháº§n text */
-  gap: 30px;
+  margin-right: 20px; /* Táº¡o khoáº£ng cĂ¡ch giá»¯a sao vĂ  pháº§n text */
+  gap: 15px;
 }
 
 .genres {
@@ -194,8 +278,8 @@
   padding: 0px;
   gap: 20px;
 
-  width: 549.07px;
-  height: 39px;
+  width: 80px; /* Chiều rộng cố định */
+  height: 30px;
 
   /* Inside auto layout */
   flex: none;
@@ -212,9 +296,7 @@
   align-items: center;
   padding: 0px 9.45079px;
   gap: 9px;
-
-  width: 85.9px;
-  height: 32.13px;
+  height: inherit;
 
   background: #464646;
   border-radius: 5.67048px;
@@ -224,30 +306,44 @@
   order: 0;
   flex-grow: 0;
 }
-.description {
+.movie-info .overview {
   position: relative;
-  width: 924px;
-  height: 60px;
-
+  width: 100%;
+  font-size: 80%;
   font-family: "Poppins";
   font-style: normal;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 30px;
+  line-height: 20px;
   text-align: left;
+  
 }
-.Director {
+.movie-info p {
+  font-weight: 300;
+}
+.director {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  font-weight: 300;
+  
 }
-.Producer {
+.director p {
+  font-weight: 600;
+}
+.producer {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  font-weight: 300;
 }
-.Writer {
+.producer p {
+  font-weight: 600;
+}
+.writer {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  font-weight: 300;
+}
+.writer p {
+  font-weight: 600;
 }
