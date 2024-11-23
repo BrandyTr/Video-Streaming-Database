@@ -16,7 +16,6 @@ export const genres = [
   "Fantasy",
   "History",
   "Horror",
-  "Musical",
   "Mystery",
   "Romance",
   "Science Fiction",

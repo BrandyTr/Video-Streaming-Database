@@ -2,11 +2,12 @@ import React, { useRef, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
-import Dropdown from "../search/DropDown.jsx";
+import SearchDropdown from "../search/SearchDropDown";
 
 import { LogOut } from "lucide-react";
 import { useAuth } from "../../Context/authContext";
 import movieApi from "../../api/movieApi";
+import { genres } from "../../api/movieApi";
 const headerNav = [
   {
     display: "Movies",
@@ -22,6 +23,7 @@ const Header = () => {
   const [movies, setMovies] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedRatings, setSelectedRatings] = useState([]);
 
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,29 +46,6 @@ const Header = () => {
     };
   }, []);
 
-  {
-    /* đoạn này đang sai*/
-  }
-  const genres = [
-    "Action",
-    "Adventure",
-    "Animation",
-    "Comedy",
-    "Crime",
-    "Documentary",
-    "Drama",
-    "Fantasy",
-    "History",
-    "Horror",
-    "Musical",
-    "Mystery",
-    "Romance",
-    "Science Fiction",
-    "Thriller",
-    "War",
-    "Western",
-  ];
-
   const handleGenreSelect = (genre) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter((g) => g !== genre));
@@ -76,10 +55,27 @@ const Header = () => {
       console.log("Cannot select more than 3 genres!");
     }
   };
+  const handleRatingSelect = (rating) => {
+    if (selectedRatings.includes(rating)) {
+      setSelectedRatings(selectedRatings.filter((r) => r !== rating));
+      console.log(selectedRatings);
+    } else if (selectedRatings.length < 3) {
+      setSelectedRatings([...selectedRatings, rating]);
+      console.log(selectedRatings);
+    } else {
+      console.log("Cannot select more than 3 ratings!");
+      console.log(selectedRatings);
+    }
+  };
 
   const handleFilter = () => {
-    if (selectedGenres.length > 0) {
-      navigate(`/search?genres=${selectedGenres.join("-")}`);
+    const genreQuery =
+      selectedGenres.length > 0 ? `genres=${selectedGenres.join("-")}` : "";
+    const ratingQuery =
+      selectedRatings.length > 0 ? `ratings=${selectedRatings.join("-")}` : "";
+    const query = [genreQuery, ratingQuery].filter(Boolean).join("&");
+    if (query) {
+      navigate(`/search?${query}`);
     }
   };
   const handleSearch = () => {
@@ -148,18 +144,24 @@ const Header = () => {
                 </button>
 
                 {/* search button */}
-                <button onClick={() => {handleSearch()}}
-    className="search-btn">
+                <button
+                  onClick={() => {
+                    handleSearch();
+                  }}
+                  className="search-btn"
+                >
                   Search
                 </button>
               </div>
 
               {/* click to filter button get drop down*/}
               {showDropdown && (
-                <Dropdown
+                <SearchDropdown
                   genres={genres}
                   selectedGenres={selectedGenres}
+                  selectedRatings={selectedRatings}
                   handleGenreSelect={handleGenreSelect}
+                  handleRatingSelect={handleRatingSelect}
                   handleApplyFilter={handleFilter}
                 />
               )}
