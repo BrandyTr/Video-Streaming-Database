@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import SearchDropdown from "../search/SearchDropDown";
+import { IoFilter } from "react-icons/io5";
 
 import { LogOut } from "lucide-react";
 import { useAuth } from "../../Context/authContext";
@@ -24,7 +25,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);
-
+  const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const active = headerNav.findIndex((e) => e.path === pathname);
@@ -55,7 +56,8 @@ const Header = () => {
       console.log("Cannot select more than 3 genres!");
     }
   };
-  const handleRatingSelect = (rating) => {
+  const handleRatingSelect = (ratingText) => {
+    const rating = parseFloat(ratingText.split(":")[1]);
     if (selectedRatings.includes(rating)) {
       setSelectedRatings(selectedRatings.filter((r) => r !== rating));
       console.log(selectedRatings);
@@ -64,7 +66,6 @@ const Header = () => {
       console.log(selectedRatings);
     } else {
       console.log("Cannot select more than 3 ratings!");
-      console.log(selectedRatings);
     }
   };
 
@@ -73,16 +74,25 @@ const Header = () => {
       selectedGenres.length > 0 ? `genres=${selectedGenres.join("-")}` : "";
     const ratingQuery =
       selectedRatings.length > 0 ? `ratings=${selectedRatings.join("-")}` : "";
-    const query = [genreQuery, ratingQuery].filter(Boolean).join("&");
+    const movieNameQuery = searchTerm ? `movieName=${searchTerm}` : "";
+    const query = [movieNameQuery, genreQuery, ratingQuery]
+      .filter(Boolean)
+      .join("&");
     if (query) {
+      setQuery(`?${query}`);
       navigate(`/search?${query}`);
     }
   };
+
   const handleSearch = () => {
     if (searchTerm) {
       navigate(`/search?movieName=${searchTerm}`);
     }
   };
+  const handleClose = () => {
+    setShowDropdown(false); // Close the dropdown
+  };
+
   const { logout } = useAuth();
 
   return (
@@ -140,7 +150,7 @@ const Header = () => {
                   onClick={() => setShowDropdown(!showDropdown)}
                   className="filter-btn"
                 >
-                  <FontAwesomeIcon icon="fa-solid fa-filter" />
+                  <IoFilter />
                 </button>
 
                 {/* search button */}
@@ -163,6 +173,7 @@ const Header = () => {
                   handleGenreSelect={handleGenreSelect}
                   handleRatingSelect={handleRatingSelect}
                   handleApplyFilter={handleFilter}
+                  CloseDropDown={handleClose}
                 />
               )}
             </div>

@@ -111,15 +111,16 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 .search-input {
-  padding: 10px;
+  padding: 5px;
   width: 300px;
-  border: 1px solid #ccc;
+  border: 1px #a09a9a;
   border-radius: 4px;
   font-size: 16px;
+  color: black;
 }
 
 .search-btn {
-  background-color: #f5c518;
+  background-color: #03abe0;
   color: #000;
   border: none;
   padding: 10px 20px;
@@ -129,14 +130,49 @@
 }
 
 .search-btn:hover {
-  background-color: #e4b507;
+  background-color: #0198c6;
 }
 
 .search-container {
-  color: #000;
   display: flex;
   align-items: center;
   gap: 10px; /* Add spacing between elements */
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  width: fit-content;
+}
+.search-combo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--grey-05, rgba(174, 174, 174, 0.5));
+  border-radius: 10px;
+  padding: 3px 12px;
+  border: 1px #ccc;
+  width: fit-content;
+}
+.search-icon-2 {
+  color: #03abe0;
+  font-size: 20px;
+}
+
+.filter-btn {
+  border: 1px solid #03abe0;
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.delete-icon {
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  color: #03abe0;
 }
 
 /* Movie Results */
