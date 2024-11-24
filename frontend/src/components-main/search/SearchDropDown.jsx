@@ -7,7 +7,6 @@ const SearchDropdown = ({
   handleGenreSelect,
   selectedRatings,
   handleRatingSelect,
-  handleApplyFilter,
   CloseDropDown,
 }) => {
   const ratingScore = [
@@ -71,7 +70,7 @@ const SearchDropdown = ({
         ))}
       </div>
 
-      <button onClick={handleApplyFilter} className="apply-filter-btn">
+      <button onClick={CloseDropDown} className="apply-filter-btn">
         Apply Filters
       </button>
     </div>

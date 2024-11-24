@@ -59,6 +59,7 @@ const Search = () => {
               filteredMovies = genreMovies.filter((movie) =>
                 movieIds.has(movie.id)
               );
+              console.log(filteredMovies);
             } else {
               filteredMovies = genreMovies;
             }
@@ -84,6 +85,19 @@ const Search = () => {
                 intersectionMovies.find((movie) => movie.id === id)
               );
             }
+          } else if (movieNameQueryParam && ratingQueryParam) {
+            // Fetch movies by name and filter by rating if no genres are selected
+            const response = await movieApi.searchMovie(movieNameQueryParam);
+            filteredMovies = response.data.content;
+          } else {
+            // Fetch movies from all categories if no genres are selected
+            const requests = genres.map((genre) =>
+              movieApi.getMoviesByCategory(genre)
+            );
+            const responses = await Promise.all(requests);
+            filteredMovies = responses.flatMap(
+              (response) => response.data.content
+            );
           }
 
           if (ratingQueryParam) {

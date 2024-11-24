@@ -3,8 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import SearchDropdown from "../search/SearchDropDown";
-import { IoFilter } from "react-icons/io5";
-
+import { RiFilter3Line } from "react-icons/ri";
+import Button from "../button/Button";
 import { LogOut } from "lucide-react";
 import { useAuth } from "../../Context/authContext";
 import movieApi from "../../api/movieApi";
@@ -79,15 +79,15 @@ const Header = () => {
       .filter(Boolean)
       .join("&");
     if (query) {
-      setQuery(`?${query}`);
+      setQuery(query);
       navigate(`/search?${query}`);
     }
   };
 
   const handleSearch = () => {
-    if (searchTerm) {
-      navigate(`/search?movieName=${searchTerm}`);
-    }
+    handleFilter();
+
+    setShowSearch(false);
   };
   const handleClose = () => {
     setShowDropdown(false); // Close the dropdown
@@ -146,22 +146,26 @@ const Header = () => {
                 />
 
                 {/* filter button */}
-                <button
+
+                <RiFilter3Line
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="filter-btn"
-                >
-                  <IoFilter />
-                </button>
+                  className={
+                    (query && selectedGenres.length > 0) ||
+                    selectedRatings.length > 0
+                      ? "selected-filter"
+                      : "filter-btn"
+                  }
+                />
 
                 {/* search button */}
-                <button
+                <Button
                   onClick={() => {
                     handleSearch();
                   }}
                   className="search-btn"
                 >
                   Search
-                </button>
+                </Button>
               </div>
 
               {/* click to filter button get drop down*/}
@@ -172,7 +176,6 @@ const Header = () => {
                   selectedRatings={selectedRatings}
                   handleGenreSelect={handleGenreSelect}
                   handleRatingSelect={handleRatingSelect}
-                  handleApplyFilter={handleFilter}
                   CloseDropDown={handleClose}
                 />
               )}
