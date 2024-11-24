@@ -92,6 +92,11 @@ const Header = () => {
   const handleClose = () => {
     setShowDropdown(false); // Close the dropdown
   };
+    const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const { logout } = useAuth();
 
@@ -125,11 +130,7 @@ const Header = () => {
       {/* Modal Search Overlay */}
       {showSearch && (
         <div className="search-modal">
-          <div
-            className="search-modal-overlay"
-            onClick={() => setShowSearch(false)}
-          ></div>
-          <div className="search-modal-content">
+           <div className="search-modal-content">
             <div className="header_wrap container">
               {/* Logo */}
               <div className="logo">
@@ -142,6 +143,7 @@ const Header = () => {
                   placeholder="Search Movie"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown = {handleKeyDown}
                   className="search-input"
                 />
 
@@ -167,7 +169,10 @@ const Header = () => {
                   Search
                 </Button>
               </div>
-
+              
+            </div>
+          </div>
+           <div className = "dropdown-container">
               {/* click to filter button get drop down*/}
               {showDropdown && (
                 <SearchDropdown
@@ -177,10 +182,16 @@ const Header = () => {
                   handleGenreSelect={handleGenreSelect}
                   handleRatingSelect={handleRatingSelect}
                   CloseDropDown={handleClose}
+                  className="search-dropdown"
                 />
               )}
-            </div>
-          </div>
+              </div>
+          <div
+            className="search-modal-overlay"
+            onClick={() => setShowSearch(false)}
+          ></div>
+         
+         
         </div>
       )}
       {/* Movie Results */}

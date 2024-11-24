@@ -133,7 +133,7 @@ const Search = () => {
     }
   }, [query, searchMode]);
 
-  return (
+return (
     <div className="searchresult">
       <Header className="Header" setQuery={setQuery} />
       <div>
@@ -142,35 +142,39 @@ const Search = () => {
         ) : (
           <div>
             <div className="query-value">
-              {searchMode === "name" && (
-                <h2>
-                  {movies.length} results for{" "}
-                  {(() => {
-                    const queryParams = new URLSearchParams(query);
-                    const movieName = queryParams.get("movieName");
-                    return movieName ? `"${movieName}"` : "";
-                  })()}
-                </h2>
-              )}
-              {searchMode === "filter" && (
-                <h2>
-                  {movies.length} results with{" "}
-                  {(() => {
-                    const queryParams = new URLSearchParams(query);
-                    const genreQueryParam = queryParams.get("genres");
-                    const ratingQueryParam = queryParams.get("ratings");
-                    const genres = genreQueryParam
-                      ? genreQueryParam.split("-").join(" & ")
-                      : "";
-                    const ratings = ratingQueryParam
-                      ? ratingQueryParam.split("-").join(" & ")
-                      : "";
-                    return `${genres ? `genres: ${genres}` : ""}${
-                      genres && ratings ? " and " : ""
-                    }${ratings ? `ratings: ${ratings}` : ""}`;
-                  })()}
-                </h2>
-              )}
+              {(() => {
+                const queryParams = new URLSearchParams(query);
+                const movieName = queryParams.get("movieName");
+                const genreQueryParam = queryParams.get("genres");
+                const ratingQueryParam = queryParams.get("ratings");
+                const genres = genreQueryParam
+                  ? genreQueryParam.split("-").join(" & ")
+                  : "";
+                const ratings = ratingQueryParam
+                  ? ratingQueryParam.split("-").map(r => `${r}`).join(" & ")
+                  : "";
+
+                if (movieName) {
+                  return (
+                    <h2>
+                      {movies.length} results for "{movieName}"{" "}
+                      {genres || ratings ? "with " : ""}
+                      {genres ? `genres: ${genres}` : ""}
+                      {genres && ratings ? " , " : ""}
+                      {ratings ? `ratings: ${ratings}` : ""}
+                    </h2>
+                  );
+                } else {
+                  return (
+                    <h2>
+                      {movies.length} results with{" "}
+                      {genres ? `genres: ${genres}` : ""}
+                      {genres && ratings ? " , " : ""}
+                      {ratings ? `ratings: ${ratings}` : ""}
+                    </h2>
+                  );
+                }
+              })()}
             </div>
             <div className="search-movie-list">
               {movies.map((movie) => (
