@@ -162,26 +162,22 @@
   border-radius: 0.5vw;
   cursor: pointer;
   width: 7vw;
-  height: 3vw;
+  height: 3rem;
   background-color: #fff;
   color: #03abe0;
-  justify-content: center;
 }
 .filter-btn:hover {
   background-color: #dad9d9;
   color: #03abe0;
 }
 .selected-filter {
-  border: 0.1rem solid #03abe0 !important;
+  border: 0.1rem solid #03abe0;
   border-radius: 0.5vw;
-  align-items: center;
   cursor: pointer;
   width: 7vw;
-  height: 3vw;
+  height: 3rem;
   background-color: #03abe0;
   color: #ffffff;
-  justify-content: center;
-  transform: ease-in-out;
 }
 
 .delete-icon {

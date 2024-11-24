@@ -1,6 +1,6 @@
 import React from "react";
 import "./Dropdown.css";
-
+import { TiTick } from "react-icons/ti";
 const SearchDropdown = ({
   genres,
   selectedGenres,
@@ -33,10 +33,22 @@ const SearchDropdown = ({
             key={genre}
             className={`genre-tab ${
               selectedGenres.includes(genre) ? "selected" : ""
-            }`}
+            } 
+                        ${
+                          selectedGenres.length >= 3 &&
+                          !selectedGenres.includes(genre)
+                            ? "faded"
+                            : ""
+                        }`}
             onClick={() => handleGenreSelect(genre)}
           >
+            {/*tick when genre is choosen*/}
             {genre}
+            {selectedGenres.includes(genre) && (
+              <span className="tick-icon">
+                <TiTick />
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -64,7 +76,9 @@ const SearchDropdown = ({
           >
             {rating}
             {selectedRatings.includes(parseFloat(rating.split(":")[1])) && (
-              <span className="tick-icon">✔</span>
+              <span className="tick-icon">
+                <TiTick />
+              </span>
             )}
           </div>
         ))}

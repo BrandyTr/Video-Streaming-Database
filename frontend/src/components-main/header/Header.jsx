@@ -150,7 +150,7 @@ const Header = () => {
                 <RiFilter3Line
                   onClick={() => setShowDropdown(!showDropdown)}
                   className={
-                    (query && selectedGenres.length > 0) ||
+                     selectedGenres.length > 0 ||
                     selectedRatings.length > 0
                       ? "selected-filter"
                       : "filter-btn"
