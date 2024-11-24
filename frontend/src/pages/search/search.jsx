@@ -95,9 +95,14 @@ const Search = () => {
               movieApi.getMoviesByCategory(genre)
             );
             const responses = await Promise.all(requests);
-            filteredMovies = responses.flatMap(
+            const allGenreMovies = responses.flatMap(
               (response) => response.data.content
             );
+            filteredMovies = Array.from(
+                new Set(allGenreMovies.map((movie) => movie.id))
+              ).map((id) =>
+                allGenreMovies.find((movie) => movie.id === id)
+              );
           }
 
           if (ratingQueryParam) {
