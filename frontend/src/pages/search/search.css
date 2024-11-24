@@ -13,7 +13,7 @@
 .movieCard {
   flex: 1 1 30%; /* Allow the card to grow and shrink, with a base width of 30% */
   max-width: 400px; /* Set a minimum width to prevent cards from becoming too small */
-  min-width: 1 vw;
+  min-width: 1vw;
 }
 .search-movie-list {
   width: 70%;
@@ -21,7 +21,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 30px; /* Adjust the gap between cards as needed */
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
   margin-top: 6rem; /* Add padding to the top to position it under the header */
   min-height: 60vh;
 }
@@ -41,6 +42,7 @@
     margin: auto;
   }
 }
+
 .query-value {
   width: 100%;
   align-items: center;

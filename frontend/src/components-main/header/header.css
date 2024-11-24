@@ -158,9 +158,22 @@
   color: #03abe0;
   font-size: 20px;
 }
-.dropdown-container{
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dropdown-container {
+  animation: slideDown 1s ease-out;
   z-index: 2;
 }
+
 
 .filter-btn {
   border: 0.1rem solid #03abe0;

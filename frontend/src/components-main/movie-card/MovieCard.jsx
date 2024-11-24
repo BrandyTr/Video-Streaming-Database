@@ -47,9 +47,10 @@ const MovieCard = (props) => {
         {/* <Button>
                     <i className="">hi</i>
                 </Button> */}
-
+        <div className="movie-rating">
         <div className="movie-rating-box">
           <p>{item.averageRating}</p>
+        </div>
         </div>
 
         <div className="title-box-wrapper">
