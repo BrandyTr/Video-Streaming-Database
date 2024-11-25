@@ -9,7 +9,7 @@ const {
   rateMovie,
   loveMovie,
   findMovieByGenre,
-  findMoviesByGenres,
+  findMoviesByManyGenres,
   fetchTopRatedMovies,
   fetchTrendingMovie,
   testRateMovie,
