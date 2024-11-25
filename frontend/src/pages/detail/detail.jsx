@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // Import useHistory
-import "./detail.css";
 import axios from "axios";
 import DetailHeader from "./movie-header";
 import Cast from "./cast";
 import movieApi from "../../api/movieApi";
 import { image_API } from "../../api/apiConfig";
+import Rating from "./rateMovieFunct";
+import Header from "../../components-main/header/Header";
 
 const Detail = () => {
   const { id } = useParams(); // Get id from URL
@@ -35,19 +36,34 @@ const Detail = () => {
     fetchMovieDetails();
   }, [id]); // Run the effect only when id changes
 
-  // Render the component
+  // Render the component style={{ backgroundImage: `url(${background})`,}}
+   if (!movie && !credit)
+    return (
+      <div className="h-screen text-white relatvie">
+        <div className="container">
+          <Header />
+        </div>
+        <div className="absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer"></div>
+      </div>
+    );
   return (
-    <div className="detail0">
-      {movie && credit ? (
-        <>
-          <DetailHeader movie={movie} credit={credit} />
-          <Cast credit={credit} />
-        </>
-      ) : (
-        <p>Loading...</p> // Show loading text while data is being fetched
-      )}
-    </div>
+    <div>
+    {/* Header */}
+      <div className="container">
+        <Header />
+      </div>
+      {/* MovieInfo */}
+      <div className="detail-header">
+        <DetailHeader movie={movie} credit={credit}></DetailHeader>
+      </div>
+      {/* Cast */}
+      <div className="container">
+        <Cast credit={credit}></Cast>
+        </div>
+        </div>
   );
 };
 
+
 export default Detail;
+

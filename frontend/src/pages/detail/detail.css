@@ -2,11 +2,11 @@
 
 .detail0 {
   /* position: relative; */
-  width: screen;
-  height: screen;
+  /* width: screen;
+  height: screen; */
   display: flex;
-  flex-direction: row;
-
+  flex-direction: column;
+  
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

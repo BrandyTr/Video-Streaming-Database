@@ -37,7 +37,6 @@ function App() {
     <>
     <Router>
       {/* <Navbar /> */}
-      <Header></Header>
       <Routes>
         {/* <Route path="/" element={<Homepage />} /> */}
         <Route path="/" element={<HomeScreenCheck />} />
@@ -45,7 +44,6 @@ function App() {
         <Route path="/watching/:id" element={<Watching/>} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="*" element={<Notfound />} />
-        <Route path="/movie/:id/rate" element={<Rating />} />
       </Routes>
     </Router>
     <Toaster/>

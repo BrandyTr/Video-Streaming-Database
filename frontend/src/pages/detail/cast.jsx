@@ -4,6 +4,7 @@ import "./cast.css";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react"; // Import đúng các component của swiper
 
+
 const Cast = ({ credit }) => {
   const [cast, setCast] = useState([]);
 
@@ -18,10 +19,11 @@ const Cast = ({ credit }) => {
       <h1>Casts</h1>
       <div className="Casts">
         <Swiper
-          spaceBetween={0} // Khoảng cách giữa các thẻ card
-          slidesPerView={10} // Hiển thị nhiều thẻ cùng lúc (4 thẻ)
+          spaceBetween={10} // Khoảng cách giữa các thẻ card
+          slidesPerView={4} // Hiển thị nhiều thẻ cùng lúc (4 thẻ)
           grabCursor={true} // Cho phép kéo thẻ
           loop={false} // Cho phép vòng lặp
+          
         >
           {cast.length > 0 ? (
             cast.map((member, index) => (

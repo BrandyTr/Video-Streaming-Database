@@ -1,6 +1,6 @@
 .cast-container {
   /* Frame 220 */
-
+  width: 100%;
   position: absolute;
   height: fit-content;
   bottom: 0;
@@ -14,7 +14,7 @@
   height: 32px;
   left: 100px;
   top: 703px;
-
+  z-index: 2;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
@@ -26,7 +26,6 @@
 }
 
 .Casts {
-  position: relative;
   width: 100%;
   left: 0px;
   bottom: 0;
@@ -49,23 +48,23 @@
 }
 
 /* Desktop screen */
-@media screen and (min-width: 1024px) and (max-width: 1700px) {
+/* @media screen and (min-width: 1024px) and (max-width: 1700px) {
   .cast-container {
     width: 100%;
     font-size: 100%;
   }
-}
+} */
 
 /* Tablet screen */
-@media screen and (min-width: 600px) and (max-width: 1023px) {
+/* @media screen and (min-width: 600px) and (max-width: 1023px) {
   html {
     font-size: 90%;
   }
-}
+} */
 
 /* Mobile screen */
-@media screen and (min-width: 350px) and (max-width: 599px) {
+/* @media screen and (min-width: 350px) and (max-width: 599px) {
   html {
     font-size: 70%;
   }
-}
+} */

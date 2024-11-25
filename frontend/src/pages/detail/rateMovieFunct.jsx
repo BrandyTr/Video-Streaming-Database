@@ -37,10 +37,6 @@ const Rating = () => {
 
   return (
     <div className="rating-page">
-      <h1>Rate Movie</h1>
-      <p>Average Rating: {averageRating}</p>
-      <p>Number of user rate: {ratingCount}</p>
-
       {/* 10 stars for rating*/}
       <div className="star-rating">
         {[...Array(10)].map((_, index) => {

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./movie-header.css";
 import { Link } from "react-router-dom";
 import { image_API } from "../../api/apiConfig";
+import Rating from "./rateMovieFunct";
+import Button from "../../components-main/button/Button";
 
 import {
   FaHeart,
@@ -25,14 +27,7 @@ const DetailHeader = ({ movie, credit }) => {
     movie.backdrop_path ? movie.backdrop_path : movie.poster_path
   );
 
-  // Tính toán số sao từ rating
-  const ratingSum = movie.ratingSum || 0;
-  const ratingCount = movie.ratingCount || 1; // Đảm bảo chia không bị lỗi khi ratingCount = 0
-  const rating = ratingSum / ratingCount;
-
-  const fullStars = Math.floor(rating / 2); // Số sao đầy
-  const halfStar = rating % 2 >= 1 ? 1 : 0; // Nếu có nửa sao
-  const emptyStars = 10 - (fullStars + halfStar); // Số sao rỗng
+ 
 
   // Lấy thông tin credit (đạo diễn, nhà sản xuất, biên kịch)
 
@@ -51,22 +46,27 @@ const DetailHeader = ({ movie, credit }) => {
       className="detail-header-item"
       style={{ backgroundImage: `url(${backdrop})` }}
     >
-      <div className="frame1">
+      <div className="detail-backdrop">
         <img
-          className="detail-backdrop"
           src={poster}
           alt={`${movie.title} poster`}
         />
-        <h2 className="title">{movie.title}</h2>
+        </div>
+      <div className="frame1">
+         <div className="detail-title">
+        <h2>{movie.title}</h2>
+       </div>
+        
+       
         <div className="movie-info">
-          <div className="Buttons">
+          <div className="watch-option-buttons">
             <Link to={`/watching/${id}`}>
-              <button className="Watchnow">
+              <Button className="Watchnow">
                 <div className="Playbutton">
                   <FaPlay />
                 </div>
-                Watch Now
-              </button>
+                <p>Watch Now</p>
+              </Button>
             </Link>
             <button className="Trailer">
               <FaFilm />
@@ -79,7 +79,7 @@ const DetailHeader = ({ movie, credit }) => {
 
           <div className="score">
             <div className="rate-button">
-              {movie.ratingSum} ({movie.ratingCount})
+              {movie.averageRating} ({movie.ratingCount})
             </div>
             <div className="view-button">{movie.view}</div>
           </div>
@@ -87,20 +87,7 @@ const DetailHeader = ({ movie, credit }) => {
           <div className="rating">
             <h4>Rate: </h4>
             <div className="stars">
-              {Array(fullStars)
-                .fill()
-                .map((_, index) => (
-                  <FaStar key={index} color="#ffaa00" />
-                ))}
-              {halfStar === 1 && <FaStarHalfAlt color="#ffaa00" />}
-              {Array(emptyStars)
-                .fill()
-                .map((_, index) => (
-                  <FaRegStar
-                    key={fullStars + halfStar + index}
-                    color="#ffaa00"
-                  />
-                ))}
+             <Rating/>
             </div>
           </div>
 

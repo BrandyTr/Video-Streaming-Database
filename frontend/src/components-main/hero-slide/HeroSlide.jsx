@@ -117,7 +117,7 @@ const HeroSlideItem = (props) => {
           <h2 className="title">{item.title}</h2>
           <p className="overview">{item.overview}</p>
           <div className="btns">
-            <Button onClick={() => navigate("/movie/" + item.id)}>
+            <Button onClick={() => navigate("/watching/" + item.id)}>
               Watch Now
             </Button>
             <OutlineButton onClick={() => console.log("Trailer")}>

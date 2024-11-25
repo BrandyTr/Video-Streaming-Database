@@ -1,7 +1,12 @@
 @import url("../../css/index.css");
 .detail-header-item {
   position: absolute;
-  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding-left: 5vw;
+  align-items: center;
+  justify-content: center;
+  /* flex-wrap: wrap; */
   height: 70%;
   left: 0px;
   background-position: top;
@@ -38,17 +43,12 @@
 
 .detail-backdrop {
   /* Frame 8 */
-  width: 11%;
+  width: 250px;
   height: auto;
-  position: absolute;
-  min-width: 200px;
-  left: 10rem;
-  top: 7vw;
-  z-index: 10;
-  /* video poster - shadow */
-  box-shadow: 0px 2px 13px 3px rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  
+  border-radius: var(--radius-20-video);
+  box-shadow: var(--effect-video-poster-shadow);
+  opacity: 1;
+  z-index: 1;
 }
 @media screen and (min-width: 1024px) and (max-width: 1700px) {
   .detail-header-item {
@@ -57,53 +57,47 @@
 }
 
 /* Tablet screen */
-@media screen and (min-width: 600px) and (max-width: 1023px) {
-}
+ @media screen and (min-width: 600px) and (max-width: 1023px) {
+} 
 
 /* Mobile screen */
-@media screen and (min-width: 350px) and (max-width: 599px) {
+ @media screen and (min-width: 350px) and (max-width: 599px) {
   .detail-header-item {
     width: 100%;
   }
-}
+} 
+ .detail-title {
+  /* justify-self: right;
+  align-self: flex-end; */
+ z-index: 1;
 
-.frame1 .title {
-  position: absolute;
-  width: 924px;
-  height: 85px;
-  left: 380px;
-  top: 3vw;
-  left: 30%;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 50px;
+  font-size: 48px;
   line-height: 85px;
 
   color: #ffffff;
 }
 .frame1 {
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 100%;
-  height: 95%;
-  align-items: center;
-  justify-content: center;
+  height: 75%;
+  align-items: top;
+  flex-direction: column;
   display: flex;
-  padding-left: 10px;
-  right: 5%;
-  top: 6%;
+  padding-left: 2vw;
+  gap: 1vw;
 }
 
-.Buttons {
+.watch-option-buttons {
   display: flex;
   flex-direction: row;
-  top: 237px;
-  left: 500px;
   gap: 10px;
   opacity: 0px;
+  height: 40px;
   border-radius: 10px;
-  margin-top: 70px;
+  /* margin-top: 70px; */
   
   
 }
@@ -141,33 +135,23 @@
 .Watchnow {
   /* Button / Watch */
 
-  /* Auto layout */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 21px;
   gap: 11px;
- 
-
-  width: 150px;
-  height: 40px;
-
-  background: #03abe0;
-  border-radius: 10px;
-
-  border: none;
+  text-align: center;
+  width: fit-content;
+  height: 100%;
   box-shadow: none;
-
-  /* Inside auto layout */
-  flex: none;
-  order: 0;
   flex-grow: 0;
 
-  color: #ffffff;
 }
-.Playbutton {
-  padding-top: 3.5px;
+
+.Watchnow p{
+  font-size: 15px;
+  font-weight: 400 !important;
+  color: #ffffff;
 }
 .Trailer {
   /* Frame 11 */
@@ -205,20 +189,17 @@
   /* Avengers: Infinity War */
 
   /* Auto layout */
+  top: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
   gap: 9px;
-
-  position: absolute;
   width: 70%;
   height: 348px;
   right: 0;
-  bottom: calc(2.5vw + 30px);
+  bottom: 0;
   z-index: 10;
-  transform: translateY(0);
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  
 }
 .score {
   display: flex;
@@ -319,6 +300,10 @@
 .movie-info p {
   font-weight: 300;
 }
+.overview p{
+  font-size: 15px;
+
+}
 .director {
   display: flex;
   flex-direction: row;
@@ -346,4 +331,7 @@
 }
 .writer p {
   font-weight: 600;
+}
+.stars{
+  height: 100%;
 }
