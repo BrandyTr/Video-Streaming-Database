@@ -5,6 +5,7 @@ import Button from "../button/Button";
 import movieApi from "../../api/movieApi";
 import { image_API } from "../../api/apiConfig";
 import { FaUser } from "react-icons/fa";
+import { IoIosArrowDropdown } from "react-icons/io";
 
 import "./movie-card.css";
 
@@ -42,7 +43,7 @@ const MovieCard = (props) => {
     .join(" • ");
 
   return (
-    <Link to={link}>
+    
       <div className="movie-card" style={{ backgroundImage: `url(${bg})` }}>
         {/* <Button>
                     <i className="">hi</i>
@@ -52,26 +53,36 @@ const MovieCard = (props) => {
           <p>{item.averageRating}</p>
         </div>
         </div>
+          <Link to={link}>
 
         <div className="title-box-wrapper">
           <h3>{item.title || item.name}</h3>
           <div className="movie-info-hover">
+            <div className="movie-info-container">
+            <IoIosArrowDropdown className="card-dropdown-btn"/>
             <div className="card-scores">
               <div className="rating-box-hover">
                 <p>({item.averageRating})</p>
+             
               </div>
-              <p>|</p>
+              
               <div className="card-views">
+                   <p>|</p>
                 <p>{item.ratingCount}</p>
                 <FaUser></FaUser>
               </div>
+             
             </div>
-            <p>{genreNames}</p>
+            
+            
             {/* <p>{genres.map(genre => genre.name).join(' • ')}</p> */}
+            </div>
+             <p>{genreNames}</p>
           </div>
         </div>
+         </Link>
       </div>
-    </Link>
+   
   );
 };
 

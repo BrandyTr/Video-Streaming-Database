@@ -298,7 +298,52 @@ exports.findMovieByGenre = async (genreName) => {
       message: "Genre not found!!",
     };
   }
+};
 
+  exports.findMoviesByManyGenres = async (genreNames) => {
+  if (!genreNames || genreNames.length === 0) {
+    return {
+      status: 400,
+      success: false,
+      message: "No genres provided!",
+    };
+  }
+
+  try {
+    const genres = await Genre.find({
+      name: { $in: genreNames.map(name => new RegExp(name, "i")) },
+    });
+
+    if (genres.length !== genreNames.length) {
+      return {
+        status: 404,
+        success: false,
+        message: "One or more genres not found!",
+      };
+    }
+
+    const moviesByGenre = await Promise.all(
+      genres.map(genre => Movie.find({ genres: genre._id }).populate("genres"))
+    );
+
+    const intersectedMovies = moviesByGenre.reduce((acc, genreMovies) => {
+      if (!acc) return genreMovies;
+      return acc.filter(movie => genreMovies.some(gm => gm._id.equals(movie._id)));
+    }, null);
+
+    return {
+      status: 200,
+      success: true,
+      message: "Movies retrieved successfully",
+      content: intersectedMovies,
+    };
+  } catch (error) {
+    return {
+      status: 500,
+      success: false,
+      message: "An error occurred while retrieving movies",
+    };
+  }
   const movies = await Movie.find({ genres: { $in: [genre._id] } });
   if (movies.length === 0) {
     return {
