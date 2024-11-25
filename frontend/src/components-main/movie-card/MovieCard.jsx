@@ -43,7 +43,7 @@ const MovieCard = (props) => {
     .join(" • ");
 
   return (
-    <Link to={link}>
+    
       <div className="movie-card" style={{ backgroundImage: `url(${bg})` }}>
         {/* <Button>
                     <i className="">hi</i>
@@ -53,6 +53,7 @@ const MovieCard = (props) => {
           <p>{item.averageRating}</p>
         </div>
         </div>
+          <Link to={link}>
 
         <div className="title-box-wrapper">
           <h3>{item.title || item.name}</h3>
@@ -79,8 +80,9 @@ const MovieCard = (props) => {
              <p>{genreNames}</p>
           </div>
         </div>
+         </Link>
       </div>
-    </Link>
+   
   );
 };
 

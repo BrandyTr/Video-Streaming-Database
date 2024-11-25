@@ -9,6 +9,7 @@ const {
   rateMovie,
   loveMovie,
   findMovieByGenre,
+  findMoviesByGenres,
   fetchTopRatedMovies,
   fetchTrendingMovie,
   testRateMovie,
@@ -129,9 +130,23 @@ class MovieController {
     }
   }
 
+  // async getMoviesByCategory(req, res) {
+  //   const genreName = req.params.query;
+  //   const result = await findMovieByGenre(genreName);
+  //   const response = {
+  //     success: result.success,
+  //     message: result.message,
+  //   };
+
+  //   if (result.status === 200 && result.content) {
+  //     response.content = result.content;
+  //   }
+
+  //   return res.status(result.status).json(response);
+  // }
   async getMoviesByCategory(req, res) {
-    const genreName = req.params.query;
-    const result = await findMovieByGenre(genreName);
+    const genreNames = req.params.query.split('-'); // Assuming genres are comma-separated
+    const result = await findMoviesByManyGenres(genreNames); // Update the function to handle multiple genres
     const response = {
       success: result.success,
       message: result.message,
@@ -142,7 +157,7 @@ class MovieController {
     }
 
     return res.status(result.status).json(response);
-  }
+}
   async viewMovie(req, res) {
     const id = req.params.id;
     try {
