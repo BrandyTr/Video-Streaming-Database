@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SignUpPage from '../signup/signup';
 import LoginPage from './login';
 import ButtonAuth from '../../../components/transition/buttonAuth';
@@ -15,8 +16,11 @@ const Logitech = () => {
         setIsLogin(false);
     };
 
+    const handleClickSwitch = () => {
+        setIsLogin(!isLogin);
+    }
     return (
-        <div className="relative h-screen w-full  py-12 px-8"
+        <div className="relative h-screen w-full  py-12 px-12"
         >
 
             {/* Background Layers */}
@@ -35,14 +39,16 @@ const Logitech = () => {
 
             <div
                 className={`absolute h-screen flex flex-col items-center text-center justify-center transition-transform duration-700 ${isLogin ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'
-                    }`}
+                    } hidden lg:flex`} // Add 'hidden' for small screens and 'lg:flex' to show on larger screens
             >
                 <div className="text-left">
                     {/* Title Section */}
-                    <div>
-                        <span className="text-white text-8xl font-black font-['Montserrat'] uppercase">cINE</span>
-                        <span className="text-[#03abe0] text-8xl font-black font-['Montserrat'] uppercase">sTREAM</span>
-                    </div>
+                    <Link to="/" className="text-left">
+                        <div>
+                            <span className="text-white lg:text-6xl xl:text-8xl font-black font-['Montserrat'] uppercase">cINE</span>
+                            <span className="text-[#03abe0] lg:text-6xl xl:text-8xl font-black font-['Montserrat'] uppercase">sTREAM</span>
+                        </div>
+                    </Link>
                     {/* Subtitle Section */}
                     <div>
                         <p className="text-white text-2xl font-bold mt-4">Your cinema, Anytime, Anywhere</p>
@@ -50,16 +56,18 @@ const Logitech = () => {
                 </div>
             </div>
 
+
             <div className={`transition-transform duration-500 ${isLogin ? '' : 'transform translate-x-[35%]'
                 }`}>
                 <ButtonAuth
                     isLogin={isLogin}
+                    handleClickSwitch={handleClickSwitch}
                     handleClickLogin={handleClickLogin}
                     handleClickSignUp={handleClickSignUp}
                 />
 
                 {/* Content Section */}
-                <div className="text-white flex justify-center items-center my-auto mx-auto py-6 px-6">
+                <div className="text-white relative flex justify-center items-center my-auto mx-auto py-6 px-6">
                     {isLogin ? <LoginPage /> : <SignUpPage />}
                 </div>
             </div>
