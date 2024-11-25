@@ -323,7 +323,7 @@ exports.findMovieByGenre = async (genreName) => {
     }
 
     const moviesByGenre = await Promise.all(
-      genres.map(genre => Movie.find({ genres: genre._id }))
+      genres.map(genre => Movie.find({ genres: genre._id }).populate("genres"))
     );
 
     const intersectedMovies = moviesByGenre.reduce((acc, genreMovies) => {
