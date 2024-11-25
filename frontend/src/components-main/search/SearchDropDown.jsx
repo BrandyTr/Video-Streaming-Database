@@ -1,6 +1,7 @@
 import React from "react";
 import "./Dropdown.css";
 import { TiTick } from "react-icons/ti";
+import { AiFillCloseSquare } from "react-icons/ai";
 const SearchDropdown = ({
   genres,
   selectedGenres,
@@ -22,11 +23,16 @@ const SearchDropdown = ({
   return (
     <div className="drop-down">
       {/* close button */}
-      <button className="close-btn" onClick={CloseDropDown}>
-        &times;
+      <button className="close-btn-container" >
+        <div> <AiFillCloseSquare className="close-btn" onClick={CloseDropDown}/> </div>
+       
       </button>
+      <div className ="filter-type">
       <h3>Genres</h3>
-      <p>Pick a maximum of 3</p>
+      <div className= "dropdown-line">
+      </div>
+      <p>*Pick a maximum of 3*</p>
+      </div>
       <div className="genre-list">
         {genres.map((genre) => (
           <div
@@ -52,9 +58,12 @@ const SearchDropdown = ({
           </div>
         ))}
       </div>
-
+  <div className ="filter-type">  
       <h3>Rating score</h3>
-      <p>Pick a maximum of 3</p>
+      <div className= "dropdown-line">
+      </div>
+      <p>*Pick a maximum of 3*</p>
+      </div>
       <div className="ratingScore-list">
         {ratingScore.map((rating) => (
           <div
@@ -84,7 +93,15 @@ const SearchDropdown = ({
         ))}
       </div>
 
-      <button onClick={CloseDropDown} className="apply-filter-btn">
+      <button onClick={() => {
+    if (selectedRatings.length < 1 && selectedGenres.length < 1) {
+      alert("Please select a filter");
+    } else {
+      CloseDropDown();
+    }
+  }}
+  className="apply-filter-btn"
+>
         Apply Filters
       </button>
     </div>
