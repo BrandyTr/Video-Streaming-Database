@@ -6,6 +6,7 @@ import movieApi from "../../api/movieApi";
 import { image_API } from "../../api/apiConfig";
 import { FaUser } from "react-icons/fa";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { ImPlay } from "react-icons/im";
 
 import "./movie-card.css";
 
@@ -43,18 +44,17 @@ const MovieCard = (props) => {
     .join(" • ");
 
   return (
-    
+    <Link to={link}>
       <div className="movie-card" style={{ backgroundImage: `url(${bg})` }}>
         {/* <Button>
                     <i className="">hi</i>
                 </Button> */}
+          <ImPlay className="card-play-btn" />
         <div className="movie-rating">
         <div className="movie-rating-box">
           <p>{item.averageRating}</p>
         </div>
         </div>
-          <Link to={link}>
-
         <div className="title-box-wrapper">
           <h3>{item.title || item.name}</h3>
           <div className="movie-info-hover">
@@ -80,9 +80,10 @@ const MovieCard = (props) => {
              <p>{genreNames}</p>
           </div>
         </div>
-         </Link>
+        
       </div>
-   
+      
+    </Link>
   );
 };
 
