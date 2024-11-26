@@ -22,6 +22,7 @@ export const genres = [
   "Thriller",
   "War",
   "Western",
+  "Music",
 ];
 
 const movieApi = {

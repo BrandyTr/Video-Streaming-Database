@@ -45,66 +45,50 @@ const Search = () => {
           let filteredMovies = allMovies;
 
           if (genreQueryParam) {
-            const genres = genreQueryParam.split("-");
-            const requests = genres.map((genre) =>
-              movieApi.getMoviesByCategory(genre)
-            );
-            const responses = await Promise.all(requests);
-            const genreMovies = responses.flatMap(
-              (response) => response.data.content
-            );
+            const responses = await movieApi.getMoviesByCategory(genreQueryParam);
+            console.log(responses);
+            const genreMovies = responses.data.content;
+            console.log(genreMovies);
 
             if (allMovies.length > 0) {
               const movieIds = new Set(allMovies.map((movie) => movie.id));
               filteredMovies = genreMovies.filter((movie) =>
                 movieIds.has(movie.id)
               );
-              console.log(filteredMovies);
             } else {
               filteredMovies = genreMovies;
             }
+              console.log(filteredMovies);
 
-            if (genres.length > 1) {
-              const movieCountMap = new Map();
-              filteredMovies.forEach((movie) => {
-                movieCountMap.set(
-                  movie.id,
-                  (movieCountMap.get(movie.id) || 0) + 1
-                );
-              });
+            // if (genres.length > 1) {
+            //   const movieCountMap = new Map();
+            //   filteredMovies.forEach((movie) => {
+            //     movieCountMap.set(
+            //       movie.id,
+            //       (movieCountMap.get(movie.id) || 0) + 1
+            //     );
+            //   });            
 
-              // Filter movies that appear more than once in each genre
-              const intersectionMovies = filteredMovies.filter(
-                (movie) => movieCountMap.get(movie.id) === genres.length
-              );
+            //   // Remove duplicates from intersectionMovies
+            //   filteredMovies = Array.from(
+            //     new Set(intersectionMovies.map((movie) => movie.id))
+            //   ).map((id) =>
+            //     intersectionMovies.find((movie) => movie.id === id)
+            //   );
+            // }
 
-              // Remove duplicates from intersectionMovies
-              filteredMovies = Array.from(
-                new Set(intersectionMovies.map((movie) => movie.id))
-              ).map((id) =>
-                intersectionMovies.find((movie) => movie.id === id)
-              );
-            }
-          } else if (movieNameQueryParam && ratingQueryParam) {
+          } else  if (movieNameQueryParam && ratingQueryParam) {
             // Fetch movies by name and filter by rating if no genres are selected
             const response = await movieApi.searchMovie(movieNameQueryParam);
             filteredMovies = response.data.content;
           } else {
             // Fetch movies from all categories if no genres are selected
-            const requests = genres.map((genre) =>
-              movieApi.getMoviesByCategory(genre)
-            );
-            const responses = await Promise.all(requests);
-            const allGenreMovies = responses.flatMap(
-              (response) => response.data.content
-            );
-            filteredMovies = Array.from(
-                new Set(allGenreMovies.map((movie) => movie.id))
-              ).map((id) =>
-                allGenreMovies.find((movie) => movie.id === id)
-              );
+            const allGenres = genres.join("-");
+            const responses = await  movieApi.getMoviesByCategory(allGenres);
+            const allGenreMovies =  responses.data.content;
+            filteredMovies = allGenreMovies;
+            console.log(filteredMovies);
           }
-
           if (ratingQueryParam) {
             const ratings = ratingQueryParam.split("-");
             const minRating = Math.min(...ratings.map(Number));
@@ -116,7 +100,6 @@ const Search = () => {
                 movie.averageRating < maxRating
             );
           }
-
           allMovies = filteredMovies;
         }
 
