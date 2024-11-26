@@ -6,11 +6,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.5vw;
 }
 
 .star {
+  flex-direction: row;
   cursor: pointer;
   transition: color 200ms;
+ 
 }
 
 input[type="radio"] {

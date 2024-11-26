@@ -9,6 +9,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import Watching from "./pages/watching/watching";
+import Detail from "./pages/detail/detail";
+// New
+import Header from "./components-main/header/Header";
 import Search from "./pages/search/search";
 
 library.add(fas, fab);
@@ -34,23 +37,18 @@ function App() {
   console.log(user);
   return (
     <>
-      <Router>
-        {/* <Navbar /> */}
-        <Routes>
-          {/* <Route path="/" element={<Homepage />} /> */}
-          <Route path="/" element={<HomeScreenCheck />} />
-          <Route
-            path="/login"
-            element={!user ? <Logitech /> : <Navigate to={"/"} />}
-          ></Route>
-          <Route path="/watching/:id" element={<Watching />} />
-          <Route path="*" element={<Notfound />} />
-          <Route path="/movie/:id/rate" element={<Rating />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-        <Footer />
-      </Router>
-      <Toaster />
+    <Router>
+      {/* <Navbar /> */}
+      <Routes>
+        {/* <Route path="/" element={<Homepage />} /> */}
+        <Route path="/" element={<HomeScreenCheck />} />
+        <Route path='/login' element={ !user ? <Logitech /> : <Navigate to={"/"} />}></Route>
+        <Route path="/watching/:id" element={<Watching/>} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="*" element={<Notfound />} />
+      </Routes>
+    </Router>
+    <Toaster/>
     </>
   );
 }

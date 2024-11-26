@@ -1,0 +1,68 @@
+@import url("../../css/index.css");
+
+.detail0 {
+  /* position: relative; */
+  /* width: screen;
+  height: screen; */
+  display: flex;
+  flex-direction: column;
+  
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hhh {
+  font-size: x-large;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+.movie-crew {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f4f4f4; /* MĂ u ná»n sĂ¡ng */
+  border-radius: 10px; /* Bo gĂ³c nháº¹ */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Äá»• bĂ³ng nháº¹ Ä‘á»ƒ táº¡o chiá»u sĂ¢u */
+}
+
+.movie-crew .h2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333; /* MĂ u chá»¯ Ä‘áº­m */
+  margin-bottom: 10px;
+}
+
+.movie-crew .h2 span {
+  font-weight: normal;
+  color: #555; /* MĂ u chá»¯ phá»¥ */
+}
+
+.movie-crew .h2::before {
+  content: "â€¢ "; /* ThĂªm biá»ƒu tÆ°á»£ng cháº¥m trĂ²n trÆ°á»›c tĂªn */
+  color: #ffaa00; /* MĂ u cháº¥m trĂ²n */
+  font-size: 20px;
+}
+
+.movie-crew h2:not(:last-child) {
+  border-bottom: 1px solid #ccc; /* ÄÆ°á»ng viá»n dÆ°á»›i cĂ¡c má»¥c */
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.movie-crew h2:last-child {
+  margin-bottom: 0;
+}
+
+/* Extra desktop screen */
+
+/* Desktop screen */
+
+/* Tablet screen */
+
+/* Mobile screen */
+@media screen and (min-width: 350px) and (max-width: 599px) {
+  html {
+    font-size: 70%;
+  }
+}

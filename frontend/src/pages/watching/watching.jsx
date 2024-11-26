@@ -15,7 +15,7 @@ const Watching = () => {
         const response = await axios.get(`/api/movie/${id}/details`);
         console.log("Fetched data:", response.data);
         const fullVideo = response.data.content.videos.find(
-          (video) => video.type === "full-time" // lay field full-time cua hai loai video(full-time, trailer)
+          (video) => video.type === "full-time: " // lay field full-time cua hai loai video(full-time, trailer)
         );
         if (fullVideo) {
           setTestlink(fullVideo.key); // Update state bang link phim
@@ -50,9 +50,9 @@ const Watching = () => {
   };
 
   // link to rate video page
-  const clickRateButton = () => {
-    navigate(`/movie/${id}/rate`);
-  };
+  // const clickRateButton = () => {
+  //   navigate(`/movie/${id}/rate`);
+  // };
 
   return (
     <div>
@@ -63,7 +63,7 @@ const Watching = () => {
       ) : (
         <p>No video available. Please select a video to watch.</p>
       )}
-      <button onClick={clickRateButton}>Rate this Movie</button>
+      {/* <button onClick={clickRateButton}>Rate this Movie</button> */}
     </div>
   );
 };
