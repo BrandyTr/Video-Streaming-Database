@@ -26,6 +26,7 @@ const HomePage_Main = () => {
     fetchContent();
   }, []);
   if (!contents)
+    
     return (
       <div className="h-screen text-white relatvie">
         <div className="container">

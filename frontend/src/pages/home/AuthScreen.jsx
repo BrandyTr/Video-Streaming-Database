@@ -3,16 +3,23 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 const AuthScreen = () => {
   const [email, setEmail] = useState("")
-  const navigate=useNavigate()
-  const handleFormSubmit=(e)=>{
+  const navigate = useNavigate()
+  const handleFormSubmit = (e) => {
     e.preventDefault()
-    navigate("/login?email="+email)
+    navigate("/login?email=" + email)
   }
   return (
     <div className='hero-bg relative'>
-      <header className='max-w-6xl mx-auto flex items-center justify-between p-5 pb-10'>
+      <header className='max-w-6xl mx-auto flex items-center justify-between p-5 pb-10 pt-8'>
         {/* <img className='w-32 md:w-52' src="/netflix-logo.png" alt="Netflix logo" /> */}
-        <div className="tMovie text-2xl">cineStream</div>
+        {/* Title Section */}
+        <Link to={"/"}>
+          <div>
+            <span className="text-white text-xl font-black font-['Montserrat'] uppercase">cINE</span>
+            <span className="text-[#03abe0] text-xl font-black font-['Montserrat'] uppercase">sTREAM</span>
+          </div>
+        </Link>
+
         <Link to={"/login"} className='text-white bg-first-blue py-1 px-2 rounded 
         hover:text-first-blue hover:bg-white'>
           Sign in
