@@ -10,23 +10,23 @@ const Homepage = () => {
 
   const content = [
     {
-      title: 'Jumanji',
-      description: 'The next level',
+      title: "Jumanji",
+      description: "The next level",
       image: Images.jumanji1,
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
-      title: 'Jumanji 2',
-      description: 'The next level 2',
+      title: "Jumanji 2",
+      description: "The next level 2",
       image: Images.jumanji2,
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
-      title: 'Avengers',
-      description: 'Endgame',
+      title: "Avengers",
+      description: "Endgame",
       image: Images.endgame,
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-    }
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    },
   ];
 
   const handleCardClick = (videoUrl) => {
