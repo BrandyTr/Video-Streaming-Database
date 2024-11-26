@@ -1,6 +1,7 @@
 @import url("../../css/index.css");
 
-.detail0 {
+.detail-header  {
+  margin-bottom: 3rem;
   /* position: relative; */
   /* width: screen;
   height: screen; */

@@ -108,6 +108,8 @@ const HeroSlideItem = (props) => {
   // let navigate = useNavigate();
 
   const item = props.movie;
+  const navigate = useNavigate();
+
 
   // if background image is not available, use poster image
   const background = image_API.originalImage(
@@ -130,7 +132,7 @@ const HeroSlideItem = (props) => {
           </div>
           <p className="overview">{item.overview}</p>
           <div className="btns">
-            <Button onClick={() => navigate("/watching/" + item.id)}>
+            <Button onClick={() => navigate(`/watching/${item.id}`)}>
               Watch Now
             </Button>
             <OutlineButton onClick={() => console.log("Trailer")}>

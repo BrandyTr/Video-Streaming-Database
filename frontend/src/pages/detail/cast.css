@@ -1,7 +1,6 @@
 .cast-container {
   /* Frame 220 */
   width: 100%;
-  position: absolute;
   height: fit-content;
   bottom: 0;
   background: linear-gradient(180deg, rgba(33, 32, 30, 0) 0%, #21201e 19.39%);
@@ -10,17 +9,15 @@
 .cast-container h1 {
   text-align: left;
   margin-left: 37px; /* Điều chỉnh vị trí để căn thẳng hàng */
-  width: 58px;
-  height: 32px;
-  left: 100px;
-  top: 703px;
-  z-index: 2;
+  /* width: 58px;
+  height: 32px; */
+  /* left: 100px;
+  top: 703px; */
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
-  line-height: 38px;
-  /* identical to box height, or 159% */
+  font-size: 2.3vw;
+  line-height: 5vw;
 
   color: #ffffff;
 }
@@ -34,18 +31,10 @@
   justify-content: space-evenly;
   margin: 0px;
 }
-.cast-container.swiper-slide {
-  width: 135px;
-  height: 187px;
-}
+
 
 /* Extra desktop screen */
-@media screen and (min-width: 1701px) {
-  .cast-container {
-    width: 100%;
-    font-size: 145%;
-  }
-}
+
 
 /* Desktop screen */
 /* @media screen and (min-width: 1024px) and (max-width: 1700px) {

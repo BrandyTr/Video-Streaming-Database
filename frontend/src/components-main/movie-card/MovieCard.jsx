@@ -27,8 +27,8 @@ const MovieCard = (props) => {
         if (response.data.content.genres) {
           const fetchedGenres = response.data.content.genres; // Ensure this is the correct path
           setGenres(fetchedGenres); // Update state with fetched data
-          console.log("Fetched data:");
-          console.log(response.data.content.genres);
+          // console.log("Fetched data:");
+          // console.log(response.data.content.genres);
         }
         // console.log("Fetched data:", response.data.content);
       } catch (error) {

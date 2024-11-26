@@ -10,6 +10,7 @@ const Rating = () => {
   const [hover, setHover] = useState(null);
   const [averageRating, setAverageRating] = useState(null);
   const [ratingCount, setRatingCount] = useState(0);
+  const [hasRated, setHasRated] = useState(false);
 
   useEffect(() => {
     const fetchMovieRating = async () => {
@@ -18,6 +19,13 @@ const Rating = () => {
         console.log("Fetched data:", response.data);
         setAverageRating(response.data.averageRating);
         setRatingCount(response.data.ratingCount);
+
+        // Check if the user has already rated the movie
+        const userRatingResponse = await axios.get(`/api/movie/${id}/user-rating`);
+        if (userRatingResponse.data.hasRated) {
+          setRating(userRatingResponse.data.rating);
+          setHasRated(true);
+        }
       } catch (error) {
         console.error("Error fetching movie rating:", error);
       }
@@ -25,19 +33,32 @@ const Rating = () => {
     fetchMovieRating();
   }, [id]);
 
-  const handleRating = async (setRating) => {
+  const handleRating = async (ratingValue) => {
     try {
-      const response = await axios.post(`/api/movie/${id}/rate`, { rating: setRating });
+      const response = await axios.post(`/api/movie/${id}/rate`, { rating: ratingValue });
       setAverageRating(response.data.content.averageRating);
       setRatingCount(response.data.content.ratingCount);
+      setRating(ratingValue);
+      setHasRated(true);
+
+      // Store the rating status in local storage
+      localStorage.setItem(`hasRated-${id}`, 'true');
     } catch (error) {
       console.log("Failed to rate", error);
     }
   };
 
+  useEffect(() => {
+    // Check local storage for rating status
+    const hasRatedStatus = localStorage.getItem(`hasRated-${id}`);
+    if (hasRatedStatus === 'true') {
+      setHasRated(true);
+    }
+  }, [id]);
+
   return (
     <div className="rating-page">
-      {/* 10 stars for rating*/}
+      {/* 10 stars for rating */}
       <div className="star-rating">
         {[...Array(10)].map((_, index) => {
           const ratingValue = index + 1;
@@ -48,18 +69,21 @@ const Rating = () => {
                 name="rating"
                 value={ratingValue}
                 onClick={() => handleRating(ratingValue)}
+                disabled={hasRated} // Disable the input if the user has rated
               />
               <FaStar
                 className="star"
                 color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
                 size={30}
-                onMouseEnter={() => setHover(ratingValue)}
-                onMouseLeave={() => setHover(null)}
+                onMouseEnter={() => !hasRated && setHover(ratingValue)}
+                onMouseLeave={() => !hasRated && setHover(null)}
               />
             </label>
           );
         })}
       </div>
+              {hasRated && <div className="hasRated-tooltip">You have already rated this movie.</div>}
+
     </div>
   );
 };
