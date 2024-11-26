@@ -44,9 +44,11 @@ function App() {
         <Route path="/" element={<HomeScreenCheck />} />
         <Route path='/login' element={ !user ? <Logitech /> : <Navigate to={"/"} />}></Route>
         <Route path="/watching/:id" element={<Watching/>} />
+        <Route path="/movie/:id/rate" element={<Rating/>} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="*" element={<Notfound />} />
       </Routes>
+      <Footer />
     </Router>
     <Toaster/>
     </>
