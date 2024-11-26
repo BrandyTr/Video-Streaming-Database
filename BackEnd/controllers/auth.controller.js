@@ -4,10 +4,10 @@ const { signup, login } = require("../services/auth.service");
 class authController {
     async signup(req, res, next) {
         try {
-            const { email, password, username } = req.body;
-            const newUser = await signup(email, password, username);
+            const { email, password, username,role } = req.body;
+            const newUser = await signup(email, password, username,role);
 
-            generateToken(newUser._id, res);
+            generateToken(newUser._id,newUser.role, res);
 
             res.status(201).json({
                 success: true,
@@ -27,7 +27,7 @@ class authController {
             const { email, password, username, image, isGoogleLogin } = req.body;
             const user = await login( email, password, username, image, isGoogleLogin )
 
-            generateToken(user._id, res);
+            generateToken(user._id,user.role, res);
 
             res.status(200).json({
                 success: true,

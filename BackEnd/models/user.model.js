@@ -18,6 +18,10 @@ const userSchema=new Schema({
             return !this.isGoogleAccount;
         },
     },
+    role:{
+        type:String,
+        default:"user"
+    },
     image: {
 		type: String,
 		default: "",

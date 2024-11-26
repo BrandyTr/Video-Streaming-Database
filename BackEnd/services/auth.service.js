@@ -1,7 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user.model");
 
-exports.signup = async (email, password, username) => {
+exports.signup = async (email, password, username, role='user') => {
   if (!email || !password || !username) {
     throw new Error("All fields are required!");
   }
@@ -36,6 +36,7 @@ exports.signup = async (email, password, username) => {
     password: hashPassword,
     username,
     image,
+    role,
   });
 
   await newUser.save();
