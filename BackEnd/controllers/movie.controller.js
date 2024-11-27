@@ -13,10 +13,10 @@ const {
   fetchTopRatedMovies,
   fetchTrendingMovie,
   testRateMovie,
+  filterMovie,
 } = require("../services/movie.service");
 
-CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000; 
-
+CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
 
 class MovieController {
   async getAll(req, res) {
@@ -145,7 +145,7 @@ class MovieController {
   //   return res.status(result.status).json(response);
   // }
   async getMoviesByCategory(req, res) {
-    const genreNames = req.params.query.split('-'); // Assuming genres are comma-separated
+    const genreNames = req.params.query.split("-"); // Assuming genres are comma-separated
     const result = await findMoviesByManyGenres(genreNames); // Update the function to handle multiple genres
     const response = {
       success: result.success,
@@ -157,7 +157,21 @@ class MovieController {
     }
 
     return res.status(result.status).json(response);
-}
+  }
+  async getMovieByOptions(req,res){
+    const options= req.body;
+    const result= await filterMovie(options)
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
+
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
+  }
   async viewMovie(req, res) {
     const id = req.params.id;
     try {
@@ -197,8 +211,8 @@ class MovieController {
 
     return res.status(result.status).json(response);
   }
-  async HandleTestRateMovie(req,res){
-    const id= req.params.id
+  async HandleTestRateMovie(req, res) {
+    const id = req.params.id;
     const rating = req.body.rating;
     const result = await testRateMovie(id, rating);
     const response = {

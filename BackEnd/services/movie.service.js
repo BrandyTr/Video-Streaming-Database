@@ -158,12 +158,12 @@ exports.generateMovieOphim = async (movieName, videoUrl, OphimYear) => {
         status: 200,
         message: "Movie, credits, and video generated successfully",
       };
-    }else{
+    } else {
       return {
-        success:false,
-        status:404,
-        message: "Can not find Ophim Info in tmdb!"
-      }
+        success: false,
+        status: 404,
+        message: "Can not find Ophim Info in tmdb!",
+      };
     }
   } catch (err) {
     return {
@@ -300,7 +300,7 @@ exports.findMovieByGenre = async (genreName) => {
   }
 };
 
-  exports.findMoviesByManyGenres = async (genreNames) => {
+exports.findMoviesByManyGenres = async (genreNames) => {
   if (!genreNames || genreNames.length === 0) {
     return {
       status: 400,
@@ -311,7 +311,7 @@ exports.findMovieByGenre = async (genreName) => {
 
   try {
     const genres = await Genre.find({
-      name: { $in: genreNames.map(name => new RegExp(name, "i")) },
+      name: { $in: genreNames.map((name) => new RegExp(name, "i")) },
     });
 
     if (genres.length !== genreNames.length) {
@@ -323,20 +323,32 @@ exports.findMovieByGenre = async (genreName) => {
     }
 
     const moviesByGenre = await Promise.all(
-      genres.map(genre => Movie.find({ genres: genre._id }).populate("genres"))
+      genres.map((genre) =>
+        Movie.find({ genres: genre._id }).populate("genres")
+      )
     );
+    console.log(moviesByGenre)
 
     const intersectedMovies = moviesByGenre.reduce((acc, genreMovies) => {
       if (!acc) return genreMovies;
-      return acc.filter(movie => genreMovies.some(gm => gm._id.equals(movie._id)));
+      return acc.filter((movie) =>
+        genreMovies.some((gm) => gm._id.equals(movie._id))
+      );
     }, null);
-
-    return {
-      status: 200,
-      success: true,
-      message: "Movies retrieved successfully",
-      content: intersectedMovies,
-    };
+    if (intersectedMovies) {
+      return {
+        status: 200,
+        success: true,
+        message: "Movies retrieved successfully",
+        content: intersectedMovies,
+      };
+    } else {
+      return {
+        status: 404,
+        success: false,
+        message: "No movies founded for this filter",
+      };
+    }
   } catch (error) {
     return {
       status: 500,
@@ -344,21 +356,65 @@ exports.findMovieByGenre = async (genreName) => {
       message: "An error occurred while retrieving movies",
     };
   }
-  const movies = await Movie.find({ genres: { $in: [genre._id] } });
-  if (movies.length === 0) {
+};
+exports.filterMovie=async(options)=>{
+  const {genreNames,minRating}=options
+  if (!genreNames || genreNames.length === 0) {
     return {
-      status: 404,
+      status: 400,
       success: false,
-      message: "No movies founded for this genre!!",
+      message: "No genres provided!",
     };
   }
 
-  return {
-    status: 200,
-    success: true,
-    content: movies,
-  };
-};
+  try {
+    const genres = await Genre.find({
+      name: { $in: genreNames.map((name) => new RegExp(name, "i")) },
+    });
+
+    if (genres.length !== genreNames.length) {
+      return {
+        status: 404,
+        success: false,
+        message: "One or more genres not found!",
+      };
+    }
+
+    const moviesByGenre = await Promise.all(
+      genres.map((genre) =>
+        Movie.find({ genres: genre._id }).populate("genres")
+      )
+    );
+
+    const intersectedMovies = moviesByGenre.reduce((acc, genreMovies) => {
+      if (!acc) return genreMovies;
+      return acc.filter((movie) =>
+        genreMovies.some((gm) => gm._id.equals(movie._id))
+      );
+    }, null);
+    const result= intersectedMovies.filter((movie)=>movie.averageRating>=minRating)
+    if (result) {
+      return {
+        status: 200,
+        success: true,
+        message: "Movies retrieved successfully",
+        content: result,
+      };
+    } else {
+      return {
+        status: 404,
+        success: false,
+        message: "No movies founded for this filter",
+      };
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      success: false,
+      message: "An error occurred while retrieving movies",
+    };
+  }
+}
 exports.deleteMovieById = async (movieId) => {
   try {
     const movie = await Movie.findById(movieId).populate("credit videos");
