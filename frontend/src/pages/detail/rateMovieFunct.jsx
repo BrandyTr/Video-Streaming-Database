@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './rateMovieFunct.css'
+import movieApi from '../../api/movieApi';
 
 const Rating = () => {
   const { id } = useParams();
@@ -15,17 +16,10 @@ const Rating = () => {
   useEffect(() => {
     const fetchMovieRating = async () => {
       try {
-        const response = await axios.get(`/api/movie/${id}/details`);
+        const response = await movieApi.getMovieDetails(id);
         console.log("Fetched data:", response.data);
         setAverageRating(response.data.averageRating);
         setRatingCount(response.data.ratingCount);
-
-        // Check if the user has already rated the movie
-        const userRatingResponse = await axios.get(`/api/movie/${id}/user-rating`);
-        if (userRatingResponse.data.hasRated) {
-          setRating(userRatingResponse.data.rating);
-          setHasRated(true);
-        }
       } catch (error) {
         console.error("Error fetching movie rating:", error);
       }
@@ -35,30 +29,19 @@ const Rating = () => {
 
   const handleRating = async (ratingValue) => {
     try {
-      const response = await axios.post(`/api/movie/${id}/rate`, { rating: ratingValue });
+      const response = await movieApi.rateMovie(id,ratingValue  );
       setAverageRating(response.data.content.averageRating);
       setRatingCount(response.data.content.ratingCount);
       setRating(ratingValue);
       setHasRated(true);
-
-      // Store the rating status in local storage
-      localStorage.setItem(`hasRated-${id}`, 'true');
     } catch (error) {
       console.log("Failed to rate", error);
     }
   };
 
-  useEffect(() => {
-    // Check local storage for rating status
-    const hasRatedStatus = localStorage.getItem(`hasRated-${id}`);
-    if (hasRatedStatus === 'true') {
-      setHasRated(true);
-    }
-  }, [id]);
-
   return (
     <div className="rating-page">
-      {/* 10 stars for rating */}
+      {/* 10 stars for rating*/}
       <div className="star-rating">
         {[...Array(10)].map((_, index) => {
           const ratingValue = index + 1;
@@ -82,8 +65,7 @@ const Rating = () => {
           );
         })}
       </div>
-              {hasRated && <div className="hasRated-tooltip">You have already rated this movie.</div>}
-
+      {hasRated && <div className ="hasRated-tooltip">Note: You have rated this movie!</div>}
     </div>
   );
 };
