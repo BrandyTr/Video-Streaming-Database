@@ -74,7 +74,6 @@ class SearchController {
             res.status(400).json({ success: false, message: err.message })
         }
     }   
-    async 
     async searchTv(req, res) {
 
     }
