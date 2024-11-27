@@ -423,7 +423,7 @@ exports.filterMovie = async (options) => {
     return {
       status: 500,
       success: false,
-      message: "An error occurred while retrieving movies",
+      message: "An error occurred while retrieving movies: ",
     };
   }
 };

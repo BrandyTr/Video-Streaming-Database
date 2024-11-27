@@ -159,7 +159,11 @@ class MovieController {
     return res.status(result.status).json(response);
   }
   async getMovieByOptions(req,res){
-    const options= req.body;
+    const {genreNames,minRatings}= req.body;
+    const options={
+      genreNames,
+      minRatings:minRatings?minRatings:[]
+    }
     const result= await filterMovie(options)
     const response = {
       success: result.success,
