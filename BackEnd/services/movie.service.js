@@ -392,7 +392,7 @@ exports.filterMovie = async (options) => {
 
       movies = intersectedMovies;
     } else {
-      movies = await Movie.find().populate("genres");
+      movies = await Movie.find({}, overViewProjection);
     }
     if(minRatings.length > 0){
      result = movies.filter((movie) =>
