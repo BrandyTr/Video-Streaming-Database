@@ -31,6 +31,7 @@ const Search = () => {
     setLoading(true);
     try {
       let allMovies = [];
+      let  optionMovies = [];
       const queryParams = new URLSearchParams(query);
       const movieNameQueryParam = queryParams.get("movieName");
       const genreQueryParam = queryParams.get("genres");
@@ -46,20 +47,20 @@ const Search = () => {
 
         const options = {
           genreNames: genreQueryParam ? genreQueryParam.split("-") : [],
-          minRatings: ratingQueryParam ? ratingQueryParam.split("-").map(Number) : []
-        };
-        console.log(options);
+          minRatings: ratingQueryParam ? ratingQueryParam.split("-").map(Number):[]
+,        };
 
         const response = await movieApi.getMoviesByOption(options);
-        const genreMovies = response.data.content;
-
+        console.log(response);
+        optionMovies = response.data.content;
+        
         if (allMovies.length > 0) {
           const movieIds = new Set(allMovies.map((movie) => movie.id));
-          filteredMovies = genreMovies.filter((movie) =>
+          filteredMovies = optionMovies.filter((movie) =>
             movieIds.has(movie.id)
           );
         } else {
-          filteredMovies = genreMovies;
+          filteredMovies = optionMovies;
         }
 
         allMovies = filteredMovies;

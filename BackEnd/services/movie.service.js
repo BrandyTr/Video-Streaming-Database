@@ -414,9 +414,10 @@ exports.filterMovie = async (options) => {
       };
     } else {
       return {
-        status: 404,
-        success: false,
+        status: 200,
+        success: true,
         message: "No movies found for this filter",
+        content: [],
       };
     }
   } catch (error) {
