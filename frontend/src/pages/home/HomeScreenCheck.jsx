@@ -1,14 +1,12 @@
-
-
 import { useAuth } from '../../Context/authContext';
-import AdminPage from './AdminPage';
+import AdminDashboard from './AdminDashboard';
 import AuthScreen from './AuthScreen';
 import HomePage_Main from './HomePage-main';
 const HomeScreenCheck = () => {
   const {user}=useAuth()
   if(user?.role=='admin'){
     return (
-      <AdminPage/>
+      <AdminDashboard/>
     )
   }
   return (
