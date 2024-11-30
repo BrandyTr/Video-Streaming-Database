@@ -27,95 +27,57 @@ const Search = () => {
   }, [location.search]);
 
   useEffect(() => {
-    const handleSearch = async () => {
-      setLoading(true);
-      try {
-        let allMovies = [];
-        const queryParams = new URLSearchParams(query);
-        const movieNameQueryParam = queryParams.get("movieName");
-        const genreQueryParam = queryParams.get("genres");
-        const ratingQueryParam = queryParams.get("ratings");
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      let allMovies = [];
+      let  optionMovies = [];
+      const queryParams = new URLSearchParams(query);
+      const movieNameQueryParam = queryParams.get("movieName");
+      const genreQueryParam = queryParams.get("genres");
+      const ratingQueryParam = queryParams.get("ratings");
 
-        if (movieNameQueryParam) {
-          const response = await movieApi.searchMovie(movieNameQueryParam);
-          allMovies = response.data.content;
-        }
-
-        if (genreQueryParam || ratingQueryParam) {
-          let filteredMovies = allMovies;
-
-          if (genreQueryParam) {
-            const responses = await movieApi.getMoviesByCategory(genreQueryParam);
-            console.log(responses);
-            const genreMovies = responses.data.content;
-            console.log(genreMovies);
-
-            if (allMovies.length > 0) {
-              const movieIds = new Set(allMovies.map((movie) => movie.id));
-              filteredMovies = genreMovies.filter((movie) =>
-                movieIds.has(movie.id)
-              );
-            } else {
-              filteredMovies = genreMovies;
-            }
-              console.log(filteredMovies);
-
-            // if (genres.length > 1) {
-            //   const movieCountMap = new Map();
-            //   filteredMovies.forEach((movie) => {
-            //     movieCountMap.set(
-            //       movie.id,
-            //       (movieCountMap.get(movie.id) || 0) + 1
-            //     );
-            //   });            
-
-            //   // Remove duplicates from intersectionMovies
-            //   filteredMovies = Array.from(
-            //     new Set(intersectionMovies.map((movie) => movie.id))
-            //   ).map((id) =>
-            //     intersectionMovies.find((movie) => movie.id === id)
-            //   );
-            // }
-
-          } else  if (movieNameQueryParam && ratingQueryParam) {
-            // Fetch movies by name and filter by rating if no genres are selected
-            const response = await movieApi.searchMovie(movieNameQueryParam);
-            filteredMovies = response.data.content;
-          } else {
-            // Fetch movies from all categories if no genres are selected
-            const allGenres = genres.join("-");
-            const responses = await  movieApi.getMoviesByCategory(allGenres);
-            const allGenreMovies =  responses.data.content;
-            filteredMovies = allGenreMovies;
-            console.log(filteredMovies);
-          }
-          if (ratingQueryParam) {
-            const ratings = ratingQueryParam.split("-");
-            const minRating = Math.min(...ratings.map(Number));
-            const maxRating = Math.max(...ratings.map(Number)) + 1;
-
-            filteredMovies = filteredMovies.filter(
-              (movie) =>
-                movie.averageRating >= minRating &&
-                movie.averageRating < maxRating
-            );
-          }
-          allMovies = filteredMovies;
-        }
-
-        setMovies(allMovies);
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      } finally {
-        setLoading(false);
+      if (movieNameQueryParam) {
+        const response = await movieApi.searchMovie(movieNameQueryParam);
+        allMovies = response.data.content;
       }
-    };
 
-    if (query) {
-      handleSearch();
+      if (genreQueryParam || ratingQueryParam) {
+        let filteredMovies = allMovies;
+
+        const options = {
+          genreNames: genreQueryParam ? genreQueryParam.split("-") : [],
+          minRatings: ratingQueryParam ? ratingQueryParam.split("-").map(Number):[]
+,        };
+
+        const response = await movieApi.getMoviesByOption(options);
+        console.log(response);
+        optionMovies = response.data.content;
+        
+        if (allMovies.length > 0) {
+          const movieIds = new Set(allMovies.map((movie) => movie.id));
+          filteredMovies = optionMovies.filter((movie) =>
+            movieIds.has(movie.id)
+          );
+        } else {
+          filteredMovies = optionMovies;
+        }
+
+        allMovies = filteredMovies;
+      }
+
+      setMovies(allMovies);
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    } finally {
+      setLoading(false);
     }
-  }, [query, searchMode]);
+  };
 
+  if (query) {
+    handleSearch();
+  }
+}, [query, searchMode]);
 return (
     <div className="searchresult">
       <Header className="Header" setQuery={setQuery} />

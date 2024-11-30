@@ -1,0 +1,330 @@
+@import url("../../css/index.css");
+.detail-header{
+    margin-bottom: 3rem;
+}
+.detail-header-item {
+  display: flex;
+  flex-direction: row;
+  padding: 9rem 0;
+  width: 100%;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+}
+.detail-header-item::before {
+   content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* right: 0;
+    bottom: 0; */
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color-black-50);
+  backdrop-filter: blur(0.7px);
+}
+
+.detail-header-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-image: linear-gradient(
+    to top,
+    var(--color-primary-1-nearly-black),
+    rgba(135, 135, 135, 0)
+  );
+}
+
+.detail-backdrop {
+  padding-left: 5rem;
+  /* Frame 8 */
+  height: auto;
+  border-radius: var(--radius-20-video);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  opacity: 1;
+  z-index: 1;
+  
+}
+.detail-backdrop img {
+
+  width: 400px;  
+  border-radius: var(--radius-20-video);
+}
+
+ 
+ .detail-title {
+  /* justify-self: right;
+  align-self: flex-end; */
+ z-index: 1;
+
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4.5vw;
+  /* line-height: 85px; */
+
+  color: #ffffff;
+}
+.frame1 {
+  position: relative;
+  width: 100%;
+  height: 75%;
+  align-items: top;
+  flex-direction: column;
+  display: flex;
+  padding-left: 2vw;
+  gap: 1vw;
+}
+
+.watch-option-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  opacity: 0px;
+  height: 40px;
+  border-radius: 10px;
+  /* margin-top: 70px; */
+  
+  
+}
+.Heart {
+  display: flex;
+  justify-content: center; /* CÄƒn giá»¯a theo chiá»u ngang */
+  align-items: center; /* CÄƒn giá»¯a theo chiá»u dá»c */
+  padding: 0;
+  gap: 0; /* Äáº£m báº£o khĂ´ng cĂ³ khoáº£ng cĂ¡ch thá»«a */
+  width: 40px;
+  height: 40px;
+   
+
+  background: #03abe0;
+  border-radius: 10px;
+
+  border: none;
+  box-shadow: none;
+
+  /* Flex khĂ´ng lĂ m thay Ä‘á»•i vá»‹ trĂ­ */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+
+  position: relative; /* Äáº£m báº£o khĂ´ng áº£nh hÆ°á»Ÿng bá»Ÿi position absolute tá»« cĂ¡c pháº§n tá»­ khĂ¡c */
+  color: #ffffff;
+}
+
+.Heart svg {
+  width: 15px; /* Äáº£m báº£o kĂ­ch thÆ°á»›c cá»§a icon */
+  height: 15px;
+  margin: 0;
+}
+
+.Watchnow {
+  /* Button / Watch */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 11px;
+  text-align: center;
+  width: fit-content;
+  height: 100%;
+  box-shadow: none;
+  flex-grow: 0;
+
+}
+
+.Watchnow p{
+  font-size: 15px;
+  font-weight: 400 !important;
+  color: #ffffff;
+}
+.Trailer {
+  /* Frame 11 */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 22px 10px 20px;
+  gap: 7px;
+  
+
+  width: 110px;
+  height: 40px;
+
+  /* white - 0.3 */
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 10px;
+
+  border: none;
+  box-shadow: none;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+
+  color: #ffffff;
+}
+.movie-info {
+  /* Frame 760 */
+  /* Avengers: Infinity War */
+
+  /* Auto layout */
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  width: 70%;
+  height: 348px;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  
+}
+.score {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.rate-button {
+  display: inline-block;
+  width: 80px; /* Chiều rộng cố định */
+  height: 30px;
+  margin: 1px;
+  background-color: #ffaa00f7;
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 16px;
+  cursor: default; /* Prevents the cursor from changing to a pointer */
+}
+.view-button {
+  display: inline-block;
+  width: 80px; /* Chiều rộng cố định */
+  height: 30px;
+  margin: 1px;
+  background-color: transparent;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 16px;
+  cursor: default;
+}
+.rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 558px;
+  height: 39px;
+  text-align: center;
+  gap: 40px;
+}
+.stars {
+  display: flex;
+  margin-right: 20px; /* Táº¡o khoáº£ng cĂ¡ch giá»¯a sao vĂ  pháº§n text */
+  gap: 15px;
+}
+
+.genres {
+  /* Frame 759 */
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 20px;
+
+  width: 80px; /* Chiều rộng cố định */
+  height: 30px;
+
+  /* Inside auto layout */
+  flex: none;
+  flex-grow: 0;
+}
+.genre {
+  /* Frame 227 */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 9.45079px;
+  gap: 9px;
+  height: inherit;
+
+  background: #464646;
+  border-radius: 5.67048px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+.movie-info .overview {
+  position: relative;
+  width: 100%;
+  font-size: 80%;
+  font-family: "Poppins";
+  font-style: normal;
+  line-height: 20px;
+  text-align: left;
+  
+}
+.movie-info p {
+  font-weight: 300;
+}
+.overview p{
+  font-size: 15px;
+
+}
+.director {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: 300;
+  
+}
+.director p {
+  font-weight: 600;
+}
+.producer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: 300;
+}
+.producer p {
+  font-weight: 600;
+}
+.writer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: 300;
+}
+.writer p {
+  font-weight: 600;
+}
+.stars{
+  height: 100%;
+}

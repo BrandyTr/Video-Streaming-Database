@@ -50,9 +50,9 @@ const Watching = () => {
   };
 
   // link to rate video page
-  const clickRateButton = () => {
-    navigate(`/movie/${id}/rate`);
-  };
+  // const clickRateButton = () => {
+  //   navigate(`/movie/${id}/rate`);
+  // };
 
   return (
     <div>
@@ -63,7 +63,7 @@ const Watching = () => {
       ) : (
         <p>No video available. Please select a video to watch.</p>
       )}
-      <button onClick={clickRateButton}>Rate this Movie</button>
+      {/* <button onClick={clickRateButton}>Rate this Movie</button> */}
     </div>
   );
 };

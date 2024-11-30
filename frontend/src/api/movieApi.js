@@ -40,6 +40,10 @@ const movieApi = {
     const url = `/api/movie/${cate}/category`;
     return axios.get(url, { cate });
   },
+  getMoviesByOption: (option) => {
+  const url = `/api/movie/options`;
+  return axios.post(url, option); 
+  },
 
   searchMovie: (movieName) => {
     const url = `/api/search/movie`;
@@ -51,7 +55,7 @@ const movieApi = {
   },
   rateMovie: (id, rating) => {
     const url = `/api/movie/${id}/rate`;
-    return axios.post(url, { rating });
+    return axios.patch(url, { rating });
   },
 
   loveMovie: (id) => {

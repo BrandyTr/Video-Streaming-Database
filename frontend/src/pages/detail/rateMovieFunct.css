@@ -1,18 +1,44 @@
 .rating-page {
   text-align: center;
 }
+.rating-page p{
+  font-size: 0.7vw;
+  font-weight: 600;
+  color: #ffffff;
+  /* margin-bottom: 1vw; */
+}
 
 .star-rating {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.5vw;
 }
 
 .star {
+  flex-direction: row;
   cursor: pointer;
   transition: color 200ms;
+ 
 }
-
+.hasRated-tooltip {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  z-index: 3;
+  position: absolute;
+  right: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.rating-page:hover .hasRated-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
 input[type="radio"] {
   display: none;
 }

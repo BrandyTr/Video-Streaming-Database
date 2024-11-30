@@ -12,6 +12,7 @@ router.delete("/:id/delete",adminRoute,MovieController.deleteMovie)
 router.post("/create",MovieController.generateMovies)
 router.post("/:id/favorite",MovieController.handleLoveMovie)
 router.get("/:id/details",MovieController.getMovieDetails)
+router.post("/options",MovieController.getMovieByOptions)
 // router.get("/:query/category", MovieController.getMoviesByCategory);
 router.get("/:query/category", MovieController.getMoviesByCategory);
 router.get("/top-rated", MovieController.getTopRatedMovies)
