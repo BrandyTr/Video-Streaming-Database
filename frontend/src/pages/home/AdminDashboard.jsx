@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import movieApi from "./../../api/movieApi";
+import Header from "../../components-main/header/Header";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
     const [movies, setMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]); // For filtered list
+    const [searchTerm, setSearchTerm] = useState(""); // Search term
     const [editingMovie, setEditingMovie] = useState(null);
     const [newMovie, setNewMovie] = useState({
         title: "",
@@ -20,9 +23,19 @@ const AdminDashboard = () => {
         const fetchMovies = async () => {
             const response = await movieApi.getMoviesList("all", {});
             setMovies(response.data.content);
+            setFilteredMovies(response.data.content); // Initialize filteredMovies
         };
         fetchMovies();
     }, []);
+
+    useEffect(() => {
+        // Filter movies based on the search term
+        setFilteredMovies(
+            movies.filter((movie) =>
+                movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    }, [searchTerm, movies]);
 
     const handleEdit = (movie) => {
         setEditingMovie(movie);
@@ -64,101 +77,114 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="admin-dashboard">
-            <h1>Admin Dashboard</h1>
-            <button className="add-btn" onClick={() => setEditingMovie({})}>
-                <FaPlus /> Add New Movie
-            </button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Overview</th>
-                        <th>Release Date</th>
-                        <th>Runtime</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {movies.map((movie) => (
-                        <tr key={movie.id}>
-                            <td>{movie.title}</td>
-                            <td>{movie.overview}</td>
-                            <td>{movie.release_date}</td>
-                            <td>{movie.runtime} mins</td>
-                            <td>
-                                <button className="action-btn" onClick={() => handleEdit(movie)}>
-                                    <FaEdit />
-                                </button>
-                                <button className="action-btn" onClick={() => handleDelete(movie.id)}>
-                                    <FaTrash />
-                                </button>
-                            </td>
+        <div>
+            <Header />
+            <div className="admin-dashboard">
+                <h1>Admin Dashboard</h1>
+                <div className="search-bar-container">
+                    <input
+                        type="text"
+                        placeholder="Search movies..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="search-bar"
+                    />
+                </div>
+                <button className="add-btn" onClick={() => setEditingMovie({})}>
+                    <FaPlus /> Add New Movie
+                </button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Overview</th>
+                            <th>Release Date</th>
+                            <th>Runtime</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            {editingMovie && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h2>{editingMovie.id ? "Edit Movie" : "Add New Movie"}</h2>
-                        <div className="form-grid">
-                            <label>Title</label>
-                            <input
-                                name="title"
-                                value={editingMovie.title || newMovie.title}
-                                onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                placeholder="Enter movie title"
-                            />
-                            <label>Overview</label>
-                            <textarea
-                                name="overview"
-                                value={editingMovie.overview || newMovie.overview}
-                                onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                placeholder="Enter movie overview"
-                            />
-                            <label>Release Date</label>
-                            <input
-                                name="release_date"
-                                type="date"
-                                value={editingMovie.release_date || newMovie.release_date}
-                                onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                            />
-                            <label>Runtime</label>
-                            <input
-                                name="runtime"
-                                type="number"
-                                value={editingMovie.runtime || newMovie.runtime}
-                                onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                placeholder="Enter runtime in minutes"
-                            />
-                            <label>Poster Path</label>
-                            <input
-                                name="poster_path"
-                                value={editingMovie.poster_path || newMovie.poster_path}
-                                onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                placeholder="Enter poster URL"
-                            />
-                            <label>Backdrop Path</label>
-                            <input
-                                name="backdrop_path"
-                                value={editingMovie.backdrop_path || newMovie.backdrop_path}
-                                onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                placeholder="Enter backdrop URL"
-                            />
-                        </div>
-                        <div className="modal-actions">
-                            <button className="save-btn" onClick={handleSave}>
-                                Save
-                            </button>
-                            <button className="cancel-btn" onClick={() => setEditingMovie(null)}>
-                                Cancel
-                            </button>
+                    </thead>
+                    <tbody>
+                        {filteredMovies.map((movie) => (
+                            <tr key={movie.id}>
+                                <td>{movie.title}</td>
+                                <td>{movie.overview}</td>
+                                <td>{movie.release_date}</td>
+                                <td>{movie.runtime} mins</td>
+                                <td>
+                                    <button className="action-btn" onClick={() => handleEdit(movie)}>
+                                        <FaEdit />
+                                    </button>
+                                    <button className="action-btn" onClick={() => handleDelete(movie.id)}>
+                                        <FaTrash />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {editingMovie && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h2>{editingMovie.id ? "Edit Movie" : "Add New Movie"}</h2>
+                            <div className="form-grid">
+                                <label>Title</label>
+                                <input
+                                    name="title"
+                                    value={editingMovie.title || newMovie.title}
+                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
+                                    placeholder="Enter movie title"
+                                />
+                                <label>Overview</label>
+                                <textarea
+                                    name="overview"
+                                    value={editingMovie.overview || newMovie.overview}
+                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
+                                    placeholder="Enter movie overview"
+                                />
+                                <label>Release Date</label>
+                                <input
+                                    name="release_date"
+                                    type="date"
+                                    value={editingMovie.release_date || newMovie.release_date}
+                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
+                                />
+                                <label>Runtime</label>
+                                <input
+                                    name="runtime"
+                                    type="number"
+                                    value={editingMovie.runtime || newMovie.runtime}
+                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
+                                    placeholder="Enter runtime in minutes"
+                                />
+                                <label>Poster Path</label>
+                                <input
+                                    name="poster_path"
+                                    value={editingMovie.poster_path || newMovie.poster_path}
+                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
+                                    placeholder="Enter poster URL"
+                                />
+                                <label>Backdrop Path</label>
+                                <input
+                                    name="backdrop_path"
+                                    value={editingMovie.backdrop_path || newMovie.backdrop_path}
+                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
+                                    placeholder="Enter backdrop URL"
+                                />
+                            </div>
+                            <div className="modal-actions">
+                                <button className="save-btn" onClick={handleSave}>
+                                    Save
+                                </button>
+                                <button className="cancel-btn" onClick={() => setEditingMovie(null)}>
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
+
     );
 };
 

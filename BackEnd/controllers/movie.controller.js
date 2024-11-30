@@ -15,11 +15,19 @@ const {
   testRateMovie,
   addMovie,
   updateMovie,
+  updateMovieById,
+  createNewMovie,
 } = require("../services/movie.service");
 
 CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
 
 class MovieController {
+  constructor() {
+    this.updateMovieById = this.updateMovieById.bind(this);
+    this.updateMovie = this.updateMovie.bind(this);
+    this.createNewMovie = this.createNewMovie.bind(this);
+    this.addMovie = this.addMovie.bind(this);
+  }
   async getAll(req, res) {
     try {
       const movies = await getAllMovie();
@@ -231,7 +239,7 @@ class MovieController {
     const updatedMovie = req.body;
 
     try {
-      const result = await Movie.updateMovieById(id, updatedMovie); 
+      const result = await this.updateMovieById(id, updatedMovie); 
 
       const response = {
         success: result.success,
@@ -298,19 +306,18 @@ class MovieController {
   async updateMovieById(id, updatedData) {
     try {
       const updatedMovie = await Movie.findByIdAndUpdate(id, updatedData, {
-        new: true, // Returns the updated document
-        runValidators: true, // Ensures validation rules are applied
+        new: true,
+        runValidators: true,
       });
-
+  
       if (!updatedMovie) {
         return {
           success: false,
           message: "Movie not found.",
           status: 404,
-          content: null,
         };
       }
-
+  
       return {
         success: true,
         message: "Movie updated successfully.",
@@ -322,10 +329,10 @@ class MovieController {
         success: false,
         message: "Failed to update movie.",
         status: 400,
-        content: null,
         error: error.message,
       };
     }
   }
+  
 }
 module.exports = new MovieController();
