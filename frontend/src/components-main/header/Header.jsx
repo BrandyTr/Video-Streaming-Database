@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import SearchDropdown from "../search/SearchDropDown";
 import { RiFilter3Line } from "react-icons/ri";
-import { FaRegUserCircle } from "react-icons/fa";
 import Button from "../button/Button";
 import { LogOut } from "lucide-react";
 import { useAuth } from "../../Context/authContext";
@@ -124,7 +123,7 @@ const Header = () => {
               onClick={() => setShowSearch(true)}
             />
           </li>
-          {/* User image */}
+          {/* User profile icon */}
           <li>
             <div className="profile-icon">
               <img src={user.image} alt="small user icon" />
