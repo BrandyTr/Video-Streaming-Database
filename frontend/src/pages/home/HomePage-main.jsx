@@ -26,7 +26,7 @@ const HomePage_Main = () => {
     fetchContent();
   }, []);
   if (!contents)
-    
+
     return (
       <div className="h-screen text-white relatvie">
         <div className="container">
@@ -49,6 +49,9 @@ const HomePage_Main = () => {
           <h2>Trending Movies</h2>
         </div>
         <MovieList type={movieType.trending}></MovieList>
+        <br></br>
+        <h2 className="section_header mb-2" >Popular Movies</h2>
+        <MovieList type={movieType.popular}></MovieList>
       </div>
     </div>
   );
