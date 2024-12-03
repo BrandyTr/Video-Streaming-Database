@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import SearchDropdown from "../search/SearchDropDown";
 import { RiFilter3Line } from "react-icons/ri";
+import { FaRegUserCircle } from "react-icons/fa";
 import Button from "../button/Button";
 import { LogOut } from "lucide-react";
 import { useAuth } from "../../Context/authContext";
@@ -20,7 +21,6 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const headerRef = useRef(null);
-
   const [movies, setMovies] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -29,6 +29,8 @@ const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const active = headerNav.findIndex((e) => e.path === pathname);
+  //user consts
+  const { logout, user } = useAuth();
 
   useEffect(() => {
     const shrinkHeader = () => {
@@ -92,13 +94,11 @@ const Header = () => {
   const handleClose = () => {
     setShowDropdown(false); // Close the dropdown
   };
-    const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
       handleSearch();
     }
   };
-
-  const { logout } = useAuth();
 
   return (
     <div ref={headerRef} className="header">
@@ -109,7 +109,7 @@ const Header = () => {
         </div>
         {/* Navigation and Search */}
         <ul className="header_nav">
-          <LogOut className="cursor-pointer" onClick={logout} />
+          {/* <LogOut className="cursor-pointer" onClick={logout} />*/}
           {headerNav.map((item, index) => (
             <li key={index} className={`${index === active ? "active" : ""}`}>
               <Link to={item.path}>{item.display}</Link>
@@ -124,13 +124,19 @@ const Header = () => {
               onClick={() => setShowSearch(true)}
             />
           </li>
+          {/* User image */}
+          <li>
+            <div className="profile-icon">
+              <img src={user.image} alt="small user icon" />
+            </div>
+          </li>
         </ul>
       </div>
 
       {/* Modal Search Overlay */}
       {showSearch && (
         <div className="search-modal">
-           <div className="search-modal-content">
+          <div className="search-modal-content">
             <div className="header_wrap container">
               {/* Logo */}
               <div className="logo">
@@ -143,7 +149,7 @@ const Header = () => {
                   placeholder="Search Movie"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown = {handleKeyDown}
+                  onKeyDown={handleKeyDown}
                   className="search-input"
                 />
 
@@ -152,8 +158,7 @@ const Header = () => {
                 <RiFilter3Line
                   onClick={() => setShowDropdown(!showDropdown)}
                   className={
-                     selectedGenres.length > 0 ||
-                    selectedRatings.length > 0
+                    selectedGenres.length > 0 || selectedRatings.length > 0
                       ? "selected-filter"
                       : "filter-btn"
                   }
@@ -169,29 +174,26 @@ const Header = () => {
                   Search
                 </Button>
               </div>
-              
             </div>
           </div>
-           <div className = "dropdown-container">
-              {/* click to filter button get drop down*/}
-              {showDropdown && (
-                <SearchDropdown
-                  genres={genres}
-                  selectedGenres={selectedGenres}
-                  selectedRatings={selectedRatings}
-                  handleGenreSelect={handleGenreSelect}
-                  handleRatingSelect={handleRatingSelect}
-                  CloseDropDown={handleClose}
-                  className="search-dropdown"
-                />
-              )}
-              </div>
+          <div className="dropdown-container">
+            {/* click to filter button get drop down*/}
+            {showDropdown && (
+              <SearchDropdown
+                genres={genres}
+                selectedGenres={selectedGenres}
+                selectedRatings={selectedRatings}
+                handleGenreSelect={handleGenreSelect}
+                handleRatingSelect={handleRatingSelect}
+                CloseDropDown={handleClose}
+                className="search-dropdown"
+              />
+            )}
+          </div>
           <div
             className="search-modal-overlay"
             onClick={() => setShowSearch(false)}
           ></div>
-         
-         
         </div>
       )}
       {/* Movie Results */}

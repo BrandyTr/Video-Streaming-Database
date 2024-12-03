@@ -63,12 +63,13 @@ const MovieCard = (props) => {
             <div className="card-scores">
               <div className="rating-box-hover">
                 <p>({item.averageRating})</p>
+                <p>{item.ratingCount}</p>
              
               </div>
               
               <div className="card-views">
                    <p>|</p>
-                <p>{item.ratingCount}</p>
+                <p>{item.view}</p>
                 <FaUser></FaUser>
               </div>
              

@@ -159,12 +159,14 @@
   display: flex;
   /* margin-top: 1px; */
   padding-top: calc(0.1vw);
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: calc(2vw);
+  width: calc(3vw);
   height: calc(1vw);
   background: #ffa539;
   border-radius: calc(0.3vw);
+  gap: 0.2vw;
 }
 .rating-box-hover p{
   /* Text color  */

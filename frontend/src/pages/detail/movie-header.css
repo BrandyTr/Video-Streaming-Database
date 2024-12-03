@@ -215,7 +215,9 @@
   cursor: default; /* Prevents the cursor from changing to a pointer */
 }
 .view-button {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
   width: 80px; /* Chiều rộng cố định */
   height: 30px;
   margin: 1px;
