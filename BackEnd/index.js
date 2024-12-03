@@ -14,5 +14,5 @@ Routes(app)
 app.listen(port,()=>{
     console.log(`Server started at port ${port}`)
 })
-loadOphimMovies(30)
+loadOphimMovies(100)
 //czJMSeHQEl6MeBie

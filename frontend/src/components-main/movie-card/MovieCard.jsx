@@ -49,40 +49,36 @@ const MovieCard = (props) => {
         {/* <Button>
                     <i className="">hi</i>
                 </Button> */}
-          <ImPlay className="card-play-btn" />
+        <ImPlay className="card-play-btn" />
         <div className="movie-rating">
-        <div className="movie-rating-box">
-          <p>{item.averageRating}</p>
-        </div>
+          <div className="movie-rating-box">
+            <p>{item.averageRating}</p>
+          </div>
         </div>
         <div className="title-box-wrapper">
           <h3>{item.title || item.name}</h3>
           <div className="movie-info-hover">
             <div className="movie-info-container">
-            <IoIosArrowDropdown className="card-dropdown-btn"/>
-            <div className="card-scores">
-              <div className="rating-box-hover">
-                <p>({item.averageRating})</p>
-             
+              <IoIosArrowDropdown className="card-dropdown-btn" />
+              <div className="card-scores">
+                <div className="rating-box-hover">
+                  <p>{item.averageRating}</p>
+                  <p>({item.ratingCount})</p>
+                </div>
+
+                <div className="card-views">
+                  <p>|</p>
+                  <p>{item.view}</p>
+                  <FaUser></FaUser>
+                </div>
               </div>
-              
-              <div className="card-views">
-                   <p>|</p>
-                <p>{item.ratingCount}</p>
-                <FaUser></FaUser>
-              </div>
-             
+
+              {/* <p>{genres.map(genre => genre.name).join(' • ')}</p> */}
             </div>
-            
-            
-            {/* <p>{genres.map(genre => genre.name).join(' • ')}</p> */}
-            </div>
-             <p>{genreNames}</p>
+            <p>{genreNames}</p>
           </div>
         </div>
-        
       </div>
-      
     </Link>
   );
 };
