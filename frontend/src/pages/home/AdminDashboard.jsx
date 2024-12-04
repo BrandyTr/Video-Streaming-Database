@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
+import { FaEdit, FaTrash, FaPlus, FaCloudDownloadAlt } from "react-icons/fa";
 import movieApi from "./../../api/movieApi";
 import Header from "../../components-main/header/Header";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
     const [movies, setMovies] = useState([]);
-    const [filteredMovies, setFilteredMovies] = useState([]); // For filtered list
-    const [searchTerm, setSearchTerm] = useState(""); // Search term
+    const [filteredMovies, setFilteredMovies] = useState([]); 
+    const [searchTerm, setSearchTerm] = useState(""); 
     const [editingMovie, setEditingMovie] = useState(null);
+    const [showFetchModal, setShowFetchModal] = useState(false);
+
     const [newMovie, setNewMovie] = useState({
         title: "",
         overview: "",
@@ -75,6 +78,9 @@ const AdminDashboard = () => {
             setNewMovie({ ...newMovie, [name]: value });
         }
     };
+    const handleFetch = async () => {
+        setShowFetchModal(true);
+    };
 
     return (
         <div>
@@ -90,6 +96,9 @@ const AdminDashboard = () => {
                         className="search-bar"
                     />
                 </div>
+                <button className="fetch-btn" onClick={() => handleFetch({})}>
+                    <FaCloudDownloadAlt /> Fetch Database
+                </button>
                 <button className="add-btn" onClick={() => setEditingMovie({})}>
                     <FaPlus /> Add New Movie
                 </button>
@@ -177,6 +186,22 @@ const AdminDashboard = () => {
                                 </button>
                                 <button className="cancel-btn" onClick={() => setEditingMovie(null)}>
                                     Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {showFetchModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h2>Fetching Database</h2>
+                            <p>Fetching data from the database. Please wait...</p>
+                            <div className="modal-actions">
+                                <button
+                                    className="cancel-btn"
+                                    onClick={() => setShowFetchModal(false)}
+                                >
+                                    Close
                                 </button>
                             </div>
                         </div>

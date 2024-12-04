@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
+/* eslint-disable react/prop-types */
+import { createContext, useState, useContext } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 

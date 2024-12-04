@@ -36,6 +36,20 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
+    gap: 10px;
+}
+.fetch-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #ffa726;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    gap: 10px;
 }
 
 table {
