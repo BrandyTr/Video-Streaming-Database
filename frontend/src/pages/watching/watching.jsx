@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./watching.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Watching = () => {
   const { id } = useParams(); //watching/:id
@@ -50,15 +51,23 @@ const Watching = () => {
   };
 
   // link to rate video page
-  // const clickRateButton = () => {
-  //   navigate(`/movie/${id}/rate`);
-  // };
+  const handleGoBack = () => {
+    navigate(`/`);
+  };
 
   return (
     <div>
       {testLink ? (
         <div className="video-container">
-          <iframe src={testLink} title="Video Player" allowFullScreen />
+          <div className="go-back">
+            <FaArrowLeftLong className="go-back-btn" onClick={handleGoBack} />
+          </div>
+          <iframe
+            src={testLink}
+            title="Video Player"
+            allowFullScreen
+            className="full-screen-iframe"
+          />
         </div>
       ) : (
         <p>No video available. Please select a video to watch.</p>
