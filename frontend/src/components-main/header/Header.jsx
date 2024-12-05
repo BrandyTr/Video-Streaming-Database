@@ -63,6 +63,7 @@ const Header = () => {
   const { logout, user } = useAuth();
 
   useEffect(() => {
+    console.log(user)
     const shrinkHeader = () => {
       if (
         document.body.scrollTop > 100 ||
@@ -163,7 +164,7 @@ const Header = () => {
                 onClick={ () => setIsOpenProfileDropdown(!isOpenProfileDropdown)}
                 className="w-10 h-10 rounded-full overflow-hidden focus:outline-none"
               >
-                <img src={user.image} alt="small user icon" />
+                <img src={user?.image} alt="small user icon" />
               </button>
 
               {/* Dropdown menu */}

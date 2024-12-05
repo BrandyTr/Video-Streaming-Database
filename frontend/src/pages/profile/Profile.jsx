@@ -3,38 +3,43 @@ import { Bell, Search, Upload} from 'lucide-react';
 import { Eye, EyeOff } from 'lucide-react';
 
 import Header from "../../components-main/header/Header";
+import { useAuth } from "../../Context/authContext";
+import axios from "axios";
 
 const ProfileEdit = () => {
+    const {user}=useAuth()
     const [formData, setFormData] = useState({
         username: '',
         email: 'user@example.com',
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
-        profileImage: null,
+        image:null,
     });
 
     const [errors, setErrors] = useState({});
     const [showCurrentPassword, setshowCurrentPassword] = useState(false);
     const [showNewPassword, setshowNewPassword] = useState(false);
     const [showConfirmPassword, setshowConfirmPassword] = useState(false);
-
+    const [profileImage,setProfileImage]=useState(user.image)
+    const [selectedFile,setSelectedFile]=useState(null)
     const handleUploadImage = (e) => {
         const file = e.target.files[0];
 
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
+                setProfileImage(reader.result)
                 setFormData( prev => ({
                     ...prev,
-                    profileImage: reader.result,
+                    image:file,
                 }));
             };
             reader.readAsDataURL(file);
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         const newErrors = {};
 
@@ -45,11 +50,29 @@ const ProfileEdit = () => {
         if (formData.newPassword != formData.confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match';
         }
-
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
             console.log("Form submitted: ",formData);
+        }
+        try{
+            const data = new FormData();
+            data.append("username", formData.username);
+            data.append("email", formData.email);
+            data.append("currentPassword", formData.currentPassword);
+            data.append("newPassword", formData.newPassword);
+            if (formData.image) {
+                data.append("image", formData.image);
+            }
+            const res= await axios.put('/api/user/profile',data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            console.log(res.data)
+        }catch (error) {
+            console.error("Error updating profile:", error);
+            setErrors({ apiError: "Failed to update profile. Please try again." });
         }
     };
 
@@ -64,7 +87,7 @@ const ProfileEdit = () => {
                     {/* Profile Image */}
                     <div className="relative w-40 h-40 mx-auto">
                         <img 
-                            src={formData.profileImage} 
+                            src={profileImage} 
                             alt="Profile"
                             className="w-full h-full rounded-full object-cover" 
                         />
