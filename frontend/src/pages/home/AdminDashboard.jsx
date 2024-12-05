@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaPlus, FaCloudDownloadAlt } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaEdit, FaRegShareSquare, FaPlus, FaCloudDownloadAlt } from "react-icons/fa";
 import movieApi from "./../../api/movieApi";
 import Header from "../../components-main/header/Header";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
     const [movies, setMovies] = useState([]);
-    const [filteredMovies, setFilteredMovies] = useState([]); 
-    const [searchTerm, setSearchTerm] = useState(""); 
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
     const [editingMovie, setEditingMovie] = useState(null);
     const [showFetchModal, setShowFetchModal] = useState(false);
+    const [showMoviePopup, setShowMoviePopup] = useState(false);
 
     const [newMovie, setNewMovie] = useState({
         title: "",
@@ -26,13 +27,12 @@ const AdminDashboard = () => {
         const fetchMovies = async () => {
             const response = await movieApi.getMoviesList("all", {});
             setMovies(response.data.content);
-            setFilteredMovies(response.data.content); // Initialize filteredMovies
+            setFilteredMovies(response.data.content);
         };
         fetchMovies();
     }, []);
 
     useEffect(() => {
-        // Filter movies based on the search term
         setFilteredMovies(
             movies.filter((movie) =>
                 movie.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -40,46 +40,14 @@ const AdminDashboard = () => {
         );
     }, [searchTerm, movies]);
 
-    const handleEdit = (movie) => {
-        setEditingMovie(movie);
+    const handlePublishAll = () => {
+        console.log("Publishing all new movies...");
+        setShowMoviePopup(false); // Close the popup after publishing
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this movie?")) {
-            await movieApi.deleteMovie(id);
-            setMovies((prev) => prev.filter((movie) => movie.id !== id));
-        }
-    };
-
-    const handleSave = async () => {
-        if (editingMovie.id) {
-            await movieApi.updateMovie(editingMovie.id, editingMovie);
-        } else {
-            const response = await movieApi.addMovie(newMovie);
-            setMovies((prev) => [...prev, response.data]);
-            setNewMovie({
-                title: "",
-                overview: "",
-                release_date: "",
-                runtime: "",
-                poster_path: "",
-                backdrop_path: "",
-                genres: [],
-            });
-        }
-        setEditingMovie(null);
-    };
-
-    const handleInputChange = (e, isEditing = true) => {
-        const { name, value } = e.target;
-        if (isEditing) {
-            setEditingMovie({ ...editingMovie, [name]: value });
-        } else {
-            setNewMovie({ ...newMovie, [name]: value });
-        }
-    };
-    const handleFetch = async () => {
-        setShowFetchModal(true);
+    const handleSaveToDashboard = () => {
+        console.log("Saving new movies to dashboard...");
+        setShowMoviePopup(false); // Close the popup after saving
     };
 
     return (
@@ -96,12 +64,27 @@ const AdminDashboard = () => {
                         className="search-bar"
                     />
                 </div>
-                <button className="fetch-btn" onClick={() => handleFetch({})}>
-                    <FaCloudDownloadAlt /> Fetch Database
-                </button>
-                <button className="add-btn" onClick={() => setEditingMovie({})}>
-                    <FaPlus /> Add New Movie
-                </button>
+                <div className="buttons-container">
+                    <button
+                        className="publishAll-btn"
+                        onClick={() => setShowMoviePopup(true)}
+                    >
+                        <FaRegShareSquare /> Publish All Movies
+                    </button>
+                    <button
+                        className="updateDashboard-btn"
+                        onClick={() => setShowFetchModal(true)}
+                    >
+                        <FaCloudDownloadAlt /> Update Dashboard
+                    </button>
+                    <button
+                        className="add-btn"
+                        onClick={() => setEditingMovie({})}
+                    >
+                        <FaPlus /> Add New Movie
+                    </button>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -119,78 +102,75 @@ const AdminDashboard = () => {
                                 <td>{movie.overview}</td>
                                 <td>{movie.release_date}</td>
                                 <td>{movie.runtime} mins</td>
-                                <td>
-                                    <button className="action-btn" onClick={() => handleEdit(movie)}>
+                                <td className="actions">
+                                    <button
+                                        className="action-btn"
+                                        onClick={() => setEditingMovie(movie)}
+                                    >
                                         <FaEdit />
                                     </button>
-                                    <button className="action-btn" onClick={() => handleDelete(movie.id)}>
-                                        <FaTrash />
+                                    <button
+                                        className="action-btn"
+                                        onClick={() =>
+                                            window.confirm(
+                                                "Are you sure you want to hide this movie from users?"
+                                            ) && setMovies((prev) =>
+                                                prev.filter(
+                                                    (m) => m.id !== movie.id
+                                                )
+                                            )
+                                        }
+                                    >
+                                        <span>Hide</span>
+                                    </button>
+                                    <button className="action-btn">
+                                        <FaRegShareSquare />
                                     </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                {editingMovie && (
+
+                {/* Popup for movies */}
+                {showMoviePopup && (
                     <div className="modal">
                         <div className="modal-content">
-                            <h2>{editingMovie.id ? "Edit Movie" : "Add New Movie"}</h2>
-                            <div className="form-grid">
-                                <label>Title</label>
-                                <input
-                                    name="title"
-                                    value={editingMovie.title || newMovie.title}
-                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                    placeholder="Enter movie title"
-                                />
-                                <label>Overview</label>
-                                <textarea
-                                    name="overview"
-                                    value={editingMovie.overview || newMovie.overview}
-                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                    placeholder="Enter movie overview"
-                                />
-                                <label>Release Date</label>
-                                <input
-                                    name="release_date"
-                                    type="date"
-                                    value={editingMovie.release_date || newMovie.release_date}
-                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                />
-                                <label>Runtime</label>
-                                <input
-                                    name="runtime"
-                                    type="number"
-                                    value={editingMovie.runtime || newMovie.runtime}
-                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                    placeholder="Enter runtime in minutes"
-                                />
-                                <label>Poster Path</label>
-                                <input
-                                    name="poster_path"
-                                    value={editingMovie.poster_path || newMovie.poster_path}
-                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                    placeholder="Enter poster URL"
-                                />
-                                <label>Backdrop Path</label>
-                                <input
-                                    name="backdrop_path"
-                                    value={editingMovie.backdrop_path || newMovie.backdrop_path}
-                                    onChange={(e) => handleInputChange(e, !!editingMovie.id)}
-                                    placeholder="Enter backdrop URL"
-                                />
-                            </div>
+                            <h2>New Movies</h2>
+                            {movies.length > 0 ? (
+                                <ul className="movie-list">
+                                    {movies.map((movie) => (
+                                        <li key={movie.id}>{movie.title}</li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No new movies available.</p>
+                            )}
                             <div className="modal-actions">
-                                <button className="save-btn" onClick={handleSave}>
-                                    Save
+                                <button
+                                    className="publish-btn"
+                                    onClick={handlePublishAll}
+                                >
+                                    Publish All New Movies
                                 </button>
-                                <button className="cancel-btn" onClick={() => setEditingMovie(null)}>
-                                    Cancel
+                                <button
+                                    className="save-btn"
+                                    onClick={handleSaveToDashboard}
+                                >
+                                    Save into Dashboard
+                                </button>
+                                <button
+                                    className="cancel-btn"
+                                    onClick={() => setShowMoviePopup(false)}
+                                >
+                                    Close
                                 </button>
                             </div>
                         </div>
                     </div>
                 )}
+
+                {/* Fetch Modal */}
                 {showFetchModal && (
                     <div className="modal">
                         <div className="modal-content">
@@ -209,7 +189,6 @@ const AdminDashboard = () => {
                 )}
             </div>
         </div>
-
     );
 };
 
