@@ -13,6 +13,7 @@ import Detail from "./pages/detail/detail";
 // New
 import Header from "./components-main/header/Header";
 import Search from "./pages/search/search";
+import ProfileEdit from "./pages/profile/Profile";
 
 library.add(fas, fab);
 
@@ -48,8 +49,9 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/search" element={<Search />} />
         <Route path="*" element={<Notfound />} />
+        <Route path="/edit-profile" element={<ProfileEdit/>}></Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
     <Toaster/>
     </>
