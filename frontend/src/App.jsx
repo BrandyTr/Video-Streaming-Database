@@ -49,7 +49,7 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/search" element={<Search />} />
         <Route path="*" element={<Notfound />} />
-        <Route path="/edit-profile" element={<ProfileEdit/>}></Route>
+        <Route path="/edit-profile" element={user?<ProfileEdit/>:<Navigate to={"/"}/>}></Route>
       </Routes>
       {/* <Footer /> */}
     </Router>

@@ -5,9 +5,11 @@ import { Eye, EyeOff } from 'lucide-react';
 import Header from "../../components-main/header/Header";
 import { useAuth } from "../../Context/authContext";
 import axios from "axios";
-
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const ProfileEdit = () => {
-    const {user}=useAuth()
+    const navigate = useNavigate();
+    const {user,setUser}=useAuth()
     const [formData, setFormData] = useState({
         username: '',
         email: 'user@example.com',
@@ -21,7 +23,7 @@ const ProfileEdit = () => {
     const [showCurrentPassword, setshowCurrentPassword] = useState(false);
     const [showNewPassword, setshowNewPassword] = useState(false);
     const [showConfirmPassword, setshowConfirmPassword] = useState(false);
-    const [profileImage,setProfileImage]=useState(user.image)
+    const [profileImage,setProfileImage]=useState(user?.image)
     const [selectedFile,setSelectedFile]=useState(null)
     const handleUploadImage = (e) => {
         const file = e.target.files[0];
@@ -69,9 +71,12 @@ const ProfileEdit = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            console.log(res.data)
+            setUser(res.data.user)
+            toast.success("Update profile successfully")
+            navigate('/');
         }catch (error) {
             console.error("Error updating profile:", error);
+            toast.error(error.response?.data?.message||error.message)
             setErrors({ apiError: "Failed to update profile. Please try again." });
         }
     };

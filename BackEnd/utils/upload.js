@@ -5,7 +5,7 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, "../public/avatarImages"));
     },
     filename: (req, file, cb) => {
-      cb(null, file.fieldbane+ "_"+ Date.now()+path.extname(file.originalname));
+      cb(null, file.fieldname+ "_"+ Date.now()+path.extname(file.originalname));
     },
   });
 const upload= multer({storage})
