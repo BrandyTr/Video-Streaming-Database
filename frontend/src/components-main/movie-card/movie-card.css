@@ -77,14 +77,13 @@
   justify-content: flex-end;
   align-items: center;
   opacity: 0;
-  color: white;
 }
 .movie-card:hover .card-play-btn {
-  opacity: 1;
   transition: all 0.2s ease-in-out;
 }
 .card-play-btn:hover {
   color: #03abe0;
+  opacity: 1;
 }
 .title-box-wrapper {
   order: 2;
