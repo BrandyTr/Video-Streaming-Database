@@ -71,20 +71,26 @@
   opacity: 0;
 }
 .card-play-btn {
-  width: 100%;
-  height: 3vw;
+  width: 4vw;
+  height: 4vw;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   opacity: 0;
-}
-.movie-card:hover .card-play-btn {
   transition: all 0.2s ease-in-out;
 }
-.card-play-btn:hover {
-  color: #03abe0;
-  opacity: 1;
+.card-overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: self-end;
 }
+.card-overlay:hover .card-play-btn {
+  opacity: 1;
+  color: #03abe0;
+}
+
 .title-box-wrapper {
   order: 2;
   position: relative;
@@ -126,6 +132,9 @@
 }
 .title-box-wrapper:hover .card-dropdown-btn {
   color: #03abe0;
+}
+.title-box-wrapper:hover .card-play-btn {
+  opacity: 0;
 }
 .movie-info-hover {
   display: flex;

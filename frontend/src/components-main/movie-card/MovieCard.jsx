@@ -61,7 +61,9 @@ const MovieCard = (props) => {
       {/* <Button>
                     <i className="">hi</i>
                 </Button> */}
-      <ImPlay className="card-play-btn" />
+      <div className="card-overlay">
+        <ImPlay className="card-play-btn" />
+      </div>
       <div className="movie-rating">
         <div className="movie-rating-box">
           <p>{item.averageRating}</p>
