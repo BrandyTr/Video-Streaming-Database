@@ -337,8 +337,8 @@
     width: 100%;
   }
   .detail-backdrop {
-    padding-left: 1vw;
-    width: 100%;
+    /* padding-left: 1vw;
+    width: 100%; */
   }
   .detail-title {
     font-size: 4rem;
@@ -350,9 +350,9 @@
     width: 100%;
   }
   .detail-backdrop {
-    padding-left: 5vw;
+    /* padding-left: 5vw;
     padding-top: 5vw;
-    width: 100%;
+    width: 100%; */
   }
   .detail-title {
     font-size: 4rem;
@@ -389,6 +389,6 @@
   .detail-backdrop {
     padding-left: 5vw;
     padding-top: 5vw;
-    width: 100%;
+    width: 40%;
   }
 }
