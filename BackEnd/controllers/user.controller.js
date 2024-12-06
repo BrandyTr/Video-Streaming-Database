@@ -6,7 +6,7 @@ class UserController {
     const { username, currentPassword, newPassword } = req.body;
     const image = req.file;
     const user = await User.findById(userId);
-    if (!username && !currentPassword && !image) {
+    if (!username && !currentPassword && !image&&!newPassword) {
       return res.status(400).json({
         success: false,
         message: "No changes provided",
@@ -28,26 +28,30 @@ class UserController {
       }
       user.username = username;
     }
-    if (currentPassword && newPassword) {
-        if(newPassword.length<6){
-            return res.status(400).json({
-                success: false,
-                message: "Password must be at least 6 characters!",
-              });
-        }
-      const isCorrectPassword = await bcryptjs.compare(
-        currentPassword,
-        user.password
-      );
-      if (!isCorrectPassword) {
-        return res.status(400).json({
-          success: false,
-          message: "The current password is not correct!",
-        });
-      }
+    if(newPassword){
       const salt = await bcryptjs.genSalt(10);
       const hashPassword = await bcryptjs.hash(newPassword, salt);
-      user.password = hashPassword;
+      if (currentPassword) {
+          if(newPassword.length<6){
+              return res.status(400).json({
+                  success: false,
+                  message: "Password must be at least 6 characters!",
+                });
+          }
+        const isCorrectPassword = await bcryptjs.compare(
+          currentPassword,
+          user.password
+        );
+        if (!isCorrectPassword) {
+          return res.status(400).json({
+            success: false,
+            message: "The current password is not correct!",
+          });
+        }
+        user.password = hashPassword;
+      }else if(!currentPassword&& !user.password&& user.isGoogleAccount){
+        user.password = hashPassword;
+      }
     }
     if (image) {
       user.image = `/api/avatarImages/${image.filename}`; // Store the relative path to the image

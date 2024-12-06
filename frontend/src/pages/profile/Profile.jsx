@@ -49,8 +49,6 @@ const ProfileEdit = () => {
     e.preventDefault();
     const newErrors = {};
     if (isChangePassword) {
-      if (!formData.currentPassword)
-        newErrors.currentPassword = "Current password is required";
       if (formData.newPassword !== formData.confirmPassword)
         newErrors.confirmPassword = "Passwords do not match";
       setErrors(newErrors);
@@ -59,8 +57,8 @@ const ProfileEdit = () => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const data = new FormData();
-        if(formData.username!=user.username){
-            data.append("username", formData.username);
+        if (formData.username != user.username) {
+          data.append("username", formData.username);
         }
         data.append("email", formData.email);
         data.append("currentPassword", formData.currentPassword);
@@ -79,16 +77,26 @@ const ProfileEdit = () => {
   };
 
   const handlePasswordSwitch = () => setIsChangePassword((prev) => !prev);
-  const hasChange=()=>{
+  const hasChange = () => {
+    if(user.isGoogleAccount&&!user.password){
+        return (
+            formData.username !== user.username ||
+            formData.email !== user.email ||
+            (
+              formData.newPassword &&
+              formData.confirmPassword) ||
+            formData.image
+          );
+    }
     return (
-        formData.username !== user.username ||
-        formData.email !== user.email ||
-        (formData.currentPassword &&
+      formData.username !== user.username ||
+      formData.email !== user.email ||
+      (formData.currentPassword &&
         formData.newPassword &&
-        formData.confirmPassword)||
-        formData.image
-      );
-  }
+        formData.confirmPassword) ||
+      formData.image
+    );
+  };
   return (
     <div className="min-h-screen">
       <Header />
@@ -114,7 +122,7 @@ const ProfileEdit = () => {
           </div>
 
           {/* Username */}
-          <div className="space-y-2">
+          <div className="mt-5">
             <label className="block text-sm font-medium text-gray-200">
               Username
             </label>
@@ -131,7 +139,7 @@ const ProfileEdit = () => {
           </div>
 
           {/* Email */}
-          <div className="space-y-2">
+          <div className="mt-5">
             <label className="block text-sm font-medium text-gray-200">
               Email
             </label>
@@ -160,131 +168,212 @@ const ProfileEdit = () => {
           {isChangePassword && (
             <>
               {/* Current Password */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-200">
-                  Current Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showCurrentPassword ? "text" : "password"}
-                    className={`w-full p-3 rounded bg-gray-800 border ${
-                      errors.currentPassword
-                        ? "border-red-500"
-                        : "border-gray-600"
-                    } focus:outline-none focus:border-cyan-400`}
-                    value={formData.currentPassword}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        currentPassword: e.target.value,
-                      }))
-                    }
-                    placeholder="Enter current password"
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    onClick={() => setShowCurrentPassword((prev) => !prev)}
-                  >
-                    {showCurrentPassword ? (
-                      <Eye className="w-5 h-5" />
-                    ) : (
-                      <EyeOff className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-                {errors.currentPassword && (
-                  <p className="text-red-500 text-sm">
-                    {errors.currentPassword}
-                  </p>
-                )}
-              </div>
+              {user.isGoogleAccount && !user.password ? (
+                <div>
+                  {/* New Password */}
+                  <div className="mt-5">
+                    <label className="block text-sm font-medium text-gray-200">
+                      New Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showNewPassword ? "text" : "password"}
+                        className="w-full p-3 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-cyan-400"
+                        value={formData.newPassword}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            newPassword: e.target.value,
+                          }))
+                        }
+                        placeholder="Enter new password"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        onClick={() => setShowNewPassword((prev) => !prev)}
+                      >
+                        {showNewPassword ? (
+                          <Eye className="w-5 h-5" />
+                        ) : (
+                          <EyeOff className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
 
-              {/* New Password */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-200">
-                  New Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showNewPassword ? "text" : "password"}
-                    className="w-full p-3 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-cyan-400"
-                    value={formData.newPassword}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        newPassword: e.target.value,
-                      }))
-                    }
-                    placeholder="Enter new password"
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    onClick={() => setShowNewPassword((prev) => !prev)}
-                  >
-                    {showNewPassword ? (
-                      <Eye className="w-5 h-5" />
-                    ) : (
-                      <EyeOff className="w-5 h-5" />
+                  {/* Confirm Password */}
+                  <div className="mt-5">
+                    <label className="block text-sm font-medium text-gray-200">
+                      Confirm New Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        className={`w-full p-3 rounded bg-gray-800 border ${
+                          errors.confirmPassword
+                            ? "border-red-500"
+                            : "border-gray-700"
+                        } focus:outline-none focus:border-cyan-400`}
+                        value={formData.confirmPassword}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            confirmPassword: e.target.value,
+                          }))
+                        }
+                        placeholder="Confirm new password"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                      >
+                        {showConfirmPassword ? (
+                          <Eye className="w-5 h-5" />
+                        ) : (
+                          <EyeOff className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.confirmPassword && (
+                      <p className="text-red-500 text-sm">
+                        {errors.confirmPassword}
+                      </p>
                     )}
-                  </button>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div>
+                  <div className="mt-5">
+                    <label className="block text-sm font-medium text-gray-200">
+                      Current Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showCurrentPassword ? "text" : "password"}
+                        className={`w-full p-3 rounded bg-gray-800 border ${
+                          errors.currentPassword
+                            ? "border-red-500"
+                            : "border-gray-600"
+                        } focus:outline-none focus:border-cyan-400`}
+                        value={formData.currentPassword}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            currentPassword: e.target.value,
+                          }))
+                        }
+                        placeholder="Enter current password"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        onClick={() => setShowCurrentPassword((prev) => !prev)}
+                      >
+                        {showCurrentPassword ? (
+                          <Eye className="w-5 h-5" />
+                        ) : (
+                          <EyeOff className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.currentPassword && (
+                      <p className="text-red-500 text-sm">
+                        {errors.currentPassword}
+                      </p>
+                    )}
+                  </div>
 
-              {/* Confirm Password */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-200">
-                  Confirm New Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    className={`w-full p-3 rounded bg-gray-800 border ${
-                      errors.confirmPassword
-                        ? "border-red-500"
-                        : "border-gray-700"
-                    } focus:outline-none focus:border-cyan-400`}
-                    value={formData.confirmPassword}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        confirmPassword: e.target.value,
-                      }))
-                    }
-                    placeholder="Confirm new password"
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    onClick={() => setShowConfirmPassword((prev) => !prev)}
-                  >
-                    {showConfirmPassword ? (
-                      <Eye className="w-5 h-5" />
-                    ) : (
-                      <EyeOff className="w-5 h-5" />
+                  {/* New Password */}
+                  <div className="mt-5">
+                    <label className="block text-sm font-medium text-gray-200">
+                      New Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showNewPassword ? "text" : "password"}
+                        className="w-full p-3 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-cyan-400"
+                        value={formData.newPassword}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            newPassword: e.target.value,
+                          }))
+                        }
+                        placeholder="Enter new password"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        onClick={() => setShowNewPassword((prev) => !prev)}
+                      >
+                        {showNewPassword ? (
+                          <Eye className="w-5 h-5" />
+                        ) : (
+                          <EyeOff className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Confirm Password */}
+                  <div className="mt-5">
+                    <label className="block text-sm font-medium text-gray-200">
+                      Confirm New Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        className={`w-full p-3 rounded bg-gray-800 border ${
+                          errors.confirmPassword
+                            ? "border-red-500"
+                            : "border-gray-700"
+                        } focus:outline-none focus:border-cyan-400`}
+                        value={formData.confirmPassword}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            confirmPassword: e.target.value,
+                          }))
+                        }
+                        placeholder="Confirm new password"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                      >
+                        {showConfirmPassword ? (
+                          <Eye className="w-5 h-5" />
+                        ) : (
+                          <EyeOff className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.confirmPassword && (
+                      <p className="text-red-500 text-sm">
+                        {errors.confirmPassword}
+                      </p>
                     )}
-                  </button>
+                  </div>
                 </div>
-                {errors.confirmPassword && (
-                  <p className="text-red-500 text-sm">
-                    {errors.confirmPassword}
-                  </p>
-                )}
-              </div>
+              )}
             </>
           )}
 
           {/* Save Changes Button */}
-          <div className="space-y-2">
+          <div className="mt-5">
             <button
               type="submit"
-              className={`w-full p-3 rounded ${!hasChange()?'bg-gray-400 text-gray500 hover:bg-gray-500':'bg-cyan-400 text-white hover:bg-cyan-500'} focus:outline-none`}
-              disabled={
+              className={`w-full p-3 rounded ${
                 !hasChange()
-              }
+                  ? "bg-gray-400 text-gray500 hover:bg-gray-500"
+                  : "bg-cyan-400 text-white hover:bg-cyan-500"
+              } focus:outline-none`}
+              disabled={!hasChange()}
             >
-              {hasChange()?"Save changes":"No changes to save"}
+              {hasChange() ? "Save changes" : "No changes to save"}
             </button>
           </div>
         </form>

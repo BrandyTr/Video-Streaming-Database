@@ -59,8 +59,13 @@ exports.login = async (email, password, username, image, isGoogleLogin) => {
         image,
         isGoogleAccount: true,
       });
+    }else{
+      if (!user.isGoogleAccount) {
+        user.isGoogleAccount = true;
+        await user.save();
+      }
     }
-
+  
     return user;
   } else {
     if (!email || !password) {
