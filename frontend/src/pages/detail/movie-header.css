@@ -39,6 +39,7 @@
 }
 
 .detail-backdrop {
+  position: relative;
   padding-left: 10vw;
   padding-top: 2vw;
   /* Frame 8 */
@@ -50,6 +51,7 @@
   z-index: 1;
 }
 .detail-backdrop img {
+  /* min-width: 400px; */
   width: 450px;
   border-radius: var(--radius-20-video);
 }
@@ -182,8 +184,8 @@
   gap: 2vh;
   /* width: 70%; */
   /* height: 348px; */
-  right: 0;
-  bottom: 0;
+  /* right: 0;
+  bottom: 0; */
   z-index: 10;
 }
 .score {
@@ -329,22 +331,34 @@
 .stars {
   height: 100%;
 }
-@media screen and (min-width: 600px) and (max-width: 1023px) {
-  .frame1 {
-    width: 100%;
-  }
+@media screen and (min-width: 720px) and (max-width: 1024) {
   .detail-header-item {
     /* height: 100%; */
     width: 100%;
+  }
+  .detail-backdrop {
+    /* padding-left: 1vw;
+    width: 100%; */
+  }
+  .detail-title {
+    font-size: 4rem;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .detail-header-item {
+    /* height: 100%; */
+    width: 100%;
+  }
+  .detail-backdrop {
+    /* padding-left: 5vw;
+    padding-top: 5vw;
+    width: 100%; */
   }
   .detail-title {
     font-size: 4rem;
   }
 }
 @media screen and (min-width: 300px) and (max-width: 599px) {
-  .frame1 {
-    width: 100%;
-  }
   .detail-header-item {
     /* height: 100%; */
     width: 100%;
@@ -352,15 +366,17 @@
   .detail-title {
     font-size: 2rem;
   }
-}
-@media screen and (min-width: 100px) and (max-width: 300px) {
-  .frame1 {
+  .detail-backdrop {
+    padding-left: 2vw;
     width: 100%;
   }
+}
+@media screen and (min-width: 100px) and (max-width: 300px) {
   .detail-header-item {
     /* height: 100%; */
     width: 100%;
   }
+
   .detail-title {
     font-size: 2rem;
   }
@@ -369,5 +385,10 @@
 @media screen and (min-width: 1701px) {
   html {
     font-size: 145%;
+  }
+  .detail-backdrop {
+    padding-left: 5vw;
+    padding-top: 5vw;
+    width: 40%;
   }
 }
