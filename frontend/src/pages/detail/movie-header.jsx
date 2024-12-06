@@ -12,6 +12,7 @@ import {
   FaStar,
   FaStarHalfAlt,
   FaRegStar,
+  FaUser,
 } from "react-icons/fa";
 import axios from "axios";
 
@@ -84,9 +85,12 @@ const DetailHeader = ({ movie, credit }) => {
               <div>({movie.ratingCount})</div>
             </div>
             <div></div>
-            <div className="view-button">
+            <div className="total-views">
               <p>|</p>
               {movie.view}
+              <div>
+                <FaUser></FaUser>
+              </div>
             </div>
           </div>
 
