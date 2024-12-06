@@ -3,7 +3,7 @@ const bcryptjs = require("bcryptjs");
 class UserController {
   async editProfile(req, res) {
     const userId = req.user._id;
-    const { username, email, currentPassword, newPassword } = req.body;
+    const { username, currentPassword, newPassword } = req.body;
     const image = req.file;
     const user = await User.findById(userId);
     if (!username && !currentPassword && !image) {
