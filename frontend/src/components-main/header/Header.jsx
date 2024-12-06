@@ -46,24 +46,23 @@ const Header = () => {
       }
     };
 
-     // Add the event listener only when the dropdown is open
-     if (isOpenProfileDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
+    // Add the event listener only when the dropdown is open
+    if (isOpenProfileDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpenProfileDropdown]); 
+  }, [isOpenProfileDropdown]);
 
-  
   const active = headerNav.findIndex((e) => e.path === pathname);
   //user consts
   const { logout, user } = useAuth();
 
   useEffect(() => {
-    console.log(user)
+    console.log(user);
     const shrinkHeader = () => {
       if (
         document.body.scrollTop > 100 ||
@@ -136,7 +135,7 @@ const Header = () => {
       <div className="header_wrap container">
         {/* Logo */}
         <div className="logo">
-          <Link to="/">tMovies</Link>
+          <Link to="/">cineStream</Link>
         </div>
         {/* Navigation and Search */}
         <ul className="header_nav">
@@ -155,13 +154,13 @@ const Header = () => {
               onClick={() => setShowSearch(true)}
             />
           </li>
-          
+
           {/* User profile icon */}
           <li>
             <div className="profile-icon">
               <button
                 ref={profileRed}
-                onClick={ () => setIsOpenProfileDropdown(!isOpenProfileDropdown)}
+                onClick={() => setIsOpenProfileDropdown(!isOpenProfileDropdown)}
                 className="w-10 h-10 rounded-full overflow-hidden focus:outline-none"
               >
                 <img src={user?.image} alt="small user icon" />
@@ -173,8 +172,8 @@ const Header = () => {
                   ref={dropdownRef}
                   className="absolute right-0 mt-2 w-64 rounded-lg bg-[#1f1f1f] shadow-lg overflow-hidden"
                   style={{
-                    transform: 'translateY(calc(0% + 8px))',
-                    zIndex: 50
+                    transform: "translateY(calc(0% + 8px))",
+                    zIndex: 50,
                   }}
                 >
                   <div className="p-2 space-y-1">
@@ -186,9 +185,9 @@ const Header = () => {
                         setIsOpenProfileDropdown(false);
                       }}
                     >
-                      <FontAwesomeIcon 
-                        icon="fa-solid fa-pen" 
-                        className="w-6 h-6 mr-3 text-gray-400" 
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-pen"
+                        className="w-6 h-6 mr-3 text-gray-400"
                       />
                       <span className="text-lg font-medium">Edit Profile</span>
                     </button>
