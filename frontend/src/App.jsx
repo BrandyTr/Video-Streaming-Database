@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar, Footer } from "./commonPaths";
+import { Footer } from "./commonPaths";
 import Notfound from "./pages/notfound/notfound";
 import Rating from "./pages/detail/rateMovieFunct";
 import { Toaster } from "react-hot-toast";
@@ -22,7 +22,7 @@ function App() {
   const { user, isCheckingAuth, authCheck } = useAuth();
   useEffect(() => {
     authCheck();
-  }, []);
+  }, [authCheck]);
   if (isCheckingAuth)
     return (
       <div className="h-screen flex items-center justify-center bg-black">
