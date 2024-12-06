@@ -22,14 +22,6 @@ const Watching = () => {
           );
           if (video) {
             setVideoLink(`https://www.youtube.com/embed/${video.key}`);
-          } else {
-            // If no trailer found, try to find full-time video
-            video = response.data.content.videos.find(
-              (video) => video.type === "full-time"
-            );
-            if (video) {
-              setVideoLink(video.key);
-            }
           }
         } else {
           video = response.data.content.videos.find(

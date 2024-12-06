@@ -71,8 +71,8 @@
   opacity: 0;
 }
 .card-play-btn {
-  width: 4vw;
-  height: 4vw;
+  width: calc(8px + 2.5vw);
+  height: calc(3px + 2.5vw);
   display: flex;
   justify-content: flex-end;
   align-items: center;
