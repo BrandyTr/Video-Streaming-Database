@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./movie-header.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { image_API } from "../../api/apiConfig";
 import Rating from "./rateMovieFunct";
 import Button from "../../components-main/button/Button";
@@ -27,7 +27,7 @@ const DetailHeader = ({ movie, credit }) => {
     movie.backdrop_path ? movie.backdrop_path : movie.poster_path
   );
 
- 
+  const navigate = useNavigate();
 
   // Lấy thông tin credit (đạo diễn, nhà sản xuất, biên kịch)
 
@@ -38,8 +38,8 @@ const DetailHeader = ({ movie, credit }) => {
   const writers = credit.crews.find(
     (member) => member.job === "Writer" || member.job === "Story"
   );
-  console.log("movie", writers);
-  console.log("dir", directors);
+  // console.log("movie", writers);
+  // console.log("dir", directors);
 
   return (
     <div
@@ -47,28 +47,29 @@ const DetailHeader = ({ movie, credit }) => {
       style={{ backgroundImage: `url(${backdrop})` }}
     >
       <div className="detail-backdrop">
-        <img
-          src={poster}
-          alt={`${movie.title} poster`}
-        />
-        </div>
+        <img src={poster} alt={`${movie.title} poster`} />
+      </div>
       <div className="frame1">
-         <div className="detail-title">
-        <h2>{movie.title}</h2>
-       </div>
-        
-       
+        <div className="detail-title">
+          <h2>{movie.title}</h2>
+        </div>
+
         <div className="movie-info">
           <div className="watch-option-buttons">
-            <Link to={`/watching/${id}`}>
-              <Button className="Watchnow">
-                <div className="Playbutton">
-                  <FaPlay />
-                </div>
-                <p>Watch Now</p>
-              </Button>
-            </Link>
-            <button className="Trailer">
+            <Button
+              className="Watchnow"
+              onClick={() => navigate(`/watching/${item.id}/full-time`)}
+            >
+              <div className="Playbutton">
+                <FaPlay />
+              </div>
+              <p>Watch Now</p>
+            </Button>
+
+            <button
+              className="Trailer"
+              onClick={() => navigate(`/watching/${item.id}/trailer`)}
+            >
               <FaFilm />
               Trailer
             </button>
@@ -79,16 +80,19 @@ const DetailHeader = ({ movie, credit }) => {
 
           <div className="score">
             <div className="rate-button">
-              {movie.averageRating}  ({movie.ratingCount})
+              {movie.averageRating} ({movie.ratingCount})
             </div>
             <div></div>
-            <div className="view-button"><p>|</p>{movie.view}</div>
+            <div className="view-button">
+              <p>|</p>
+              {movie.view}
+            </div>
           </div>
 
           <div className="rating">
             <h4>Rate: </h4>
             <div className="stars">
-             <Rating/>
+              <Rating />
             </div>
           </div>
 

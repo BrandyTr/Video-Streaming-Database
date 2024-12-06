@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Watching = () => {
-  const { id } = useParams(); //watching/:id
-  const [testLink, setTestlink] = useState([]);
+  const { id, type } = useParams(); //watching/:id or watching/:id/:type
+  const [videoLink, setVideoLink] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,20 +15,31 @@ const Watching = () => {
       try {
         const response = await axios.get(`/api/movie/${id}/details`);
         console.log("Fetched data:", response.data);
-        const fullVideo = response.data.content.videos.find(
-          (video) => video.type === "full-time" // lay field full-time cua hai loai video(full-time, trailer)
-        );
-        if (fullVideo) {
-          setTestlink(fullVideo.key); // Update state bang link phim
+        let video = null;
+        if (type === "trailer") {
+          video = response.data.content.videos.find(
+            (video) => video.type === "Trailer"
+          );
+          if (video) {
+            setVideoLink(`https://www.youtube.com/embed/${video.key}`);
+          }
         } else {
-          console.log("No full-time video available.");
+          video = response.data.content.videos.find(
+            (video) => video.type === "full-time"
+          );
+          if (video) {
+            setVideoLink(video.key); // Update state with the video link
+          }
+        }
+        if (!video) {
+          console.log(`No ${type || "full-time"} video available.`);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     getLink();
-  }, []);
+  }, [id, type]);
 
   // increase view
   useEffect(() => {
@@ -57,13 +68,13 @@ const Watching = () => {
 
   return (
     <div>
-      {testLink ? (
+      {videoLink ? (
         <div className="video-container">
           <div className="go-back">
             <FaArrowLeftLong className="go-back-btn" onClick={handleGoBack} />
           </div>
           <iframe
-            src={testLink}
+            src={videoLink}
             title="Video Player"
             allowFullScreen
             className="full-screen-iframe"

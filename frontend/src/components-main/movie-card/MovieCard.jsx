@@ -17,7 +17,7 @@ const MovieCard = (props) => {
   const item = props.item;
 
   const detailLink = `/detail/${item.id}`;
-  const watchingLink = `/watching/${item.id}`;
+  const watchingLink = `/watching/${item.id}/full-time`;
 
   const bg = image_API.originalImage(item.backdrop_path || item.poster_path);
 
