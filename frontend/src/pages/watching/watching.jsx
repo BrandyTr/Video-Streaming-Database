@@ -15,6 +15,8 @@ const Watching = () => {
       try {
         const response = await axios.get(`/api/movie/${id}/details`);
         console.log("Fetched data:", response.data);
+        const movieData = response.data.content;
+
         let video = null;
         if (type === "trailer") {
           video = response.data.content.videos.find(
@@ -41,6 +43,24 @@ const Watching = () => {
         }
         if (!video) {
           console.log(`No ${type || "full-time"} video available.`);
+        }
+        const watchingList =
+          JSON.parse(localStorage.getItem("watchingList")) || [];
+        const isAlreadyInList = watchingList.some(
+          (movie) => movie.id === movieData.id
+        );
+        if (!isAlreadyInList) {
+          const newMovie = {
+            id: movieData.id,
+            title: movieData.title,
+            backdrop_path: movieData.backdrop_path,
+            poster_path: movieData.poster_path,
+            averageRating: movieData.averageRating || 0,
+            genres: movieData.genres || [],
+          };
+          watchingList.push(newMovie);
+          localStorage.setItem("watchingList", JSON.stringify(watchingList));
+          console.log("Movie added to watching list:", newMovie);
         }
       } catch (error) {
         console.error("Error fetching data:", error);

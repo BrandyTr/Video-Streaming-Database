@@ -83,7 +83,8 @@
   display: flex;
   flex-direction: row;
   gap: 1.1vw;
-  opacity: 0px;
+  /* opacity: 0px; */
+  width: inherit;
   height: calc(25px + 4vh);
   border-radius: 10px;
   font-size: calc(10px + 0.7vw);
@@ -349,7 +350,19 @@
     width: 100%;
   }
   .detail-title {
-    font-size: 4rem;
+    font-size: 2rem;
+  }
+}
+@media screen and (min-width: 100px) and (max-width: 300px) {
+  .frame1 {
+    width: 100%;
+  }
+  .detail-header-item {
+    /* height: 100%; */
+    width: 100%;
+  }
+  .detail-title {
+    font-size: 2rem;
   }
 }
 
