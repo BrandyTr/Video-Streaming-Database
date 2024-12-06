@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import './rateMovieFunct.css'
-import movieApi from '../../api/movieApi';
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import "./rateMovieFunct.css";
+import movieApi from "../../api/movieApi";
 
 const Rating = () => {
   const { id } = useParams();
@@ -29,7 +29,7 @@ const Rating = () => {
 
   const handleRating = async (ratingValue) => {
     try {
-      const response = await movieApi.rateMovie(id,ratingValue  );
+      const response = await movieApi.rateMovie(id, ratingValue);
       setAverageRating(response.data.content.averageRating);
       setRatingCount(response.data.content.ratingCount);
       setRating(ratingValue);
@@ -65,7 +65,9 @@ const Rating = () => {
           );
         })}
       </div>
-      {hasRated && <div className ="hasRated-tooltip">Note: You have rated this movie!</div>}
+      {hasRated && (
+        <div className="hasRated-tooltip">Note: You have rated this movie!</div>
+      )}
     </div>
   );
 };

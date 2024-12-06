@@ -99,11 +99,13 @@ const DetailHeader = ({ movie, credit }) => {
           <div className="genres">
             <h4>Genre: </h4>
             {genres.length > 0 ? (
-              genres.map((genre, index) => (
-                <span key={index} className="genre">
-                  {genre}
-                </span>
-              ))
+              genres
+                .map((genre, index) => (
+                  <span key={index} className="genre">
+                    {genre}
+                  </span>
+                ))
+                .reduce((prev, curr) => [prev, " • ", curr])
             ) : (
               <span>No genres available</span>
             )}
