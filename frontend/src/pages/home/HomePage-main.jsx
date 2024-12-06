@@ -56,7 +56,12 @@ const HomePage_Main = () => {
           <h2>Trending Movies</h2>
         </div>
         <MovieList type={movieType.trending}></MovieList>
-        <br></br>
+        <h2 className="section_header mb-2">Popular Movies</h2>
+        <MovieList type={movieType.popular}></MovieList>
+
+        {/*<h2 className="section_header mb-2">Top 10 highest rate </h2>
+        <MovieList type="top-rated"></MovieList> */}
+
         <h2>Continue watching</h2>
         {continuousMovies.length > 0 ? (
           <MovieList movies={continuousMovies} type="continuous-watching" />
@@ -66,9 +71,6 @@ const HomePage_Main = () => {
           </div>
         )}
         <br></br>
-
-        <h2 className="section_header mb-2">Top 10 Highest Score Movies</h2>
-        <MovieList type="top-rated"></MovieList>
       </div>
     </div>
   );
