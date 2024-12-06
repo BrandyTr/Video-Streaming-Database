@@ -30,7 +30,10 @@ const movieApi = {
     const url = `/api/movie/${movieType[type]}`;
     return axios.get(url, { params: params });
   },
-
+  getTopRatedMovies: (params) => {
+    const url = `/api/movie/top-rated`;
+    return axios.get(url, { params: params });
+  },
   getMovieDetails: (id) => {
     const url = `/api/movie/${id}/details`;
     return axios.get(url);
@@ -41,8 +44,8 @@ const movieApi = {
     return axios.get(url, { cate });
   },
   getMoviesByOption: (option) => {
-  const url = `/api/movie/options`;
-  return axios.post(url, option); 
+    const url = `/api/movie/options`;
+    return axios.post(url, option);
   },
 
   searchMovie: (movieName) => {

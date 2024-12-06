@@ -75,10 +75,10 @@ const HeroSlide = () => {
         slidesPerView={1} // number of slides per view (slides visible)
         direction="horizontal" // slide direction
         loop={true} // loop slides
-      // autoplay={{
-      //     delay: 2000, // delay between slides
-      //     disableOnInteraction: false // stop autoplay on user interaction
-      // }}
+        // autoplay={{
+        //     delay: 2000, // delay between slides
+        //     disableOnInteraction: false // stop autoplay on user interaction
+        // }}
       >
         {movieItems.map((movie, index) => {
           // console.log("movie is: ")
@@ -110,7 +110,6 @@ const HeroSlideItem = (props) => {
   const item = props.movie;
   const navigate = useNavigate();
 
-
   // if background image is not available, use poster image
   const background = image_API.originalImage(
     item.backdrop_path ? item.backdrop_path : item.poster_path
@@ -125,17 +124,21 @@ const HeroSlideItem = (props) => {
         <div className="hero-slide_item_content_info">
           <h2 className="title">{item.title}</h2>
           <div className="rate">
-            <p className="hero-rating">{item.averageRating} ({item.ratingCount})</p>
+            <p className="hero-rating">
+              {item.averageRating} ({item.ratingCount})
+            </p>
             <p className="divider"> | </p>
             <p className="hero-views"> {item.view} </p>
             <FaUser></FaUser>
           </div>
           <p className="overview">{item.overview}</p>
           <div className="btns">
-            <Button onClick={() => navigate(`/watching/${item.id}`)}>
+            <Button onClick={() => navigate(`/watching/${item.id}/full-time`)}>
               Watch Now
             </Button>
-            <OutlineButton onClick={() => console.log("Trailer")}>
+            <OutlineButton
+              onClick={() => navigate(`/watching/${item.id}/trailer`)}
+            >
               Trailer
             </OutlineButton>
           </div>

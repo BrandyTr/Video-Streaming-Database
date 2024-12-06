@@ -1,6 +1,5 @@
-@import url("../../css/index.css");
-.detail-header{
-    margin-bottom: 3rem;
+.detail-header {
+  margin-bottom: 3rem;
 }
 .detail-header-item {
   display: flex;
@@ -11,10 +10,9 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  
 }
 .detail-header-item::before {
-   content: "";
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -41,58 +39,56 @@
 }
 
 .detail-backdrop {
-  padding-left: 5rem;
+  padding-left: 10vw;
+  padding-top: 2vw;
   /* Frame 8 */
-  height: auto;
   border-radius: var(--radius-20-video);
   align-items: center;
   display: flex;
   justify-content: center;
   opacity: 1;
   z-index: 1;
-  
 }
 .detail-backdrop img {
-
-  width: 400px;  
+  width: 450px;
   border-radius: var(--radius-20-video);
 }
 
- 
- .detail-title {
+.detail-title {
   /* justify-self: right;
   align-self: flex-end; */
- z-index: 1;
+  z-index: 1;
 
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 4.5vw;
+  font-size: calc(10px + 4.5vw);
   /* line-height: 85px; */
 
   color: #ffffff;
 }
 .frame1 {
   position: relative;
-  width: 100%;
-  height: 75%;
+  /* width: 100%; */
+  /* height: 75%; */
   align-items: top;
   flex-direction: column;
   display: flex;
   padding-left: 2vw;
   gap: 1vw;
+  font-size: calc(10px + 0.7vw);
 }
 
 .watch-option-buttons {
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  opacity: 0px;
-  height: 40px;
+  gap: 1.1vw;
+  /* opacity: 0px; */
+  width: inherit;
+  height: calc(25px + 4vh);
   border-radius: 10px;
+  font-size: calc(10px + 0.7vw);
   /* margin-top: 70px; */
-  
-  
 }
 .Heart {
   display: flex;
@@ -100,9 +96,8 @@
   align-items: center; /* CÄƒn giá»¯a theo chiá»u dá»c */
   padding: 0;
   gap: 0; /* Äáº£m báº£o khĂ´ng cĂ³ khoáº£ng cĂ¡ch thá»«a */
-  width: 40px;
-  height: 40px;
-   
+  width: calc(15px + 2vw);
+  height: inherit;
 
   background: #03abe0;
   border-radius: 10px;
@@ -120,8 +115,8 @@
 }
 
 .Heart svg {
-  width: 15px; /* Äáº£m báº£o kĂ­ch thÆ°á»›c cá»§a icon */
-  height: 15px;
+  width: calc(5px + 1vw); /* Äáº£m báº£o kĂ­ch thÆ°á»›c cá»§a icon */
+  height: calc(5px + 1vh);
   margin: 0;
 }
 
@@ -135,14 +130,13 @@
   gap: 11px;
   text-align: center;
   width: fit-content;
-  height: 100%;
+  height: inherit;
   box-shadow: none;
   flex-grow: 0;
-
 }
 
-.Watchnow p{
-  font-size: 15px;
+.Watchnow p {
+  /* font-size: 15px; */
   font-weight: 400 !important;
   color: #ffffff;
 }
@@ -156,10 +150,9 @@
   align-items: center;
   padding: 10px 22px 10px 20px;
   gap: 7px;
-  
 
-  width: 110px;
-  height: 40px;
+  width: fit-content;
+  height: inherit;
 
   /* white - 0.3 */
   background: rgba(255, 255, 255, 0.3);
@@ -186,79 +179,92 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 9px;
-  width: 70%;
-  height: 348px;
+  gap: 2vh;
+  /* width: 70%; */
+  /* height: 348px; */
   right: 0;
   bottom: 0;
   z-index: 10;
-  
 }
 .score {
   display: flex;
   flex-direction: row;
   gap: 10px;
   justify-content: flex-start;
+  align-items: center;
+  height: 4vh;
 }
 
 .rate-button {
-  display: inline-block;
-  width: 80px; /* Chiều rộng cố định */
-  height: 30px;
-  margin: 1px;
+  display: flex;
+  flex-direction: row;
+  gap: 0.4vw;
+  width: fit-content; /* Chiều rộng cố định */
+  height: inherit;
+  /* margin: 1px; */
   background-color: #ffaa00f7;
   color: rgb(0, 0, 0);
   border-radius: 5px;
   text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-  cursor: default; /* Prevents the cursor from changing to a pointer */
+  line-height: 4vh;
+  /* font-size: 16px; */
+  cursor: default;
+  padding: 0 1vw;
 }
-.view-button {
+.rate-button .avgRate {
+  font-weight: 600;
+}
+.total-views {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  /* justify-content: center; */
   gap: 1vw;
   width: 80px; /* Chiều rộng cố định */
   height: 30px;
   margin: 1px;
-  background-color: transparent;
+  /* background-color: transparent; */
   color: white;
   border-radius: 5px;
   text-align: center;
   line-height: 30px;
-  font-size: 16px;
+  font-weight: 400;
+  /* font-size: 16px; */
   cursor: default;
 }
-.rating {
+.total-views svg {
+  color: rgb(194, 194, 194);
+}
+.detail-header-item .rating {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
-  width: 558px;
-  height: 39px;
+  /* width: 558px; */
+  /* height: 39px; */
   text-align: center;
-  gap: 40px;
+  gap: 2vw;
+  font-weight: 600;
 }
 .stars {
   display: flex;
   margin-right: 20px; /* Táº¡o khoáº£ng cĂ¡ch giá»¯a sao vĂ  pháº§n text */
-  gap: 15px;
+  gap: 0.5vw;
 }
 
-.genres {
+.movie-info .genres {
   /* Frame 759 */
   /* Auto layout */
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px;
-  gap: 20px;
+  /* padding: 0px; */
+  gap: 1vw;
 
-  width: 80px; /* Chiều rộng cố định */
-  height: 30px;
-
-  /* Inside auto layout */
+  width: 100%;
+  font-weight: 600;
   flex: none;
+  flex-wrap: wrap;
   flex-grow: 0;
 }
 .genre {
@@ -270,10 +276,10 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 0px 9.45079px;
-  gap: 9px;
-  height: inherit;
-
+  padding: 0px 1vw;
+  gap: 0.5vw;
+  /* height: inherit; */
+  font-weight: 250;
   background: #464646;
   border-radius: 5.67048px;
 
@@ -284,27 +290,20 @@
 }
 .movie-info .overview {
   position: relative;
-  width: 100%;
-  font-size: 80%;
+  width: 75%;
   font-family: "Poppins";
   font-style: normal;
-  line-height: 20px;
   text-align: left;
-  
 }
 .movie-info p {
   font-weight: 300;
 }
-.overview p{
-  font-size: 15px;
 
-}
 .director {
   display: flex;
   flex-direction: row;
   gap: 10px;
   font-weight: 300;
-  
 }
 .director p {
   font-weight: 600;
@@ -327,6 +326,48 @@
 .writer p {
   font-weight: 600;
 }
-.stars{
+.stars {
   height: 100%;
+}
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .frame1 {
+    width: 100%;
+  }
+  .detail-header-item {
+    /* height: 100%; */
+    width: 100%;
+  }
+  .detail-title {
+    font-size: 4rem;
+  }
+}
+@media screen and (min-width: 300px) and (max-width: 599px) {
+  .frame1 {
+    width: 100%;
+  }
+  .detail-header-item {
+    /* height: 100%; */
+    width: 100%;
+  }
+  .detail-title {
+    font-size: 2rem;
+  }
+}
+@media screen and (min-width: 100px) and (max-width: 300px) {
+  .frame1 {
+    width: 100%;
+  }
+  .detail-header-item {
+    /* height: 100%; */
+    width: 100%;
+  }
+  .detail-title {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (min-width: 1701px) {
+  html {
+    font-size: 145%;
+  }
 }

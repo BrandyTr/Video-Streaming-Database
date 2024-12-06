@@ -1,7 +1,8 @@
-.rating-page {
+.rating-pagee {
   text-align: center;
+  width: inherit;
 }
-.rating-page p{
+.rating-page p {
   font-size: 0.7vw;
   font-weight: 600;
   color: #ffffff;
@@ -16,10 +17,10 @@
 }
 
 .star {
+  width: calc(10px + 2vw);
   flex-direction: row;
   cursor: pointer;
   transition: color 200ms;
- 
 }
 .hasRated-tooltip {
   visibility: hidden;

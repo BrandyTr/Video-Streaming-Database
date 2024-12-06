@@ -38,22 +38,28 @@ function App() {
   console.log(user);
   return (
     <>
-    <Router>
-      {/* <Navbar /> */}
-      <Routes>
-        {/* <Route path="/" element={<Homepage />} /> */}
-        <Route path="/" element={<HomeScreenCheck />} />
-        <Route path='/login' element={ !user ? <Logitech /> : <Navigate to={"/"} />}></Route>
-        <Route path="/watching/:id" element={<Watching/>} />
-        <Route path="/movie/:id/rate" element={<Rating/>} />
-        <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="*" element={<Notfound />} />
-        <Route path="/edit-profile" element={user?<ProfileEdit/>:<Navigate to={"/"}/>}></Route>
-      </Routes>
-      {/* <Footer /> */}
-    </Router>
-    <Toaster/>
+      <Router>
+        {/* <Navbar /> */}
+        <Routes>
+          {/* <Route path="/" element={<Homepage />} /> */}
+          <Route path="/" element={<HomeScreenCheck />} />
+          <Route
+            path="/login"
+            element={!user ? <Logitech /> : <Navigate to={"/"} />}
+          ></Route>
+          <Route path="/watching/:id/:type" element={<Watching />} />
+          <Route path="/movie/:id/rate" element={<Rating />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="*" element={<Notfound />} />
+          <Route
+            path="/edit-profile"
+            element={user ? <ProfileEdit /> : <Navigate to={"/"} />}
+          ></Route>
+        </Routes>
+        {/* <Footer /> */}
+      </Router>
+      <Toaster />
     </>
   );
 }
