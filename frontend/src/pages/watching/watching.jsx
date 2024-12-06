@@ -57,6 +57,8 @@ const Watching = () => {
             poster_path: movieData.poster_path,
             averageRating: movieData.averageRating || 0,
             genres: movieData.genres || [],
+            ratingCount: movieData.ratingCount || 0,
+            view: movieData.view || 0,
           };
           watchingList.push(newMovie);
           localStorage.setItem("watchingList", JSON.stringify(watchingList));
