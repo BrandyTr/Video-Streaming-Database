@@ -29,6 +29,12 @@ class UserController {
       user.username = username;
     }
     if(newPassword){
+      if(newPassword.length<6){
+        return res.status(400).json({
+          success:false,
+          message:"Password must be at least 6 characters!"
+        })
+      }
       const salt = await bcryptjs.genSalt(10);
       const hashPassword = await bcryptjs.hash(newPassword, salt);
       if (currentPassword) {
