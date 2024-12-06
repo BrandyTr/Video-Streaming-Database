@@ -59,7 +59,7 @@ const DetailHeader = ({ movie, credit }) => {
           <div className="watch-option-buttons">
             <Button
               className="Watchnow"
-              onClick={() => navigate(`/watching/${item.id}/full-time`)}
+              onClick={() => navigate(`/watching/${movie.id}/full-time`)}
             >
               <div className="Playbutton">
                 <FaPlay />
@@ -69,7 +69,7 @@ const DetailHeader = ({ movie, credit }) => {
 
             <button
               className="Trailer"
-              onClick={() => navigate(`/watching/${item.id}/trailer`)}
+              onClick={() => navigate(`/watching/${movie.id}/trailer`)}
             >
               <FaFilm />
               Trailer
