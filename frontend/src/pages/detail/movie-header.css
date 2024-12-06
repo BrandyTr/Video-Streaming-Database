@@ -84,7 +84,7 @@
   flex-direction: row;
   gap: 10px;
   opacity: 0px;
-  height: 80%;
+  height: calc(25px + 4vh);
   border-radius: 10px;
   font-size: calc(10px + 0.7vw);
   /* margin-top: 70px; */
@@ -95,7 +95,7 @@
   align-items: center; /* CÄƒn giá»¯a theo chiá»u dá»c */
   padding: 0;
   gap: 0; /* Äáº£m báº£o khĂ´ng cĂ³ khoáº£ng cĂ¡ch thá»«a */
-  width: calc(7px + 3vh);
+  width: calc(15px + 2vw);
   height: inherit;
 
   background: #03abe0;
@@ -114,8 +114,8 @@
 }
 
 .Heart svg {
-  width: 15px; /* Äáº£m báº£o kĂ­ch thÆ°á»›c cá»§a icon */
-  height: 15px;
+  width: calc(5px + 1vw); /* Äáº£m báº£o kĂ­ch thÆ°á»›c cá»§a icon */
+  height: calc(5px + 1vh);
   margin: 0;
 }
 
@@ -178,7 +178,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 9px;
+  gap: 2vh;
   /* width: 70%; */
   /* height: 348px; */
   right: 0;
@@ -195,7 +195,9 @@
 }
 
 .rate-button {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  gap: 0.4vw;
   width: fit-content; /* Chiều rộng cố định */
   height: inherit;
   /* margin: 1px; */
@@ -207,6 +209,9 @@
   /* font-size: 16px; */
   cursor: default;
   padding: 0 1vw;
+}
+.rate-button .avgRate {
+  font-weight: 600;
 }
 .view-button {
   display: flex;
@@ -226,17 +231,17 @@
 .detail-header-item .rating {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   /* width: 558px; */
   /* height: 39px; */
   text-align: center;
-  gap: 40px;
+  gap: 2vw;
 }
 .stars {
   display: flex;
   margin-right: 20px; /* Táº¡o khoáº£ng cĂ¡ch giá»¯a sao vĂ  pháº§n text */
-  gap: 15px;
+  gap: 0.5vw;
 }
 
 .movie-info .genres {
@@ -248,11 +253,12 @@
   padding: 0px;
   gap: 1vw;
 
-  width: 70%; /* Chiều rộng cố định */
+  width: 100%;
   /* height: 30px; */
 
   /* Inside auto layout */
   flex: none;
+  flex-wrap: wrap;
   flex-grow: 0;
 }
 .genre {
@@ -267,7 +273,7 @@
   padding: 0px 1vw;
   gap: 0.5vw;
   /* height: inherit; */
-
+  font-weight: 250;
   background: #464646;
   border-radius: 5.67048px;
 

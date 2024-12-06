@@ -80,7 +80,8 @@ const DetailHeader = ({ movie, credit }) => {
 
           <div className="score">
             <div className="rate-button">
-              {movie.averageRating} ({movie.ratingCount})
+              <div className="avgRate">{movie.averageRating}</div>{" "}
+              <div>({movie.ratingCount})</div>
             </div>
             <div></div>
             <div className="view-button">

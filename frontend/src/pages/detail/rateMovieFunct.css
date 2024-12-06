@@ -17,7 +17,7 @@
 }
 
 .star {
-  width: calc(2.5vw);
+  width: calc(10px + 2vw);
   flex-direction: row;
   cursor: pointer;
   transition: color 200ms;
