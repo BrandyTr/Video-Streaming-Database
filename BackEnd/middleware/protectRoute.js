@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 const vars = require("../config/vars");
+const overViewProjection = require("../utils/projection");
 exports.protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
@@ -17,7 +18,7 @@ exports.protectRoute = async (req, res, next) => {
         message: "Unauthorized - Invalid token!",
       });
     }
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(decoded.userId).populate('favoriteMovies',overViewProjection).populate('viewHistory',overViewProjection).populate('searchHistory',overViewProjection);
     if (!user) {
       return res.status(404).json({
         success: false,
