@@ -357,6 +357,26 @@ exports.findMoviesByManyGenres = async (genreNames) => {
     };
   }
 };
+exports.handleViewMovie= async(movieId,userId)=>{
+  const user= await User.findById(userId)
+  const movie= await Movie.findById(movieId)
+  if(!movie){
+    return{
+      status:404,
+      success:false,
+      message:"Movie not found"
+    }
+  }
+  movie.view++
+  user.viewHistory.push(movieId)
+  await movie.save()
+  await user.save()
+  return {
+    status:200,
+    success:true,
+    content:user
+  }
+}
 exports.filterMovie = async (options) => {
   const { genreNames, minRatings } = options;
 

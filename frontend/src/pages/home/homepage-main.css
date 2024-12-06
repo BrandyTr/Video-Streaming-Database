@@ -1,2 +1,4 @@
-@import url('./css/index.css');
-
+/* @import url('./css/index.css'); */
+.no-movies p {
+  font-style: italic;
+}

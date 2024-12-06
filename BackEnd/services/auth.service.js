@@ -1,6 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user.model");
-
+const generateUniqueNameFromFullName = require("../utils/generateGgAccountUsername");
 exports.signup = async (email, password, username, role='user') => {
   if (!email || !password || !username) {
     throw new Error("All fields are required!");
@@ -55,12 +55,17 @@ exports.login = async (email, password, username, image, isGoogleLogin) => {
     if (!user) {
       user = await User.create({
         email,
-        username,
+        username:generateUniqueNameFromFullName(username),
         image,
         isGoogleAccount: true,
       });
+    }else{
+      if (!user.isGoogleAccount) {
+        user.isGoogleAccount = true;
+        await user.save();
+      }
     }
-
+  
     return user;
   } else {
     if (!email || !password) {

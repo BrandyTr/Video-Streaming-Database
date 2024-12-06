@@ -1,11 +1,3 @@
-.cast-container {
-  /* Frame 220 */
-  width: 100%;
-  height: fit-content;
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(33, 32, 30, 0) 0%, #21201e 19.39%);
-}
-
 .cast-container h1 {
   text-align: left;
   margin-left: 37px; /* Điều chỉnh vị trí để căn thẳng hàng */
@@ -32,28 +24,19 @@
   margin: 0px;
 }
 
-
 /* Extra desktop screen */
-
-
-/* Desktop screen */
-/* @media screen and (min-width: 1024px) and (max-width: 1700px) {
+@media screen and (min-width: 600px) and (max-width: 1023px) {
   .cast-container {
     width: 100%;
-    font-size: 100%;
+    height: 100%;
   }
-} */
-
-/* Tablet screen */
-/* @media screen and (min-width: 600px) and (max-width: 1023px) {
-  html {
-    font-size: 90%;
+  .detail-header-item {
+    /* height: 100%; */
+    width: 100%;
   }
-} */
-
-/* Mobile screen */
-/* @media screen and (min-width: 350px) and (max-width: 599px) {
-  html {
-    font-size: 70%;
+  .detail-title {
+    font-size: 4rem;
   }
-} */
+}
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+}

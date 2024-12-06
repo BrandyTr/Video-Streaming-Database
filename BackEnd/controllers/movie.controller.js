@@ -14,6 +14,7 @@ const {
   fetchTrendingMovie,
   testRateMovie,
   filterMovie,
+  handleViewMovie,
 } = require("../services/movie.service");
 
 CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
@@ -177,27 +178,19 @@ class MovieController {
     return res.status(result.status).json(response);
   }
   async viewMovie(req, res) {
-    const id = req.params.id;
-    try {
-      const movie = await Movie.findById(id);
-      if (!movie) {
-        return res.status(404).json({
-          success: false,
-          message: "Movie not found",
-        });
-      }
-      movie.view += 1;
-      await movie.save();
-      res.status(200).json({
-        success: true,
-        content: movie.view,
-      });
-    } catch (err) {
-      res.status(500).json({
-        success: false,
-        message: err.message,
-      });
+    const userId= req.user._id
+    const movieId = req.params.id;
+    const result= await handleViewMovie(movieId,userId)
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
+
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
     }
+
+    return res.status(result.status).json(response);
   }
   async HandleRateMovie(req, res) {
     const id = req.params.id;

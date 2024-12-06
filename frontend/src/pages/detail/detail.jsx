@@ -37,7 +37,7 @@ const Detail = () => {
   }, [id]); // Run the effect only when id changes
 
   // Render the component style={{ backgroundImage: `url(${background})`,}}
-   if (!movie && !credit)
+  if (!movie && !credit)
     return (
       <div className="h-screen text-white relatvie">
         <div className="container">
@@ -47,23 +47,21 @@ const Detail = () => {
       </div>
     );
   return (
-    <div>
-    {/* Header */}
+    <div className="detail-page">
+      {/* Header */}
       <div className="container">
         <Header />
       </div>
       {/* MovieInfo */}
-      <div className="detail-header">
-        <DetailHeader movie={movie} credit={credit}></DetailHeader>
-      </div>
+
+      <DetailHeader movie={movie} credit={credit}></DetailHeader>
+
       {/* Cast */}
       <div className="container">
         <Cast credit={credit}></Cast>
-        </div>
-        </div>
+      </div>
+    </div>
   );
 };
 
-
 export default Detail;
-

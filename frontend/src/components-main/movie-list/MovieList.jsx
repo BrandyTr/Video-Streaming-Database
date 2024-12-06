@@ -13,16 +13,23 @@ import { image_API } from "../../api/apiConfig";
 import movieApi from "../../api/movieApi";
 
 const MovieList = (props) => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(props.movies || []);
 
   useEffect(() => {
-    const getList = async () => {
-      const params = {};
-      const response = await movieApi.getMoviesList(props.type, params);
-      setMovies(response.data.content);
-    };
-    getList();
-  }, [props.type]);
+    if (!props.movies) {
+      const getList = async () => {
+        const params = {};
+        let response;
+        if (props.type === "top-rated") {
+          response = await movieApi.getTopRatedMovies(params);
+        } else {
+          response = await movieApi.getMoviesList(props.type, params);
+        }
+        setMovies(response.data.content);
+      };
+      getList();
+    }
+  }, [props.type, props.movies]);
 
   return (
     <div className="movie-list">

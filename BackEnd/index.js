@@ -1,5 +1,6 @@
 const express= require('express')
 const Routes= require('./routes/routes')
+const path= require('path')
 const {loadOphimMovies}=require('./config/init')
 const ENV_VARS = require('./config/vars')
 const db=require('./config/db')
@@ -7,6 +8,7 @@ const cookieParser = require('cookie-parser')
 const app=express()
 const port=ENV_VARS.PORT
 db.connect()
+app.use('/api/avatarImages', express.static(path.join(__dirname, 'public/avatarImages')));
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
