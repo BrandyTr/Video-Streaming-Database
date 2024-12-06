@@ -30,7 +30,7 @@ const userSchema=new Schema({
         type:Boolean,
         default:false,
     },
-    isPublised:{
+    isPublished:{
         type:Boolean,
         default:false
     },
