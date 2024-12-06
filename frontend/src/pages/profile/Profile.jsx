@@ -170,6 +170,7 @@ const ProfileEdit = () => {
               {/* Current Password */}
               {user.isGoogleAccount && !user.password ? (
                 <div>
+                  <p className="text-green-500">Set up your inital password!</p>
                   {/* New Password */}
                   <div className="mt-5">
                     <label className="block text-sm font-medium text-gray-200">
