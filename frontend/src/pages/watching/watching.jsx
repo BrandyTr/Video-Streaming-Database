@@ -22,6 +22,14 @@ const Watching = () => {
           );
           if (video) {
             setVideoLink(`https://www.youtube.com/embed/${video.key}`);
+          } else {
+            // If no trailer found, try to find full-time video
+            video = response.data.content.videos.find(
+              (video) => video.type === "full-time"
+            );
+            if (video) {
+              setVideoLink(video.key);
+            }
           }
         } else {
           video = response.data.content.videos.find(
@@ -29,6 +37,14 @@ const Watching = () => {
           );
           if (video) {
             setVideoLink(video.key); // Update state with the video link
+          } else {
+            // If no full-time video found, try to find trailer
+            video = response.data.content.videos.find(
+              (video) => video.type === "Trailer"
+            );
+            if (video) {
+              setVideoLink(`https://www.youtube.com/embed/${video.key}`);
+            }
           }
         }
         if (!video) {
