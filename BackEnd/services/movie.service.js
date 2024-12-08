@@ -158,12 +158,12 @@ exports.generateMovieOphim = async (movieName, videoUrl, OphimYear) => {
         status: 200,
         message: "Movie, credits, and video generated successfully",
       };
-    }else{
+    } else {
       return {
-        success:false,
-        status:404,
-        message: "Can not find Ophim Info in tmdb!"
-      }
+        success: false,
+        status: 404,
+        message: "Can not find Ophim Info in tmdb!",
+      };
     }
   } catch (err) {
     return {
@@ -300,7 +300,7 @@ exports.findMovieByGenre = async (genreName) => {
   }
 };
 
-  exports.findMoviesByManyGenres = async (genreNames) => {
+exports.findMoviesByManyGenres = async (genreNames) => {
   if (!genreNames || genreNames.length === 0) {
     return {
       status: 400,
@@ -311,7 +311,7 @@ exports.findMovieByGenre = async (genreName) => {
 
   try {
     const genres = await Genre.find({
-      name: { $in: genreNames.map(name => new RegExp(name, "i")) },
+      name: { $in: genreNames.map((name) => new RegExp(name, "i")) },
     });
 
     if (genres.length !== genreNames.length) {
@@ -323,20 +323,32 @@ exports.findMovieByGenre = async (genreName) => {
     }
 
     const moviesByGenre = await Promise.all(
-      genres.map(genre => Movie.find({ genres: genre._id }).populate("genres"))
+      genres.map((genre) =>
+        Movie.find({ genres: genre._id }).populate("genres")
+      )
     );
+    console.log(moviesByGenre);
 
     const intersectedMovies = moviesByGenre.reduce((acc, genreMovies) => {
       if (!acc) return genreMovies;
-      return acc.filter(movie => genreMovies.some(gm => gm._id.equals(movie._id)));
+      return acc.filter((movie) =>
+        genreMovies.some((gm) => gm._id.equals(movie._id))
+      );
     }, null);
-
-    return {
-      status: 200,
-      success: true,
-      message: "Movies retrieved successfully",
-      content: intersectedMovies,
-    };
+    if (intersectedMovies) {
+      return {
+        status: 200,
+        success: true,
+        message: "Movies retrieved successfully",
+        content: intersectedMovies,
+      };
+    } else {
+      return {
+        status: 404,
+        success: false,
+        message: "No movies founded for this filter",
+      };
+    }
   } catch (error) {
     return {
       status: 500,
@@ -344,20 +356,101 @@ exports.findMovieByGenre = async (genreName) => {
       message: "An error occurred while retrieving movies",
     };
   }
-  const movies = await Movie.find({ genres: { $in: [genre._id] } });
-  if (movies.length === 0) {
+};
+exports.handleViewMovie = async (movieId, userId) => {
+  const user = await User.findById(userId);
+  const movie = await Movie.findById(movieId);
+  if (!movie) {
     return {
       status: 404,
       success: false,
-      message: "No movies founded for this genre!!",
+      message: "Movie not found",
     };
   }
-
+  const index = user.viewHistory.indexOf(movieId);
+  if (index !== -1) {
+    user.viewHistory.splice(index, 1); // Remove the existing movieId
+  }
+  movie.view++;
+  user.viewHistory.unshift(movieId);
+  await movie.save();
+  await user.save();
   return {
     status: 200,
     success: true,
-    content: movies,
   };
+};
+exports.filterMovie = async (options) => {
+  const { genreNames, minRatings } = options;
+
+  try {
+    let movies = [];
+    let result = [];
+
+    if (genreNames && genreNames.length > 0) {
+      const genres = await Genre.find({
+        name: { $in: genreNames.map((name) => new RegExp(name, "i")) },
+      });
+
+      if (genres.length !== genreNames.length) {
+        return {
+          status: 404,
+          success: false,
+          message: "One or more genres not found!",
+        };
+      }
+
+      const moviesByGenre = await Promise.all(
+        genres.map((genre) =>
+          Movie.find({ genres: genre._id }).populate("genres")
+        )
+      );
+
+      const intersectedMovies = moviesByGenre.reduce((acc, genreMovies) => {
+        if (!acc) return genreMovies;
+        return acc.filter((movie) =>
+          genreMovies.some((gm) => gm._id.equals(movie._id))
+        );
+      }, null);
+
+      movies = intersectedMovies;
+    } else {
+      movies = await Movie.find().populate("genres");
+    }
+    if (minRatings.length > 0) {
+      result = movies.filter((movie) =>
+        minRatings.some(
+          (minRating) =>
+            movie.averageRating >= minRating &&
+            movie.averageRating < minRating + 1
+        )
+      );
+    } else {
+      result = movies;
+    }
+
+    if (result.length > 0) {
+      return {
+        status: 200,
+        success: true,
+        message: "Movies retrieved successfully",
+        content: result,
+      };
+    } else {
+      return {
+        status: 200,
+        success: true,
+        message: "No movies found for this filter",
+        content: [],
+      };
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      success: false,
+      message: "An error occurred while retrieving movies: ",
+    };
+  }
 };
 exports.deleteMovieById = async (movieId) => {
   try {
@@ -407,7 +500,7 @@ exports.deleteMovieById = async (movieId) => {
 // Get all movies from the database
 exports.getAllMovie = async () => {
   try {
-    const movies = await Movie.find({}, overViewProjection);
+    const movies = await Movie.find({}, overViewProjection).populate("genres");
     return movies;
   } catch (err) {
     console.error("Error fetching movies:", err.message);
@@ -417,6 +510,7 @@ exports.getAllMovie = async () => {
 exports.fetchPopularMovies = async () => {
   try {
     const popularMovies = await Movie.find({}, overViewProjection)
+      .populate("genres")
       .sort({ popularity: -1 })
       .limit(15);
     return popularMovies;
@@ -561,6 +655,7 @@ exports.testRateMovie = async (id, rating) => {
 exports.fetchTrendingMovie = async () => {
   const currentTime = new Date().getTime();
   const movies = await Movie.find({}, overViewProjection)
+    .populate("genres")
     .sort({ release_date: -1 })
     .limit(15);
   lastUpdatedTime = currentTime;
@@ -568,10 +663,13 @@ exports.fetchTrendingMovie = async () => {
 };
 exports.fetchTopRatedMovies = async () => {
   try {
-    const topRatedMovies = await Movie.find({}, overViewProjection)
-      .sort({ averageRating: -1 })
-      .limit(15);
-    return topRatedMovies;
+    const allMovies = await Movie.find({}, overViewProjection).populate(
+      "genres"
+    );
+    allMovies.sort((a, b) => b.averageRating - a.averageRating);
+
+    // Limit the result to 15 movies
+    return topRatedMovies = allMovies.slice(0, 15);
   } catch (err) {
     throw new Error(err.message);
   }

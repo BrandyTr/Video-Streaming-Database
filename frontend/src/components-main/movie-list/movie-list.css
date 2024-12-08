@@ -1,19 +1,19 @@
 .movie-list .swiper-slide {
-    width: 20%;
+  width: 20%;
 }
 
 /* Tablet screen */
-@media screen and (min-width: 600px) and (max-width: 1023px) { 
-    .movie-list .swiper-slide {
-        width: 30%;
-    }
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .movie-list .swiper-slide {
+    width: 30%;
+  }
 }
 
 /* Mobile screen */
-@media screen and (max-width: 599px) { 
-    .movie-list .swiper-slide {
-        width: 45%;
-    }
+@media screen and (max-width: 599px) {
+  .movie-list .swiper-slide {
+    width: 45%;
+  }
 }
 
 /* .movie-list .swiper {
@@ -21,21 +21,20 @@
 } */
 
 .movie-list {
-    padding: 20px 0;  /* Add padding to accommodate the hover effect */
-    margin: -20px 0;  /* Negative margin to compensate for the padding */
+  padding: 20px 0; /* Add padding to accommodate the hover effect */
+  margin: -20px 0; /* Negative margin to compensate for the padding */
 }
 
-
 .movie-list .swiper {
-    padding: 20px 0;  /* Add padding to the swiper */
+  padding: 20px 0; /* Add padding to the swiper */
 }
 
 .movie-list .swiper:hover {
-    padding: 20px 20px;  /* Add padding to the swiper */
+  padding: 20px 20px; /* Add padding to the swiper */
 }
 .movie-list .swiper-wrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 /* .movie-list .swiper-slide:hover {

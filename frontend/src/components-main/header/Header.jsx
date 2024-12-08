@@ -19,6 +19,7 @@ const headerNav = [
 const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
   const headerRef = useRef(null);
 
   const [movies, setMovies] = useState([]);
@@ -28,9 +29,40 @@ const Header = () => {
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isOpenProfileDropdown, setIsOpenProfileDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+  const profileRed = useRef(null);
+
+  // Dropdown for profile
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current &&
+        profileRed.current &&
+        !dropdownRef.current.contains(e.target) &&
+        !profileRed.current.contains(e.target)
+      ) {
+        setIsOpenProfileDropdown(false);
+      }
+    };
+
+    // Add the event listener only when the dropdown is open
+    if (isOpenProfileDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpenProfileDropdown]);
+
   const active = headerNav.findIndex((e) => e.path === pathname);
+  //user consts
+  const { logout, user } = useAuth();
 
   useEffect(() => {
+    console.log(user);
     const shrinkHeader = () => {
       if (
         document.body.scrollTop > 100 ||
@@ -92,20 +124,18 @@ const Header = () => {
   const handleClose = () => {
     setShowDropdown(false); // Close the dropdown
   };
-    const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
       handleSearch();
     }
   };
-
-  const { logout } = useAuth();
 
   return (
     <div ref={headerRef} className="header">
       <div className="header_wrap container">
         {/* Logo */}
         <div className="logo">
-          <Link to="/">tMovies</Link>
+          <Link to="/">cineStream</Link>
         </div>
         {/* Navigation and Search */}
         <ul className="header_nav">
@@ -124,13 +154,67 @@ const Header = () => {
               onClick={() => setShowSearch(true)}
             />
           </li>
+
+          {/* User profile icon */}
+          <li>
+            <div className="profile-icon">
+              <button
+                ref={profileRed}
+                onClick={() => setIsOpenProfileDropdown(!isOpenProfileDropdown)}
+                className="w-10 h-10 rounded-full overflow-hidden focus:outline-none"
+              >
+                <img src={user?.image} alt="small user icon" />
+              </button>
+
+              {/* Dropdown menu */}
+              {isOpenProfileDropdown && (
+                <div
+                  ref={dropdownRef}
+                  className="absolute right-0 mt-2 w-64 rounded-lg bg-[#1f1f1f] shadow-lg overflow-hidden"
+                  style={{
+                    transform: "translateY(calc(0% + 8px))",
+                    zIndex: 50,
+                  }}
+                >
+                  <div className="p-2 space-y-1">
+                    {/* Edit profile button */}
+                    <button
+                      className="w-full flex items-center px-4 py-3 text-left text-white hover:bg-[#2d2d2d] rounded-lg transition-colors"
+                      onClick={() => {
+                        navigate("/edit-profile");
+                        setIsOpenProfileDropdown(false);
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-pen"
+                        className="w-6 h-6 mr-3 text-gray-400"
+                      />
+                      <span className="text-lg font-medium">Edit Profile</span>
+                    </button>
+
+                    {/* Logout button */}
+                    <button
+                      className="w-full flex items-center px-4 py-3 text-left text-white hover:bg-[#2d2d2d] rounded-lg transition-colors"
+                      onClick={() => {
+                        logout();
+                        setIsOpenProfileDropdown(false);
+                      }}
+                    >
+                      <LogOut className="w-6 h-6 mr-3 text-gray-400" />
+                      <span className="text-lg font-medium">Log out</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </li>
         </ul>
       </div>
 
       {/* Modal Search Overlay */}
       {showSearch && (
         <div className="search-modal">
-           <div className="search-modal-content">
+          <div className="search-modal-content">
             <div className="header_wrap container">
               {/* Logo */}
               <div className="logo">
@@ -143,7 +227,7 @@ const Header = () => {
                   placeholder="Search Movie"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown = {handleKeyDown}
+                  onKeyDown={handleKeyDown}
                   className="search-input"
                 />
 
@@ -152,8 +236,7 @@ const Header = () => {
                 <RiFilter3Line
                   onClick={() => setShowDropdown(!showDropdown)}
                   className={
-                     selectedGenres.length > 0 ||
-                    selectedRatings.length > 0
+                    selectedGenres.length > 0 || selectedRatings.length > 0
                       ? "selected-filter"
                       : "filter-btn"
                   }
@@ -169,29 +252,26 @@ const Header = () => {
                   Search
                 </Button>
               </div>
-              
             </div>
           </div>
-           <div className = "dropdown-container">
-              {/* click to filter button get drop down*/}
-              {showDropdown && (
-                <SearchDropdown
-                  genres={genres}
-                  selectedGenres={selectedGenres}
-                  selectedRatings={selectedRatings}
-                  handleGenreSelect={handleGenreSelect}
-                  handleRatingSelect={handleRatingSelect}
-                  CloseDropDown={handleClose}
-                  className="search-dropdown"
-                />
-              )}
-              </div>
+          <div className="dropdown-container">
+            {/* click to filter button get drop down*/}
+            {showDropdown && (
+              <SearchDropdown
+                genres={genres}
+                selectedGenres={selectedGenres}
+                selectedRatings={selectedRatings}
+                handleGenreSelect={handleGenreSelect}
+                handleRatingSelect={handleRatingSelect}
+                CloseDropDown={handleClose}
+                className="search-dropdown"
+              />
+            )}
+          </div>
           <div
             className="search-modal-overlay"
             onClick={() => setShowSearch(false)}
           ></div>
-         
-         
         </div>
       )}
       {/* Movie Results */}

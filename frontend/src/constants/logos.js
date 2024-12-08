@@ -1,7 +1,7 @@
-import netflix from '../assets/logos/netflix.svg';
+import netflix from "../assets/logos/netflix.svg";
 
 const Logos = {
-    netflix,
-}
+  netflix,
+};
 
 export default Logos;

@@ -9,7 +9,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import Watching from "./pages/watching/watching";
+import Detail from "./pages/detail/detail";
+// New
+import Header from "./components-main/header/Header";
 import Search from "./pages/search/search";
+import ProfileEdit from "./pages/profile/Profile";
 
 library.add(fas, fab);
 
@@ -43,12 +47,17 @@ function App() {
             path="/login"
             element={!user ? <Logitech /> : <Navigate to={"/"} />}
           ></Route>
-          <Route path="/watching/:id" element={<Watching />} />
-          <Route path="*" element={<Notfound />} />
+          <Route path="/watching/:id/:type" element={<Watching />} />
           <Route path="/movie/:id/rate" element={<Rating />} />
+          <Route path="/detail/:id" element={<Detail />} />
           <Route path="/search" element={<Search />} />
+          <Route path="*" element={<Notfound />} />
+          <Route
+            path="/edit-profile"
+            element={user ? <ProfileEdit /> : <Navigate to={"/"} />}
+          ></Route>
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
       <Toaster />
     </>

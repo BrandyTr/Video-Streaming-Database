@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../button/Button";
 import movieApi from "../../api/movieApi";
 import { image_API } from "../../api/apiConfig";
@@ -12,10 +12,12 @@ import "./movie-card.css";
 
 const MovieCard = (props) => {
   const [genres, setGenres] = useState([]);
+  const navigate = useNavigate();
 
   const item = props.item;
 
-  const link = `/detail/${item.id}`;
+  const detailLink = `/detail/${item.id}`;
+  const watchingLink = `/watching/${item.id}/full-time`;
 
   const bg = image_API.originalImage(item.backdrop_path || item.poster_path);
 
@@ -27,8 +29,8 @@ const MovieCard = (props) => {
         if (response.data.content.genres) {
           const fetchedGenres = response.data.content.genres; // Ensure this is the correct path
           setGenres(fetchedGenres); // Update state with fetched data
-          console.log("Fetched data:");
-          console.log(response.data.content.genres);
+          // console.log("Fetched data:");
+          // console.log(response.data.content.genres);
         }
         // console.log("Fetched data:", response.data.content);
       } catch (error) {
@@ -43,47 +45,54 @@ const MovieCard = (props) => {
     .map((genre) => genre.name)
     .join(" • ");
 
+  const handleCardClick = () => {
+    navigate(watchingLink);
+  };
+  const handleTitleBoxClick = (event) => {
+    event.stopPropagation();
+    navigate(detailLink);
+  };
   return (
-    <Link to={link}>
-      <div className="movie-card" style={{ backgroundImage: `url(${bg})` }}>
-        {/* <Button>
+    <div
+      className="movie-card"
+      style={{ backgroundImage: `url(${bg})` }}
+      onClick={handleCardClick}
+    >
+      {/* <Button>
                     <i className="">hi</i>
                 </Button> */}
-          <ImPlay className="card-play-btn" />
-        <div className="movie-rating">
+      <div className="card-overlay">
+        <ImPlay className="card-play-btn" />
+      </div>
+      <div className="movie-rating">
         <div className="movie-rating-box">
           <p>{item.averageRating}</p>
         </div>
-        </div>
-        <div className="title-box-wrapper">
-          <h3>{item.title || item.name}</h3>
-          <div className="movie-info-hover">
-            <div className="movie-info-container">
-            <IoIosArrowDropdown className="card-dropdown-btn"/>
+      </div>
+      <div className="title-box-wrapper" onClick={handleTitleBoxClick}>
+        <h3>{item.title || item.name}</h3>
+        <div className="movie-info-hover">
+          <div className="movie-info-container">
+            <IoIosArrowDropdown className="card-dropdown-btn" />
             <div className="card-scores">
               <div className="rating-box-hover">
-                <p>({item.averageRating})</p>
-             
+                <p>{item.averageRating}</p>
+                <p>({item.ratingCount})</p>
               </div>
-              
+
               <div className="card-views">
-                   <p>|</p>
-                <p>{item.ratingCount}</p>
+                <p>|</p>
+                <p>{item.view}</p>
                 <FaUser></FaUser>
               </div>
-             
             </div>
-            
-            
+
             {/* <p>{genres.map(genre => genre.name).join(' • ')}</p> */}
-            </div>
-             <p>{genreNames}</p>
           </div>
+          <p>{genreNames}</p>
         </div>
-        
       </div>
-      
-    </Link>
+    </div>
   );
 };
 

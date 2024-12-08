@@ -1,0 +1,20 @@
+.cast-card {
+  width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.cast-card img {
+  width: 9vw; /* Adjust the size as needed */
+  height: auto;
+  border-radius: 5px;
+}
+
+.cast-card p {
+  margin-top: 5px;
+  font-size: 1.5vw;
+  text-align: center;
+}

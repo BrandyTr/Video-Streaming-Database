@@ -1,0 +1,42 @@
+.cast-container h1 {
+  text-align: left;
+  margin-left: 37px; /* Điều chỉnh vị trí để căn thẳng hàng */
+  /* width: 58px;
+  height: 32px; */
+  /* left: 100px;
+  top: 703px; */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 2.3vw;
+  line-height: 5vw;
+
+  color: #ffffff;
+}
+
+.Casts {
+  width: 100%;
+  left: 0px;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 0px;
+}
+
+/* Extra desktop screen */
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .cast-container {
+    width: 100%;
+    height: 100%;
+  }
+  .detail-header-item {
+    /* height: 100%; */
+    width: 100%;
+  }
+  .detail-title {
+    font-size: 4rem;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+}

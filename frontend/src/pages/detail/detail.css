@@ -1,0 +1,22 @@
+.detail-page {
+  /* height: screen; */
+  width: 100%;
+}
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .detail-page {
+    /* height: 100%; */
+    width: 100%;
+  }
+}
+@media screen and (min-width: 300px) and (max-width: 1023px) {
+  .detail-page {
+    /* height: 100%; */
+    width: 100%;
+  }
+}
+@media screen and (min-width: 350px) and (max-width: 599px) {
+  .detail-page {
+    /* height: 100%; */
+    width: 100%;
+  }
+}

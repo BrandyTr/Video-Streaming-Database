@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import './rateMovieFunct.css'
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import "./rateMovieFunct.css";
+import movieApi from "../../api/movieApi";
 
 const Rating = () => {
   const { id } = useParams();
@@ -10,11 +11,12 @@ const Rating = () => {
   const [hover, setHover] = useState(null);
   const [averageRating, setAverageRating] = useState(null);
   const [ratingCount, setRatingCount] = useState(0);
+  const [hasRated, setHasRated] = useState(false);
 
   useEffect(() => {
     const fetchMovieRating = async () => {
       try {
-        const response = await axios.get(`/api/movie/${id}/details`);
+        const response = await movieApi.getMovieDetails(id);
         console.log("Fetched data:", response.data);
         setAverageRating(response.data.averageRating);
         setRatingCount(response.data.ratingCount);
@@ -25,11 +27,13 @@ const Rating = () => {
     fetchMovieRating();
   }, [id]);
 
-  const handleRating = async (setRating) => {
+  const handleRating = async (ratingValue) => {
     try {
-      const response = await axios.post(`/api/movie/${id}/rate`, { rating: setRating });
+      const response = await movieApi.rateMovie(id, ratingValue);
       setAverageRating(response.data.content.averageRating);
       setRatingCount(response.data.content.ratingCount);
+      setRating(ratingValue);
+      setHasRated(true);
     } catch (error) {
       console.log("Failed to rate", error);
     }
@@ -37,10 +41,6 @@ const Rating = () => {
 
   return (
     <div className="rating-page">
-      <h1>Rate Movie</h1>
-      <p>Average Rating: {averageRating}</p>
-      <p>Number of user rate: {ratingCount}</p>
-
       {/* 10 stars for rating*/}
       <div className="star-rating">
         {[...Array(10)].map((_, index) => {
@@ -52,18 +52,22 @@ const Rating = () => {
                 name="rating"
                 value={ratingValue}
                 onClick={() => handleRating(ratingValue)}
+                disabled={hasRated} // Disable the input if the user has rated
               />
               <FaStar
                 className="star"
                 color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
                 size={30}
-                onMouseEnter={() => setHover(ratingValue)}
-                onMouseLeave={() => setHover(null)}
+                onMouseEnter={() => !hasRated && setHover(ratingValue)}
+                onMouseLeave={() => !hasRated && setHover(null)}
               />
             </label>
           );
         })}
       </div>
+      {hasRated && (
+        <div className="hasRated-tooltip">Note: You have rated this movie!</div>
+      )}
     </div>
   );
 };
