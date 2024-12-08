@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom"; // Import useHistory
+
+// import "./homepage.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./homePage-main.css";
@@ -5,8 +8,10 @@ import Header from "../../components-main/header/Header";
 import HeroSlide from "../../components-main/hero-slide/HeroSlide";
 import MovieList from "../../components-main/movie-list/MovieList";
 import { movieType } from "../../api/movieApi";
+import { useAuth } from "../../Context/authContext";
 
 const HomePage_Main = () => {
+  const navigate = useNavigate(); // Initialize navigate
   const [contents, setContents] = useState([]); // Initialize state as an empty array
   const [continuousMovies, setContinuousMovies] = useState([]);
 

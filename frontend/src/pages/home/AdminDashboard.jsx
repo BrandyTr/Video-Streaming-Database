@@ -138,7 +138,7 @@ const AdminDashboard = () => {
                         <div className="modal-content">
                             <h2>New Movies</h2>
                             {movies.length > 0 ? (
-                                <ul className="movie-list">
+                                <ul className="admin-movie-list">
                                     {movies.map((movie) => (
                                         <li key={movie.id}>{movie.title}</li>
                                     ))}

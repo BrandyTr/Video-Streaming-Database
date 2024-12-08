@@ -371,7 +371,7 @@ input:focus, textarea:focus {
 }
 
 /* Movie List */
-.movie-list {
+.admin-movie-list {
     list-style: none;
     padding: 0;
     margin: 20px 0;
@@ -383,18 +383,18 @@ input:focus, textarea:focus {
     text-align: left;
 }
 
-.movie-list li {
+.admin-movie-list li {
     padding: 10px 15px;
     border-bottom: 1px solid #444;
     font-size: 1rem;
     color: #fff;
 }
 
-.movie-list li:last-child {
+.admin-movie-list li:last-child {
     border-bottom: none;
 }
 
-.movie-list li:hover {
+.admin-movie-list li:hover {
     background-color: #333;
     cursor: pointer;
 }
