@@ -498,9 +498,9 @@ exports.deleteMovieById = async (movieId) => {
   }
 };
 // Get all movies from the database
-exports.getAllMovie = async () => {
+exports.getAllMovie = async (limit) => {
   try {
-    const movies = await Movie.find({}, overViewProjection).populate("genres");
+    const movies = await Movie.find({}, overViewProjection).populate("genres").limit(limit);
     return movies;
   } catch (err) {
     console.error("Error fetching movies:", err.message);

@@ -19,7 +19,7 @@ const useGetAllMovies=()=>{
 
     useEffect(() => {
         const getAllMovies = async () => {
-            const res = await axios.get(`/api/movie/all`)
+            const res = await axios.get(`/api/movie/all?limit=10`)
             setAllMovies(res.data.content)
         }
         getAllMovies()

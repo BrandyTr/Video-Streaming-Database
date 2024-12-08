@@ -22,8 +22,9 @@ CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
 
 class MovieController {
   async getAll(req, res) {
+    const limit= req.query.limit
     try {
-      const movies = await getAllMovie();
+      const movies = await getAllMovie(limit);
       res.json({
         success: true,
         content: movies,
