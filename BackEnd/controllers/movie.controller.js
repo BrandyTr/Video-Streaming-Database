@@ -15,14 +15,16 @@ const {
   testRateMovie,
   filterMovie,
   handleViewMovie,
+  ToggleReleaseMovie,
 } = require("../services/movie.service");
 
 CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
 
 class MovieController {
   async getAll(req, res) {
+    const limit= req.query.limit
     try {
-      const movies = await getAllMovie();
+      const movies = await getAllMovie(limit);
       res.json({
         success: true,
         content: movies,
@@ -225,6 +227,20 @@ class MovieController {
   async handleLoveMovie(req, res) {
     const id = req.params.id;
     const result = await loveMovie(id, req.user._id);
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
+
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
+  }
+  async handleToggleReleasedMovie(req,res){
+    const movieId= req.params.id
+    const result = await ToggleReleaseMovie(movieId)
     const response = {
       success: result.success,
       message: result.message,

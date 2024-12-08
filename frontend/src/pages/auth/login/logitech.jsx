@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SignUpPage from '../signup/signup';
 import LoginPage from './login';
@@ -22,7 +22,7 @@ const Logitech = () => {
     };
 
     return (
-        <div className="relative h-screen w-full py-12 px-4 lg:px-12">
+        <div className="relative items-center justify-center w-full py-12 px-4 lg:px-12 overflow-hidden">
             {/* Background Layers */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
                 <div
@@ -33,11 +33,13 @@ const Logitech = () => {
                     className={`absolute top-0 left-0 h-full w-full bg-cover bg-center transition-transform duration-700 ${isLogin ? 'translate-x-full' : 'translate-x-0'}`}
                     style={{ backgroundImage: `url(${minions})` }}
                 ></div>
+                <div className="absolute top-0 left-0 h-full w-full items-center justify-center bg-black bg-opacity-5 backdrop-blur-sm"></div>
+
             </div>
 
             {/* Left Section (Hidden on small screens) */}
             <div
-                className={`absolute h-screen flex flex-col items-center text-center justify-center transition-transform duration-700 ${isLogin ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'
+                className={`absolute top-1/2 flex flex-col items-center text-center justify-center transition-transform duration-700 ${isLogin ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'
                     } hidden lg:flex`}
             >
                 <div className="text-left">
@@ -55,7 +57,7 @@ const Logitech = () => {
 
             {/* Main Content Section */}
             <div
-                className={`relative flex flex-col items-center justify-center transition-transform duration-500 ${isLogin ? '' : 'transform translate-x-0 lg:translate-x-[35%]'}`}
+                className={`relative top-[15%]  flex flex-col items-center justify-center transition-transform duration-500 ${isLogin ? '' : 'transform translate-x-0 lg:translate-x-[35%]'}`}
             >
                 <ButtonAuth
                     isLogin={isLogin}
@@ -64,7 +66,7 @@ const Logitech = () => {
                     handleClickSignUp={handleClickSignUp}
                 />
 
-                <div className="text-white relative flex justify-center items-center w-full my-auto mx-auto py-6 px-4 sm:px-6 lg:px-12">
+                <div className="text-white flex justify-center items-center w-full my-auto mx-auto py-6 px-4 sm:px-6 lg:px-12">
                     {isLogin ? <LoginPage /> : <SignUpPage />}
                 </div>
             </div>

@@ -1,5 +1,3 @@
-
-
 import { useAuth } from '../../Context/authContext';
 import AuthScreen from './AuthScreen';
 import HomePage_Main from './HomePage-main';

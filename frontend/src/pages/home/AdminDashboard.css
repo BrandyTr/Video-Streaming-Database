@@ -1,0 +1,464 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.admin-dashboard {
+    margin-top: 64px;
+    padding: 64px;
+    justify-content: center;
+    align-items: center;    
+    max-width: 100%;
+    row-gap: 32px;
+    overflow-y: hidden;
+}
+
+h1 {
+    font-size: xx-large;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.add-btn, .updateDashboard-btn, .publishAll-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.buttons-container {
+    display: flex; /* Align buttons in a row */
+    justify-content: flex-start; /* Align buttons to the left (or use center/right if needed) */
+    gap: 15px; /* Space between buttons */
+    margin-bottom: 20px; /* Add some spacing below the container */
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    flex-direction: row-reverse;
+}
+.add-btn {
+    background-color: #03abe0;
+    color: white;
+}
+.publishAll-btn {
+    background-color: #4caf50;
+    color: white;
+}
+.updateDashboard-btn {
+    background-color: #ffa726;
+    color: black;
+}
+
+.add-btn:hover, .updateDashboard-btn:hover, .publishAll-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+thead {
+    background: linear-gradient(90deg, #444, #555);
+    color: #fff;
+}
+
+th, td {
+    display: flexbox;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 15px;
+    text-align: left;
+}
+td.actions {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    flex-direction: row;
+}
+
+tr:nth-child(even) {
+    background-color: #252525;
+}
+
+tr:hover {
+    background-color: #3c3c3c;
+    transition: background-color 0.3s ease;
+}
+
+tr {
+    height: auto; /* Ensures rows adjust to content height */
+  }
+
+/* Buttons */
+.action-btn {
+    display: flex; /* Align icon and text */
+    align-items: center; /* Center-align icon and text */
+    justify-content: center;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    gap: 5px; /* Add space between icon and label (if any) */
+    padding: 5px 10px; /* Add padding for clickability */
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.action-btn:hover {
+    color: #ffa726;
+    transform: scale(1.1);
+}
+
+/* Modal Styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: #ffa726;
+    outline: none;
+}
+
+.modal-actions {
+    text-align: right;
+}
+
+.save-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #e53935;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* Popup Container */
+.popup-container {
+    background: #2a2a2a; /* Matches existing modal styles */
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+    max-width: 90%; /* Ensures responsiveness */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Popup Header */
+.popup-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+/* Movie List in Popup */
+.popup-movie-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #1e1e1e;
+}
+
+.popup-movie-list li {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.popup-movie-list li:last-child {
+    border-bottom: none;
+}
+
+.popup-movie-list li:hover {
+    background: #333;
+    cursor: pointer;
+}
+
+/* Popup Actions */
+.popup-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.popup-actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Publish Button */
+.publish-btn {
+    background: #4caf50;
+    color: #fff;
+}
+
+.publish-btn:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+/* Save Button */
+.save-btn {
+    background: #03abe0;
+    color: #fff;
+}
+
+.save-btn:hover {
+    background: #0293c7;
+    transform: scale(1.05);
+}
+
+/* Cancel Button */
+.cancel-btn {
+    background: #f44336;
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background: #e53935;
+    transform: scale(1.05);
+}
+
+/* Responsive Design for Popup */
+@media (max-width: 768px) {
+    .popup-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .popup-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .popup-actions button {
+        width: 100%;
+    }
+}
+/* Modal Overlay */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+/* Modal Content */
+.modal-content {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* Modal Header */
+.modal-content h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fff;
+    text-align: center;
+}
+
+/* Movie List */
+.admin-movie-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #1e1e1e;
+    text-align: left;
+}
+
+.admin-movie-list li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #444;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.admin-movie-list li:last-child {
+    border-bottom: none;
+}
+
+.admin-movie-list li:hover {
+    background-color: #333;
+    cursor: pointer;
+}
+
+/* Modal Actions */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.modal-actions button {
+    flex: 1; /* Equal width for buttons */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Publish Button */
+.publish-btn {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.publish-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Save Button */
+.save-btn {
+    background-color: #03abe0;
+    color: #fff;
+}
+
+.save-btn:hover {
+    background-color: #0293c7;
+    transform: scale(1.05);
+}
+
+/* Cancel Button */
+.cancel-btn {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
+}

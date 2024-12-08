@@ -14,6 +14,10 @@ const MovieSchema = new Schema({
     favoriteCount: { type: Number, default: 0 },
     ratingSum: { type: Number, default: 0 },
     ratingCount: { type: Number, default: 0 },
+    isPublished:{
+        type:Boolean,
+        default:false
+    },
     view: { type: Number, default: () => Math.floor(Math.random() * 100000) + 100 },
 },opts);
 MovieSchema.virtual('averageRating').get(function () {

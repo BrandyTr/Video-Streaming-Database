@@ -62,7 +62,6 @@ const Header = () => {
   const { logout, user } = useAuth();
 
   useEffect(() => {
-    console.log(user);
     const shrinkHeader = () => {
       if (
         document.body.scrollTop > 100 ||
@@ -139,7 +138,9 @@ const Header = () => {
         </div>
         {/* Navigation and Search */}
         <ul className="header_nav">
-          <LogOut className="cursor-pointer" onClick={logout} />
+          {user?.role=='admin'&&(<li>
+            <Link to='/admin'>Admin</Link>
+          </li>)}
           {headerNav.map((item, index) => (
             <li key={index} className={`${index === active ? "active" : ""}`}>
               <Link to={item.path}>{item.display}</Link>

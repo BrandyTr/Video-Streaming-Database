@@ -30,10 +30,6 @@ const userSchema=new Schema({
         type:Boolean,
         default:false,
     },
-    isPublished:{
-        type:Boolean,
-        default:false
-    },
     ratings: {
         type: [
             {

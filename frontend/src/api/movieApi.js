@@ -4,6 +4,7 @@ export const movieType = {
   trending: "trending",
   popular: "popular",
   top_rated: "top_rated",
+  all:'all'
 };
 export const genres = [
   "Action",
