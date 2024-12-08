@@ -1,65 +1,42 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useCallback } from "react";
-import { FaEdit, FaRegShareSquare, FaPlus, FaCloudDownloadAlt } from "react-icons/fa";
-import movieApi from "./../../api/movieApi";
+import React, { useState, useEffect } from "react";
 import Header from "../../components-main/header/Header";
 import "./AdminDashboard.css";
 import MovieCard from "../../components-main/movie-card/MovieCard";
-
+import { useGetAllMovies } from "../../hooks/getTrendingContent";
+import axios from "axios";
+import toast from "react-hot-toast";
 const AdminDashboard = () => {
-  const [allMovies, setAllMovies] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
-  const [isLoading, setIsLoading] = useState(false); // Track loading state
-  const [hasMore, setHasMore] = useState(true); // Check if more movies are available
+    const { allMovies, setAllMovies } = useGetAllMovies(); // Assuming useGetAllMovies provides a state setter for allMovies
 
-  // Fetch movies from API with pagination
-  const fetchMovies = useCallback(async () => {
-    if (isLoading || !hasMore) return; // Avoid duplicate calls if already loading or no more movies
-    setIsLoading(true);
-
-    try {
-      const response = await movieApi.getMoviesList("all");
-
-      const movies = response.data.content;
-
-      // Append new movies to the existing list
-      setAllMovies((prevMovies) => [...prevMovies, ...movies]);
-
-      // Check if we have more movies
-      if (movies.length === 0 || movies.length < 10) {
-        setHasMore(false); // No more movies available
+    const handleReleased = async (movieID) => {
+      try {
+        // Make the API call to toggle release status
+        const response = await axios.get(`/api/movie/${movieID}/toggleRelease`);
+        console.log(response)
+        const updatedMovie = response.data.content; // The updated movie from the response
+  
+        // Update the corresponding movie in the allMovies array
+        setAllMovies((prevMovies) =>
+          prevMovies.map((movie) =>
+            movie._id === updatedMovie._id ? { ...movie, isPublished: updatedMovie.isPublished } : movie
+          )
+        );
+  
+        toast.success("Update successfully!");
+      } catch (err) {
+        toast.error(err.response?.data.message || "Update failed!");
       }
-
-      setCurrentPage((prevPage) => prevPage + 1); // Increment page number
-    } catch (error) {
-      console.error("Failed to fetch movies:", error);
-    } finally {
-      setIsLoading(false); // Reset loading state
+    };
+  
+    if (!allMovies) {
+      return (
+        <>
+          <Header />
+          <div className="absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer"></div>
+        </>
+      );
     }
-  }, [currentPage, isLoading, hasMore]);
-
-  // Trigger fetchMovies on component mount and when the user scrolls
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
-
-  // Infinite scrolling handler
-  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-
-      // Trigger when user scrolls near the bottom of the page
-      if (scrollHeight - scrollTop <= clientHeight + 100 && hasMore) {
-        fetchMovies();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll); // Cleanup
-    };
-  }, [fetchMovies, hasMore]);
-
   return (
     <>
       <Header />
@@ -67,15 +44,25 @@ const AdminDashboard = () => {
         {allMovies.map((movie) => (
           <div className="movieCard" key={movie.id}>
             <MovieCard item={movie} />
+            <button
+              onClick={() => {
+                handleReleased(movie._id);
+              }}
+              className="mt-5 flex justify-between"
+            >
+              {movie.isPublished ? (
+                <div className={"text-sm bg-green-600 rounded-2xl px-4 py-2"}>
+                  Released
+                </div>
+              ) : (
+                <div className={"text-sm bg-red-600 rounded-2xl px-4 py-2"}>
+                  Unreleased
+                </div>
+              )}
+            </button>
           </div>
         ))}
       </div>
-
-      {/* Loading Spinner */}
-      {isLoading &&<div className="absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer"></div>}
-
-      {/* No More Movies Message */}
-      {!hasMore && <div className="no-more-movies">No more movies to load</div>}
     </>
   );
 };

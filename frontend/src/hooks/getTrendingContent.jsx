@@ -14,7 +14,7 @@ const useGetTrendingContent = () => {
     }, [])
     return {trendingContent}
 }
-const useGetAllMovie=()=>{
+const useGetAllMovies=()=>{
     const [allMovies, setAllMovies] = useState(null)
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const useGetAllMovie=()=>{
         }
         getAllMovies()
     }, [])
-    return {allMovies}
+    return {allMovies,setAllMovies}
 }
 
-export default {useGetTrendingContent,useGetAllMovie}
+export {useGetTrendingContent,useGetAllMovies}
