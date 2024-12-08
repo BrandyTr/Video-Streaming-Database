@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -12,12 +11,11 @@ export const AuthProvider = ({ children }) => {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(false);
 
-  const baseURL = "http://localhost:5173";
   // Signup function
   const signup = async (credentials) => {
     setIsSigningUp(true);
     try {
-      const response = await axios.post(`${baseURL}/api/auth/signup`, credentials);
+      const response = await axios.post("/api/auth/signup", credentials);
       setUser(response.data.user);
       toast.success("Signup successfully");
     } catch (err) {
@@ -31,7 +29,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     setIsLoggingIn(true);
     try {
-      const response = await axios.post(`${baseURL}/api/auth/login`, credentials);
+      const response = await axios.post("/api/auth/login", credentials);
       setUser(response.data.user);
       toast.success("Login successfully");
     } catch (err) {
@@ -45,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setIsLoggingOut(true);
     try {
-      await axios.post(`${baseURL}/api/auth/logout`);
+      await axios.post("/api/auth/logout");
       setUser(null);
       toast.success("Logged out successfully");
     } catch (err) {
@@ -59,7 +57,7 @@ export const AuthProvider = ({ children }) => {
   const authCheck = async () => {
     setIsCheckingAuth(true);
     try {
-      const response = await axios.get(`${baseURL}/api/auth/authCheck`, {
+      const response = await axios.get("/api/auth/authCheck", {
         withCredentials: true,
       });
       setUser(response.data.user);

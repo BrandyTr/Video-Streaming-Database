@@ -26,7 +26,7 @@ function App() {
   const { user, isCheckingAuth, authCheck } = useAuth();
   useEffect(() => {
     authCheck();
-  }, [authCheck]);
+  }, []);
   if (isCheckingAuth)
     return (
       <div className="h-screen flex items-center justify-center bg-black">

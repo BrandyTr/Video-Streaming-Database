@@ -16,7 +16,5 @@ router.post("/options",MovieController.getMovieByOptions)
 // router.get("/:query/category", MovieController.getMoviesByCategory);
 router.get("/:query/category", MovieController.getMoviesByCategory);
 router.get("/top-rated", MovieController.getTopRatedMovies)
-router.post("/", adminRoute, MovieController.addMovie); 
-router.put("/:id", adminRoute, MovieController.updateMovie); 
-router.delete("/:id", adminRoute, MovieController.deleteMovie); 
+router.delete("/:id/delete", adminRoute, MovieController.deleteMovie); 
 module.exports=router

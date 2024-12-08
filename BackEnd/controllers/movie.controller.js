@@ -20,12 +20,6 @@ const {
 CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
 
 class MovieController {
-  constructor() {
-    this.updateMovieById = this.updateMovieById.bind(this);
-    this.updateMovie = this.updateMovie.bind(this);
-    this.createNewMovie = this.createNewMovie.bind(this);
-    this.addMovie = this.addMovie.bind(this);
-  }
   async getAll(req, res) {
     try {
       const movies = await getAllMovie();
@@ -242,105 +236,5 @@ class MovieController {
 
     return res.status(result.status).json(response);
   }
-  async updateMovie(req, res) {
-    const { id } = req.params;
-    const updatedMovie = req.body;
-
-    try {
-      const result = await this.updateMovieById(id, updatedMovie); 
-
-      const response = {
-        success: result.success,
-        message: result.message,
-      };
-
-      if (result.status === 200 && result.content) {
-        response.content = result.content;
-      }
-
-      return res.status(result.status).json(response);
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "An error occurred while updating the movie.",
-        error: error.message,
-      });
-    }
-  }
-  async addMovie(req, res) {
-    try {
-      const newMovie = req.body;
-      const result = await this.createNewMovie(newMovie); 
-
-      const response = {
-        success: result.success,
-        message: result.message,
-      };
-
-      if (result.status === 201 && result.content) {
-        response.content = result.content;
-      }
-
-      return res.status(result.status).json(response);
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "An error occurred while adding the movie.",
-        error: error.message,
-      });
-    }
-  }
-  async createNewMovie(movieData) {
-    try {
-      const movie = new Movie(movieData);
-      const savedMovie = await movie.save();
-
-      return {
-        success: true,
-        message: "Movie added successfully.",
-        status: 201,
-        content: savedMovie,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: "Failed to add movie.",
-        status: 400,
-        content: null,
-        error: error.message,
-      };
-    }
-  }
-  async updateMovieById(id, updatedData) {
-    try {
-      const updatedMovie = await Movie.findByIdAndUpdate(id, updatedData, {
-        new: true,
-        runValidators: true,
-      });
-  
-      if (!updatedMovie) {
-        return {
-          success: false,
-          message: "Movie not found.",
-          status: 404,
-        };
-      }
-  
-      return {
-        success: true,
-        message: "Movie updated successfully.",
-        status: 200,
-        content: updatedMovie,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: "Failed to update movie.",
-        status: 400,
-        error: error.message,
-      };
-    }
-  }
-  
 }
 module.exports = new MovieController();
