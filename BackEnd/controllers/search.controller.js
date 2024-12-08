@@ -32,7 +32,8 @@ class SearchController {
         }
         try {
             const movies = await Movie.find({
-                title: { $regex: title, $options: 'i' }
+                title: { $regex: title, $options: 'i' },
+                isPublished:true
             })
             await User.findByIdAndUpdate(req.user._id, {
                 $push: {

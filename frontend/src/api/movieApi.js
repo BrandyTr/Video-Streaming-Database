@@ -4,7 +4,7 @@ export const movieType = {
   trending: "trending",
   popular: "popular",
   top_rated: "top_rated",
-  all: "all",
+  all:'all'
 };
 export const genres = [
   "Action",
@@ -25,26 +25,32 @@ export const genres = [
   "Western",
   "Music",
 ];
-const baseURL = "http://localhost:5173";
 
 const movieApi = {
   getMoviesList: (type, params) => {
-    const url = `${baseURL}/api/movie/${movieType[type]}`;
+    const url = `/api/movie/${movieType[type]}`;
     return axios.get(url, { params: params });
   },
-
+  getTopRatedMovies: (params) => {
+    const url = `/api/movie/top-rated`;
+    return axios.get(url, { params: params });
+  },
   getMovieDetails: (id) => {
-    const url = `${baseURL}/api/movie/${id}/details`;
+    const url = `/api/movie/${id}/details`;
     return axios.get(url);
   },
 
   getMoviesByCategory: (cate) => {
-    const url = `${baseURL}/api/movie/${cate}/category`;
+    const url = `/api/movie/${cate}/category`;
     return axios.get(url, { cate });
+  },
+  getMoviesByOption: (option) => {
+    const url = `/api/movie/options`;
+    return axios.post(url, option);
   },
 
   searchMovie: (movieName) => {
-    const url = `${baseURL}/api/search/movie`;
+    const url = `/api/search/movie`;
     return axios.get(url, {
       params: {
         name: movieName,
@@ -52,35 +58,21 @@ const movieApi = {
     });
   },
   rateMovie: (id, rating) => {
-    const url = `${baseURL}/api/movie/${id}/rate`;
-    return axios.post(url, { rating });
+    const url = `/api/movie/${id}/rate`;
+    return axios.patch(url, { rating });
   },
 
   loveMovie: (id) => {
-    const url = `${baseURL}/api/movie/${id}/favorite`;
+    const url = `/api/movie/${id}/favorite`;
     return axios.post(url);
   },
   searchPerson: (personName) => {
-    const url = `${baseURL}/api/search/person`;
+    const url = `/api/search/person`;
     return axios.get(url, {
       params: {
         name: personName,
       },
     });
-  },
-  addMovie: (movie) => {
-    const url = `${baseURL}/api/movie`;
-    return axios.post(url, movie);
-  },
-
-  updateMovie: (id, movie) => {
-    const url = `${baseURL}/api/movie/${id}`;
-    return axios.put(url, movie);
-  },
-
-  deleteMovie: (id) => {
-    const url = `${baseURL}/api/movie/${id}`;
-    return axios.delete(url);
   },
 };
 
