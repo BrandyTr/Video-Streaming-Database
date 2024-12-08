@@ -10,8 +10,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import Watching from "./pages/watching/watching";
 import Detail from "./pages/detail/detail";
-// New
-import Header from "./components-main/header/Header";
+import AdminDashboard from './pages/home/AdminDashboard';
 import Search from "./pages/search/search";
 import ProfileEdit from "./pages/profile/Profile";
 
@@ -35,7 +34,36 @@ function App() {
         </div>
       </div>
     );
-  console.log(user);
+  if(user?.role=='admin'){
+    return (
+      <>
+      <Router>
+        {/* <Navbar /> */}
+        <Routes>
+          {/* <Route path="/" element={<Homepage />} /> */}
+          <Route path="/" element={<HomeScreenCheck />} />
+          <Route path="/admin" element={<AdminDashboard/>} />
+          <Route
+            path="/login"
+            element={!user ? <Logitech /> : <Navigate to={"/"} />}
+          ></Route>
+          <Route path="/watching/:id/:type" element={<Watching />} />
+          <Route path="/movie/:id/rate" element={<Rating />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="*" element={<Notfound />} />
+          <Route
+            path="/edit-profile"
+            element={user ? <ProfileEdit /> : <Navigate to={"/"} />}
+          ></Route>
+        </Routes>
+        <Footer />
+      </Router>
+      <Toaster />
+    </>
+      
+    )
+  }
   return (
     <>
       <Router>
@@ -57,7 +85,7 @@ function App() {
             element={user ? <ProfileEdit /> : <Navigate to={"/"} />}
           ></Route>
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
       </Router>
       <Toaster />
     </>
