@@ -42,15 +42,15 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<Homepage />} /> */}
           <Route path="/" element={<HomeScreenCheck />} />
-          <Route path="/admin" element={<AdminDashboard/>} />
+          <Route path="/admin" element={user?<AdminDashboard/>:<Navigate to={"/"}/>} />
           <Route
             path="/login"
             element={!user ? <Logitech /> : <Navigate to={"/"} />}
           ></Route>
-          <Route path="/watching/:id/:type" element={<Watching />} />
-          <Route path="/movie/:id/rate" element={<Rating />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/watching/:id/:type" element={user?<Watching />:<Navigate to={"/"}/>} />
+          <Route path="/movie/:id/rate" element={user?<Rating />:<Navigate to={"/"}/>} />
+          <Route path="/detail/:id" element={user?<Detail />:<Navigate to={"/"}/>} />
+          <Route path="/search" element={user?<Search />:<Navigate to={"/"}/>} />
           <Route path="*" element={<Notfound />} />
           <Route
             path="/edit-profile"
@@ -75,10 +75,10 @@ function App() {
             path="/login"
             element={!user ? <Logitech /> : <Navigate to={"/"} />}
           ></Route>
-          <Route path="/watching/:id/:type" element={<Watching />} />
-          <Route path="/movie/:id/rate" element={<Rating />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/watching/:id/:type" element={user?<Watching />:<Navigate to={"/"}/>} />
+          <Route path="/movie/:id/rate" element={user?<Rating />:<Navigate to={"/"}/>} />
+          <Route path="/detail/:id" element={user?<Detail />:<Navigate to={"/"}/>} />
+          <Route path="/search" element={user?<Search />:<Navigate to={"/"}/>} />
           <Route path="*" element={<Notfound />} />
           <Route
             path="/edit-profile"

@@ -16,6 +16,7 @@ const {
   filterMovie,
   handleViewMovie,
   ToggleReleaseMovie,
+  updateMovie,
 } = require("../services/movie.service");
 
 CACHE_EXPIRATION_TIME = 60 * 24 * 60 * 60 * 1000;
@@ -199,6 +200,21 @@ class MovieController {
     const rating = req.body.rating;
     const user = req.user;
     const result = await rateMovie(id, rating, user._id);
+    const response = {
+      success: result.success,
+      message: result.message,
+    };
+
+    if (result.status === 200 && result.content) {
+      response.content = result.content;
+    }
+
+    return res.status(result.status).json(response);
+  }
+  async HandleUpdateMovie(req,res){
+    const bodyUpdate=req.body
+    const movieId=req.params.id
+    const result = await updateMovie(movieId,bodyUpdate)
     const response = {
       success: result.success,
       message: result.message,

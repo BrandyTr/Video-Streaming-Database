@@ -74,6 +74,9 @@ const movieApi = {
       },
     });
   },
+  toggleReleased:(movieId)=>{
+    return axios.get(`/api/movie/${movieId}/toggleRelease`);
+  }
 };
 
 export default movieApi;

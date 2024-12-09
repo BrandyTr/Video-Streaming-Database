@@ -674,6 +674,22 @@ exports.fetchTopRatedMovies = async () => {
     throw new Error(err.message);
   }
 };
+exports.updateMovie= async(movieId, bodyUpdate)=>{
+  try{
+    const result = await Movie.findByIdAndUpdate(movieId,bodyUpdate,{new:true})
+    return{
+      status:200,
+      success:true,
+      content:result
+    }
+  }catch(err){
+    return{
+      status:500,
+      success:false,
+      message:err.message
+    }
+  }
+}
 exports.loveMovie = async (movieId, userId) => {
   try {
     let message;

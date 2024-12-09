@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../components-main/header/Header";
 import "./AdminDashboard.css";
 import MovieCard from "../../components-main/movie-card/MovieCard";
@@ -6,12 +6,21 @@ import { useGetAllMovies } from "../../hooks/getTrendingContent";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ReactPaginate from "react-paginate";
+import { Edit } from "lucide-react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 
 const AdminDashboard = () => {
-  const { allMovies, setAllMovies } = useGetAllMovies(); 
+  const { allMovies, setAllMovies } = useGetAllMovies();
   const [pageRangeDisplayed, setPageRangeDisplayed] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0); 
-  const itemsPerPage = 12; 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentEditMovie, setCurrentEditMovie] = useState(null);
+  const itemsPerPage = 12;
   useEffect(() => {
     const updatePageRange = () => {
       const width = window.innerWidth;
@@ -21,10 +30,10 @@ const AdminDashboard = () => {
         setPageRangeDisplayed(4);
       } else if (width >= 768 && width < 1024) {
         setPageRangeDisplayed(5);
-      } else if (width >= 1024 && width < 1280){
+      } else if (width >= 1024 && width < 1280) {
         setPageRangeDisplayed(6);
-      }else{
-        setPageRangeDisplayed(7)
+      } else {
+        setPageRangeDisplayed(7);
       }
     };
 
@@ -54,18 +63,22 @@ const AdminDashboard = () => {
       toast.error(err.response?.data.message || "Update failed!");
     }
   };
+  const handleEditClick = (movie) => {
+    setCurrentEditMovie(movie);
+    setIsModalOpen(true); // Open the modal
+  };
 
   // Pagination logic
-  const pageCount = Math.ceil(allMovies.length / itemsPerPage); // Total number of pages
-  const startOffset = currentPage * itemsPerPage; 
-  const endOffset = startOffset + itemsPerPage; 
-  const currentMovies = allMovies.slice(startOffset, endOffset); // Movies for the current page
+  const pageCount = Math.ceil(allMovies.length / itemsPerPage);
+  const startOffset = currentPage * itemsPerPage;
+  const endOffset = startOffset + itemsPerPage;
+  const currentMovies = allMovies.slice(startOffset, endOffset);
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected); // Update current page
   };
 
-  if (!allMovies) {
+  if (allMovies.length == 0) {
     return (
       <>
         <Header />
@@ -73,7 +86,7 @@ const AdminDashboard = () => {
       </>
     );
   }
- 
+
   return (
     <>
       <Header />
@@ -101,13 +114,136 @@ const AdminDashboard = () => {
                   Unreleased
                 </button>
               )}
-              <button className="text-xs bg-first-blue rounded-2xl px-1 py-2 sm:px-4 sm:text-sm">
-                Update Movie
+              <button
+                onClick={() => handleEditClick(movie)}
+                className="flex items-center text-xs bg-first-blue rounded-2xl px-1 py-2 sm:px-4 sm:text-sm"
+              >
+                Update <Edit className="ml-1 size-4" />
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      <Dialog
+        open={isModalOpen}
+        onClose={setIsModalOpen}
+        className="relative z-10"
+      >
+        <DialogBackdrop className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in" />
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg">
+              <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <DialogTitle
+                  as="h3"
+                  className="text-base font-semibold text-gray-900"
+                >
+                  Edit Movie Details
+                </DialogTitle>
+                <div className="mt-4 space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      value={currentEditMovie?.title}
+                      onChange={(e) =>
+                        setCurrentEditMovie({
+                          ...currentEditMovie,
+                          title: e.target.value,
+                        })
+                      }
+                      className="mt-1 text-black bg-gray-200 bg-first-blue px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Overview
+                    </label>
+                    <textarea
+                      value={currentEditMovie?.overview}
+                      onChange={(e) => {
+                        setCurrentEditMovie({
+                          ...currentEditMovie,
+                          overview: e.target.value,
+                        });
+                      }}
+                      className="mt-1 text-black bg-gray-200 overflow-auto h-[6rem] px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Backdrop Path
+                    </label>
+                    <input
+                      type="text"
+                      value={currentEditMovie?.backdrop_path}
+                      onChange={(e) =>
+                        setCurrentEditMovie({
+                          ...currentEditMovie,
+                          backdrop_path: e.target.value,
+                        })
+                      }
+                      className="mt-1 text-black bg-gray-200 px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Poster Path
+                    </label>
+                    <input
+                      type="text"
+                      value={currentEditMovie?.poster_path}
+                      onChange={(e) =>
+                        setCurrentEditMovie({
+                          ...currentEditMovie,
+                          poster_path: e.target.value,
+                        })
+                      }
+                      className="mt-1 text-black bg-gray-200 px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Runtime
+                    </label>
+                    <input
+                      type="number"
+                      value={currentEditMovie?.runtime}
+                      onChange={(e) =>
+                        setCurrentEditMovie({
+                          ...currentEditMovie,
+                          runtime: e.target.value,
+                        })
+                      }
+                      className="mt-1 text-black bg-gray-200 px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button
+                  type="button"
+                  // onClick={handleSaveChanges}
+                  className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                >
+                  Save Changes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                >
+                  Cancel
+                </button>
+              </div>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
 
       {/* Pagination Component */}
       <ReactPaginate
