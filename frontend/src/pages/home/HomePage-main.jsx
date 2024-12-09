@@ -59,8 +59,8 @@ const HomePage_Main = () => {
         <h2 className="section_header mb-2">Popular Movies</h2>
         <MovieList type={movieType.popular}></MovieList>
 
-        {/*<h2 className="section_header mb-2">Top 10 highest rate </h2>
-        <MovieList type="top-rated"></MovieList> */}
+        <h2 className="section_header mb-2">Top 10 highest rate </h2>
+        <MovieList type="top-rated"></MovieList>
 
         <h2>Continue watching</h2>
         {continuousMovies.length > 0 ? (
