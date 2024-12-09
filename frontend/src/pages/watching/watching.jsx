@@ -75,26 +75,7 @@ const Watching = () => {
           console.log(`No ${type || "full-time"} video available.`);
         }
         setIsLoading(false)
-        const watchingList =
-          JSON.parse(localStorage.getItem("watchingList")) || [];
-        const isAlreadyInList = watchingList.some(
-          (movie) => movie.id === movieData.id
-        );
-        if (!isAlreadyInList) {
-          const newMovie = {
-            id: movieData.id,
-            title: movieData.title,
-            backdrop_path: movieData.backdrop_path,
-            poster_path: movieData.poster_path,
-            averageRating: movieData.averageRating || 0,
-            genres: movieData.genres || [],
-            ratingCount: movieData.ratingCount || 0,
-            view: movieData.view || 0,
-          };
-          watchingList.push(newMovie);
-          localStorage.setItem("watchingList", JSON.stringify(watchingList));
-          console.log("Movie added to watching list:", newMovie);
-        }
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }

@@ -13,7 +13,7 @@ import Header from "../../components-main/header/Header";
 import { useAuth } from "../../Context/authContext";
 import toast from "react-hot-toast";
 import { Edit } from "lucide-react";
-
+import axios from "axios";
 const Search = () => {
   const location = useLocation();
   const [searchMode, setSearchMode] = useState("filter");
@@ -44,6 +44,28 @@ const Search = () => {
   const handleEditClick = (movie) => {
     setCurrentEditMovie(movie);
     setIsModalOpen(true); // Open the modal
+  };
+  const handleUpdate = async (movieId) => {
+    try {
+      const updateData = { ...currentEditMovie };
+      delete updateData._id;
+      const response = await axios.post(
+        `/api/movie/${movieId}/update`,
+        updateData
+      );
+      console.log(movieId);
+      const updatedMovie = response.data.content;
+      setMovies((prevMovies) =>
+        prevMovies.map((movie) =>
+          movie._id === updatedMovie._id ? updatedMovie : movie
+        )
+      );
+      toast.success(`Update ${updatedMovie.title} successfully!`);
+      // setCurrentEditMovie(null);
+      setIsModalOpen(false);
+    } catch (err) {
+      toast.error(err.response?.data.message || "Update failed!");
+    }
   };
 
   useEffect(() => {
@@ -118,7 +140,7 @@ const Search = () => {
         <Header className="Header" setQuery={setQuery} />
         <div>
           {loading ? (
-            <div className="loading">Loading...</div>
+            <div className="absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer"></div>
           ) : (
             <div>
               <div className="query-value">
@@ -139,12 +161,25 @@ const Search = () => {
 
                   if (movieName) {
                     return (
-                      <h2>
-                        {movies.length} results for "{movieName}"{" "}
+                      <h2 className="text-2xl font-semibold text-second-blue my-4">
+                        {movies.length} results for{" "}
+                        <span className="font-bold">"{movieName}"</span>{" "}
                         {genres || ratings ? "with " : ""}
-                        {genres ? `genres: ${genres}` : ""}
+                        {genres ? (
+                          <span className="text-blue-600">
+                            genres: {genres}
+                          </span>
+                        ) : (
+                          ""
+                        )}
                         {genres && ratings ? " , " : ""}
-                        {ratings ? `ratings: ${ratings}` : ""}
+                        {ratings ? (
+                          <span className="text-green-600">
+                            ratings: {ratings}
+                          </span>
+                        ) : (
+                          ""
+                        )}
                       </h2>
                     );
                   } else {
@@ -301,7 +336,9 @@ const Search = () => {
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  // onClick={handleSaveChanges}
+                  onClick={() => {
+                    handleUpdate(currentEditMovie._id);
+                  }}
                   className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
                 >
                   Save Changes

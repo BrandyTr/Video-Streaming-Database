@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   const [pageRangeDisplayed, setPageRangeDisplayed] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentEditMovie, setCurrentEditMovie] = useState(null);
+  const [currentEditMovie, setCurrentEditMovie] = useState({});
   const itemsPerPage = 12;
   useEffect(() => {
     const updatePageRange = () => {
@@ -67,6 +67,25 @@ const AdminDashboard = () => {
     setCurrentEditMovie(movie);
     setIsModalOpen(true); // Open the modal
   };
+  const handleUpdate=async(movieId)=>{
+    try{
+      const updateData = { ...currentEditMovie };
+      delete updateData._id;
+      const response= await axios.post(`/api/movie/${movieId}/update`,updateData)
+      console.log(movieId)
+      const updatedMovie = response.data.content;
+      setAllMovies((prevMovies) =>
+        prevMovies.map((movie) =>
+          movie._id === updatedMovie._id ? updatedMovie : movie
+        )
+      );
+      toast.success(`Update ${updatedMovie.title} successfully!`);
+      // setCurrentEditMovie(null);
+      setIsModalOpen(false);
+    }catch(err){
+      toast.error(err.response?.data.message || "Update failed!");
+    }
+  }
 
   // Pagination logic
   const pageCount = Math.ceil(allMovies.length / itemsPerPage);
@@ -227,7 +246,7 @@ const AdminDashboard = () => {
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  // onClick={handleSaveChanges}
+                  onClick={()=>{handleUpdate(currentEditMovie._id)}}
                   className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
                 >
                   Save Changes

@@ -76,6 +76,9 @@ const movieApi = {
   },
   toggleReleased:(movieId)=>{
     return axios.get(`/api/movie/${movieId}/toggleRelease`);
+  },
+  updateMovie:(movieId,UpdateBody)=>{
+    return axios.post(`/api/movie/${movieId}/update`,UpdateBody)
   }
 };
 
