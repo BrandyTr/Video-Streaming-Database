@@ -1,22 +1,46 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import { useState,useEffect } from "react";
 import Header from "../../components-main/header/Header";
 import "./AdminDashboard.css";
 import MovieCard from "../../components-main/movie-card/MovieCard";
 import { useGetAllMovies } from "../../hooks/getTrendingContent";
 import axios from "axios";
 import toast from "react-hot-toast";
-const AdminDashboard = () => {
-  const { allMovies, setAllMovies } = useGetAllMovies(); // Assuming useGetAllMovies provides a state setter for allMovies
+import ReactPaginate from "react-paginate";
 
+const AdminDashboard = () => {
+  const { allMovies, setAllMovies } = useGetAllMovies(); 
+  const [pageRangeDisplayed, setPageRangeDisplayed] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0); 
+  const itemsPerPage = 12; 
+  useEffect(() => {
+    const updatePageRange = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setPageRangeDisplayed(3);
+      } else if (width >= 640 && width < 768) {
+        setPageRangeDisplayed(4);
+      } else if (width >= 768 && width < 1024) {
+        setPageRangeDisplayed(5);
+      } else if (width >= 1024 && width < 1280){
+        setPageRangeDisplayed(6);
+      }else{
+        setPageRangeDisplayed(7)
+      }
+    };
+
+    updatePageRange();
+
+    // Add event listener for screen resize
+    window.addEventListener("resize", updatePageRange);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener("resize", updatePageRange);
+  }, []);
   const handleReleased = async (movieID) => {
     try {
-      // Make the API call to toggle release status
       const response = await axios.get(`/api/movie/${movieID}/toggleRelease`);
-      console.log(response);
-      const updatedMovie = response.data.content; // The updated movie from the response
+      const updatedMovie = response.data.content;
 
-      // Update the corresponding movie in the allMovies array
       setAllMovies((prevMovies) =>
         prevMovies.map((movie) =>
           movie._id === updatedMovie._id
@@ -31,6 +55,16 @@ const AdminDashboard = () => {
     }
   };
 
+  // Pagination logic
+  const pageCount = Math.ceil(allMovies.length / itemsPerPage); // Total number of pages
+  const startOffset = currentPage * itemsPerPage; 
+  const endOffset = startOffset + itemsPerPage; 
+  const currentMovies = allMovies.slice(startOffset, endOffset); // Movies for the current page
+
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected); // Update current page
+  };
+
   if (!allMovies) {
     return (
       <>
@@ -39,38 +73,58 @@ const AdminDashboard = () => {
       </>
     );
   }
+ 
   return (
     <>
       <Header />
       <div className="search-movie-list">
-        {allMovies.map((movie) => (
-          <div className="movieCard" key={movie.id}>
+        {currentMovies.map((movie) => (
+          <div className="movieCard" key={movie._id}>
             <MovieCard item={movie} />
             <div className="mt-5 flex justify-between">
               {movie.isPublished ? (
                 <button
-                  onClick={() => {
-                    handleReleased(movie._id);
-                  }}
-                  className={"text-xs bg-green-600 rounded-2xl px-1 py-2 sm:px-4 sm:text-sm"}
+                  onClick={() => handleReleased(movie._id)}
+                  className={
+                    "text-xs bg-green-600 rounded-2xl px-1 py-2 sm:px-4 sm:text-sm"
+                  }
                 >
                   Released
                 </button>
               ) : (
                 <button
-                  onClick={() => {
-                    handleReleased(movie._id);
-                  }}
-                  className={"text-xs bg-red-600 rounded-2xl px-1 py-2 sm:px-4 sm:text-sm"}
+                  onClick={() => handleReleased(movie._id)}
+                  className={
+                    "text-xs bg-red-600 rounded-2xl px-1 py-2 sm:px-4 sm:text-sm"
+                  }
                 >
                   Unreleased
                 </button>
               )}
-            <button className="text-xs bg-first-blue rounded-2xl px-1 py-2 sm:px-4 sm:text-sm">Update Movie</button>
+              <button className="text-xs bg-first-blue rounded-2xl px-1 py-2 sm:px-4 sm:text-sm">
+                Update Movie
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Pagination Component */}
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="Next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={pageRangeDisplayed}
+        pageCount={pageCount}
+        previousLabel="< Previous"
+        containerClassName="flex justify-center items-center space-x-2 mt-8" // Wrapper styling
+        pageClassName="px-4 py-2 border rounded-md text-white hover:bg-gray-100 hover:text-black" // Individual page styling
+        activeClassName="bg-blue-500 text-white" // Active page styling
+        previousClassName="px-4 py-2 border rounded-md text-white hover:bg-gray-100 hover:text-black"
+        nextClassName="px-4 py-2 border rounded-md text-white hover:bg-gray-100 hover:text-black"
+        breakClassName="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+        disabledClassName="opacity-50 cursor-not-allowed" // Disabled state styling
+      />
     </>
   );
 };

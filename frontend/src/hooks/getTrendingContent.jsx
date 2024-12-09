@@ -15,11 +15,11 @@ const useGetTrendingContent = () => {
     return {trendingContent}
 }
 const useGetAllMovies=()=>{
-    const [allMovies, setAllMovies] = useState(null)
+    const [allMovies, setAllMovies] = useState([])
 
     useEffect(() => {
         const getAllMovies = async () => {
-            const res = await axios.get(`/api/movie/all?limit=10`)
+            const res = await axios.get(`/api/movie/all?limit=600`)
             setAllMovies(res.data.content)
         }
         getAllMovies()
