@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../../Context/authContext";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode"
@@ -31,7 +30,7 @@ const LoginPage = () => {
               className="w-full px-3 py-2 mt-1 border-transparent bg-[#494949]/50 rounded-[9px] 
                             focus:outline-none focus:ring"
               type="email"
-              placeholder="Username or Email address"
+              placeholder="Email address"
               id="email"
               value={email}
               onChange={(e) => {

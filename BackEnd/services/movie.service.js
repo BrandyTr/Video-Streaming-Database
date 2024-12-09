@@ -402,7 +402,7 @@ exports.filterMovie = async (options) => {
 
       const moviesByGenre = await Promise.all(
         genres.map((genre) =>
-          Movie.find({ genres: genre._id }).populate("genres")
+          Movie.find({ genres: genre._id,isPublished:true }).populate("genres")
         )
       );
 
@@ -498,9 +498,9 @@ exports.deleteMovieById = async (movieId) => {
   }
 };
 // Get all movies from the database
-exports.getAllMovie = async () => {
+exports.getAllMovie = async (limit) => {
   try {
-    const movies = await Movie.find({}, overViewProjection).populate("genres");
+    const movies = await Movie.find({}, overViewProjection).populate("genres").limit(limit);
     return movies;
   } catch (err) {
     console.error("Error fetching movies:", err.message);
@@ -509,7 +509,7 @@ exports.getAllMovie = async () => {
 };
 exports.fetchPopularMovies = async () => {
   try {
-    const popularMovies = await Movie.find({}, overViewProjection)
+    const popularMovies = await Movie.find({isPublished:true}, overViewProjection)
       .populate("genres")
       .sort({ popularity: -1 })
       .limit(15);
@@ -654,7 +654,7 @@ exports.testRateMovie = async (id, rating) => {
 };
 exports.fetchTrendingMovie = async () => {
   const currentTime = new Date().getTime();
-  const movies = await Movie.find({}, overViewProjection)
+  const movies = await Movie.find({isPublished:true}, overViewProjection)
     .populate("genres")
     .sort({ release_date: -1 })
     .limit(15);
@@ -663,17 +663,33 @@ exports.fetchTrendingMovie = async () => {
 };
 exports.fetchTopRatedMovies = async () => {
   try {
-    const allMovies = await Movie.find({}, overViewProjection).populate(
+    const allMovies = await Movie.find({isPublished:true}, overViewProjection).populate(
       "genres"
     );
     allMovies.sort((a, b) => b.averageRating - a.averageRating);
 
     // Limit the result to 15 movies
-    return topRatedMovies = allMovies.slice(0, 15);
+    return (topRatedMovies = allMovies.slice(0, 15));
   } catch (err) {
     throw new Error(err.message);
   }
 };
+exports.updateMovie= async(movieId, bodyUpdate)=>{
+  try{
+    const result = await Movie.findByIdAndUpdate(movieId,bodyUpdate,{new:true})
+    return{
+      status:200,
+      success:true,
+      content:result
+    }
+  }catch(err){
+    return{
+      status:500,
+      success:false,
+      message:err.message
+    }
+  }
+}
 exports.loveMovie = async (movieId, userId) => {
   try {
     let message;
@@ -715,3 +731,57 @@ exports.loveMovie = async (movieId, userId) => {
     };
   }
 };
+exports.ToggleReleaseMovie = async (movieId) => {
+  try {
+    const movie = await Movie.findById(movieId);
+    if (!movie) {
+      return {
+        success: false,
+        status: 404,
+        message: "Movie not found",
+      };
+    }
+    movie.isPublished = !movie.isPublished;
+    await movie.save();
+    return {
+      status: 200,
+      success: true,
+      content: movie,
+    };
+  } catch (err) {
+    return {
+      status: 500,
+      success: false,
+      message: err.message,
+    };
+  }
+};
+exports.releasedManyMovies = async (MovieIds) => {
+  try {
+    if (!MovieIds || MovieIds.length === 0) {
+      return {
+        success: false,
+        status: 400,
+        message: "No movie IDs provided",
+      };
+    }
+    const movies = await Movie.find({ _id: { $in: MovieIds } });
+    if (!movies || movies.length === 0) {
+      return {
+        success: false,
+        status: 404,
+        message: "No movies found for the provided IDs",
+      };
+    }
+    movies.forEach(async (movie) => {
+      (movie.isPublished = true), await movie.save();
+    });
+  } catch (err) {
+    return {
+      status: 500,
+      success: false,
+      message: err.message,
+    };
+  }
+};
+

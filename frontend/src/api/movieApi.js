@@ -4,6 +4,7 @@ export const movieType = {
   trending: "trending",
   popular: "popular",
   top_rated: "top_rated",
+  all:'all'
 };
 export const genres = [
   "Action",
@@ -73,6 +74,12 @@ const movieApi = {
       },
     });
   },
+  toggleReleased:(movieId)=>{
+    return axios.get(`/api/movie/${movieId}/toggleRelease`);
+  },
+  updateMovie:(movieId,UpdateBody)=>{
+    return axios.post(`/api/movie/${movieId}/update`,UpdateBody)
+  }
 };
 
 export default movieApi;

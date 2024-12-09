@@ -14,7 +14,7 @@ const HomePage_Main = () => {
   const navigate = useNavigate(); // Initialize navigate
   const [contents, setContents] = useState([]); // Initialize state as an empty array
   const [continuousMovies, setContinuousMovies] = useState([]);
-
+  const {user}=useAuth()
   useEffect(() => {
     const fetchContent = async () => {
       try {
@@ -59,12 +59,12 @@ const HomePage_Main = () => {
         <h2 className="section_header mb-2">Popular Movies</h2>
         <MovieList type={movieType.popular}></MovieList>
 
-        {/*<h2 className="section_header mb-2">Top 10 highest rate </h2>
-        <MovieList type="top-rated"></MovieList> */}
+        <h2 className="section_header mb-2">Top 10 highest rate </h2>
+        <MovieList type="top-rated"></MovieList>
 
         <h2>Continue watching</h2>
-        {continuousMovies.length > 0 ? (
-          <MovieList movies={continuousMovies} type="continuous-watching" />
+        {user?.viewHistory.length > 0 ? (
+          <MovieList movies={user.viewHistory.slice(0,5)} type="continuous-watching" />
         ) : (
           <div className="no-movies">
             <p>No movies in progress. Try watching something! </p>

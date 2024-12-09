@@ -27,13 +27,23 @@ class SearchController {
     }
     async searchMovie(req, res) {
         const title = req.query.name
+        const adminOption={
+            title: { $regex: title, $options: 'i' },
+        }
+        const userOption={
+            title: { $regex: title, $options: 'i' },
+            isPublished:true
+        }
         if (!title) {
             return res.status(400).json({ success: false, message: "No title provided!" })
         }
         try {
-            const movies = await Movie.find({
-                title: { $regex: title, $options: 'i' }
-            })
+            let movies=[]
+            if(req.user.role=='admin'){
+                movies = await Movie.find(adminOption)
+            }else{
+                movies= await Movie.find(userOption)
+            }
             await User.findByIdAndUpdate(req.user._id, {
                 $push: {
                     searchHistory:{
@@ -46,7 +56,7 @@ class SearchController {
 
             return res.json({ success: true, content: movies });
         } catch (err) {
-            return res.status(400).json({ success: false, message: err });
+            return res.status(400).json({ success: false, message: err.message });
         }
     }
     async searchProductionCompany(req, res) {

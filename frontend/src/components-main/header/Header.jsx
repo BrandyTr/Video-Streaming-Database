@@ -62,7 +62,6 @@ const Header = () => {
   const { logout, user } = useAuth();
 
   useEffect(() => {
-    console.log(user);
     const shrinkHeader = () => {
       if (
         document.body.scrollTop > 100 ||
@@ -139,7 +138,9 @@ const Header = () => {
         </div>
         {/* Navigation and Search */}
         <ul className="header_nav">
-          <LogOut className="cursor-pointer" onClick={logout} />
+          {user?.role=='admin'&&(<li>
+            <Link to='/admin'>Admin</Link>
+          </li>)}
           {headerNav.map((item, index) => (
             <li key={index} className={`${index === active ? "active" : ""}`}>
               <Link to={item.path}>{item.display}</Link>
@@ -195,8 +196,8 @@ const Header = () => {
                     {/* Logout button */}
                     <button
                       className="w-full flex items-center px-4 py-3 text-left text-white hover:bg-[#2d2d2d] rounded-lg transition-colors"
-                      onClick={() => {
-                        logout();
+                      onClick={async() => {
+                        await logout();
                         setIsOpenProfileDropdown(false);
                       }}
                     >
