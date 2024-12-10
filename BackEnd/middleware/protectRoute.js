@@ -18,7 +18,7 @@ exports.protectRoute = async (req, res, next) => {
         message: "Unauthorized - Invalid token!",
       });
     }
-    const user = await User.findById(decoded.userId).populate('favoriteMovies',overViewProjection).populate('viewHistory',overViewProjection).populate('searchHistory',overViewProjection);
+    const user = await User.findById(decoded.userId).populate('ratings',overViewProjection).populate('viewHistory',overViewProjection).populate('searchHistory',overViewProjection);
     if (!user) {
       return res.status(404).json({
         success: false,

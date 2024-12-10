@@ -75,10 +75,10 @@ const HeroSlide = () => {
         slidesPerView={1} // number of slides per view (slides visible)
         direction="horizontal" // slide direction
         loop={true} // loop slides
-        // autoplay={{
-        //     delay: 2000, // delay between slides
-        //     disableOnInteraction: false // stop autoplay on user interaction
-        // }}
+        autoplay={{
+            delay: 4000, // delay between slides
+            disableOnInteraction: false // stop autoplay on user interaction
+        }}
       >
         {movieItems.map((movie, index) => {
           // console.log("movie is: ")

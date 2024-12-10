@@ -134,7 +134,7 @@ const Header = () => {
       <div className="header_wrap container">
         {/* Logo */}
         <div className="logo">
-          <Link to="/">cineStream</Link>
+          <Link to="/">CineStream</Link>
         </div>
         {/* Navigation and Search */}
         <ul className="header_nav">

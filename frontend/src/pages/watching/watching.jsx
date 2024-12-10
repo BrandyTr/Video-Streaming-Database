@@ -86,17 +86,15 @@ const Watching = () => {
   // increase view
   useEffect(() => {
     // Set a timer to count one view after 1 minutes
-    const timer = setTimeout(() => {
-      increaseViewCount(); // Increment the view count after 1 minutes
-    }, 1 * 60 * 1000);
-
-    return () => clearTimeout(timer); // Clear the timer if people watch movie before 1 minutes
+    if(id){
+      increaseViewCount()
+    }
   }, []);
 
   // increase view count
   const increaseViewCount = async () => {
     try {
-      await axios.patch(`/api/movie/${id}/view`);
+      await axios.get(`/api/movie/${id}/view`);
       console.log(id);
     } catch (error) {
       console.error(error);
